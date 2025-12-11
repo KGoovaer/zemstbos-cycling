@@ -1,0 +1,112 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String   @id @default(uuid()) @db.Uuid
+  email         String   @unique @db.VarChar(255)
+  passwordHash  String?  @map("password_hash") @db.VarChar(255)
+  firstName     String   @map("first_name") @db.VarChar(100)
+  lastName      String   @map("last_name") @db.VarChar(100)
+  phone         String?  @db.VarChar(20)
+  role          String   @default("member") @db.VarChar(20)
+  paymentStatus String   @default("unpaid") @map("payment_status") @db.VarChar(20)
+  paymentYear   Int?     @map("payment_year")
+  isActive      Boolean  @default(true) @map("is_active")
+  googleId      String?  @unique @map("google_id") @db.VarChar(255)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@index([isActive], name: "idx_users_active")
+  @@map("users")
+}
+
+model Route {
+  id             String   @id @default(uuid()) @db.Uuid
+  name           String   @db.VarChar(255)
+  description    String?  @db.Text
+  distanceKm     Decimal  @map("distance_km") @db.Decimal(5, 1)
+  elevationM     Int?     @map("elevation_m")
+  difficulty     String?  @db.VarChar(20)
+  gpxData        String   @map("gpx_data") @db.Text
+  startLocation  String?  @map("start_location") @db.VarChar(255)
+  region         String?  @db.VarChar(100)
+  timesRidden    Int      @default(0) @map("times_ridden")
+  lastRidden     DateTime? @map("last_ridden") @db.Date
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  scheduledRides       ScheduledRide[] @relation("ScheduledRideRoute")
+  weatherBackupRides   ScheduledRide[] @relation("WeatherBackupRoute")
+  rideHistory          RideHistory[]
+
+  @@map("routes")
+}
+
+model Season {
+  id          String   @id @default(uuid()) @db.Uuid
+  year        Int      @unique
+  startDate   DateTime @map("start_date") @db.Date
+  endDate     DateTime @map("end_date") @db.Date
+  isActive    Boolean  @default(false) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  scheduledRides ScheduledRide[]
+
+  @@map("seasons")
+}
+
+model ScheduledRide {
+  id             String   @id @default(uuid()) @db.Uuid
+  seasonId       String   @map("season_id") @db.Uuid
+  routeId        String   @map("route_id") @db.Uuid
+  rideDate       DateTime @map("ride_date") @db.Date
+  startTime      DateTime @default(dbgenerated("'09:00:00'::time")) @map("start_time") @db.Time
+  status         String   @default("scheduled") @db.VarChar(20)
+  notes          String?  @db.Text
+  weatherBackup  String?  @map("weather_backup") @db.Uuid
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  season         Season   @relation(fields: [seasonId], references: [id])
+  route          Route    @relation("ScheduledRideRoute", fields: [routeId], references: [id])
+  backupRoute    Route?   @relation("WeatherBackupRoute", fields: [weatherBackup], references: [id])
+
+  @@unique([rideDate])
+  @@index([rideDate], name: "idx_scheduled_rides_date")
+  @@map("scheduled_rides")
+}
+
+model Event {
+  id          String   @id @default(uuid()) @db.Uuid
+  title       String   @db.VarChar(255)
+  description String?  @db.Text
+  eventDate   DateTime @map("event_date") @db.Date
+  eventTime   DateTime? @map("event_time") @db.Time
+  location    String?  @db.VarChar(255)
+  eventType   String?  @map("event_type") @db.VarChar(50)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("events")
+}
+
+model RideHistory {
+  id               String   @id @default(uuid()) @db.Uuid
+  routeId          String   @map("route_id") @db.Uuid
+  rideDate         DateTime @map("ride_date") @db.Date
+  seasonYear       Int      @map("season_year")
+  weekNumber       Int      @map("week_number")
+  participantCount Int?     @map("participant_count")
+  notes            String?  @db.Text
+
+  route Route @relation(fields: [routeId], references: [id])
+
+  @@index([weekNumber, seasonYear], name: "idx_ride_history_week")
+  @@map("ride_history")
+}
