@@ -4,24 +4,33 @@ import { prisma } from '@/lib/prisma'
 export async function GET() {
   if (!process.env.DATABASE_URL || !prisma) {
     return NextResponse.json(
-      { message: 'Database not configured' },
+      { message: 'Database niet geconfigureerd' },
       { status: 503 }
     )
   }
 
   try {
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
+    const now = new Date()
+    now.setHours(0, 0, 0, 0)
 
     const nextRide = await prisma.scheduledRide.findFirst({
       where: {
         rideDate: {
-          gte: today,
+          gte: now,
         },
         status: 'scheduled',
       },
       include: {
-        route: true,
+        route: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            distanceKm: true,
+            elevationM: true,
+            difficulty: true,
+          },
+        },
       },
       orderBy: {
         rideDate: 'asc',
@@ -30,7 +39,7 @@ export async function GET() {
 
     if (!nextRide) {
       return NextResponse.json(
-        { message: 'No upcoming rides found' },
+        { message: 'Geen ritten gepland op dit moment' },
         { status: 404 }
       )
     }
@@ -39,11 +48,12 @@ export async function GET() {
   } catch (error) {
     console.error('Error fetching next ride:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch next ride' },
+      { error: 'Fout bij ophalen van rit' },
       { status: 500 }
     )
   }
 }
 
+// Cache for 5 minutes since ride data doesn't change frequently
+export const revalidate = 300
 export const dynamic = 'force-dynamic'
-export const revalidate = 0
