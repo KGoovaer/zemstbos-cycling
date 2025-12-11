@@ -1,0 +1,35 @@
+{
+  "name": "@zemstbos/cycling-agents",
+  "version": "1.0.0",
+  "description": "Claude AI agents for zemstbos cycling club management system",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "claude",
+    "ai",
+    "agents",
+    "cycling",
+    "management"
+  ],
+  "author": "Zemstbos Cycling Club",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@anthropic-ai/claude-agent-sdk": "latest",
+    "@prisma/client": "^5.0.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "prisma": "^5.0.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
