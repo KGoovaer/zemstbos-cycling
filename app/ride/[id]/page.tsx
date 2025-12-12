@@ -116,7 +116,7 @@ export default async function RideDetailPage({ params }: { params: { id: string 
             </div>
           )}
 
-          <RouteMapPreview routeId={ride.route.id} />
+          <RouteMapPreview routeId={ride.route.id} routeName={ride.route.name} />
 
           <div className="mt-8">
             <DownloadGPXButton routeId={ride.route.id} routeName={ride.route.name} />
