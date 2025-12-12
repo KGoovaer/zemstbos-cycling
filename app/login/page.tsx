@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { LoginForm } from '@/components/auth/LoginForm'
+import { GoogleButton } from '@/components/auth/GoogleButton'
 
 export const metadata = {
   title: 'Aanmelden - Zemst BOS Cycling Club',
@@ -19,28 +21,46 @@ export default function LoginPage() {
               Toegang voor leden
             </p>
           </div>
-          
-          <div className="bg-emerald-50 border-2 border-emerald-200 rounded-lg p-6 mb-8">
-            <p className="text-lg text-center text-slate-700 leading-relaxed">
-              🔒 De login functionaliteit wordt binnenkort geïmplementeerd.
-            </p>
+
+          <div className="space-y-6">
+            {/* Google Sign-In Button (only shown if enabled) */}
+            <GoogleButton />
+
+            {/* Divider - only show if Google is enabled */}
+            {process.env.NEXT_PUBLIC_GOOGLE_OAUTH_ENABLED && (
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t-2 border-slate-200" />
+                </div>
+                <div className="relative flex justify-center text-base">
+                  <span className="px-4 bg-white text-slate-500 font-medium">
+                    Of met e-mail
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Email/Password Form */}
+            <LoginForm />
           </div>
-          
-          <Link
-            href="/"
-            className="block text-center btn-primary w-full"
-          >
-            ← Terug naar Home
-          </Link>
-          
-          <div className="mt-8 text-center">
-            <p className="text-slate-600 mb-3">Nog geen lid?</p>
+
+          <div className="mt-8 text-center space-y-4">
             <Link
-              href="/contact"
-              className="text-emerald-600 hover:text-emerald-700 font-semibold text-lg"
+              href="/"
+              className="block text-slate-600 hover:text-slate-800 font-medium text-lg"
             >
-              Neem contact op →
+              ← Terug naar Home
             </Link>
+
+            <div>
+              <p className="text-slate-600 mb-2">Nog geen lid?</p>
+              <Link
+                href="/contact"
+                className="text-emerald-600 hover:text-emerald-700 font-semibold text-lg"
+              >
+                Neem contact op →
+              </Link>
+            </div>
           </div>
         </div>
       </div>

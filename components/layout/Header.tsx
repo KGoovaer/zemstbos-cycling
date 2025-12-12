@@ -2,9 +2,15 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { useSession, signOut } from 'next-auth/react'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { data: session, status } = useSession()
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/' })
+  }
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -30,12 +36,37 @@ export function Header() {
             >
               Contact
             </Link>
-            <Link
-              href="/login"
-              className="bg-emerald-500 text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors font-semibold"
-            >
-              Login
-            </Link>
+
+            {status === 'loading' ? (
+              <div className="text-slate-500">Loading...</div>
+            ) : session ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium"
+                >
+                  Dashboard
+                </Link>
+                <div className="flex items-center space-x-4">
+                  <span className="text-slate-700 font-medium">
+                    {session.user.name}
+                  </span>
+                  <button
+                    onClick={handleSignOut}
+                    className="bg-slate-500 text-white px-6 py-2 rounded-lg hover:bg-slate-600 transition-colors font-semibold"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="bg-emerald-500 text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors font-semibold"
+              >
+                Login
+              </Link>
+            )}
           </div>
 
           <button
@@ -77,13 +108,42 @@ export function Header() {
             >
               Contact
             </Link>
-            <Link
-              href="/login"
-              className="block bg-emerald-500 text-white px-6 py-3 rounded-lg hover:bg-emerald-600 transition-colors font-semibold text-center"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Login
-            </Link>
+
+            {status === 'loading' ? (
+              <div className="text-slate-500 py-2">Loading...</div>
+            ) : session ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="block text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <div className="py-2">
+                  <span className="block text-slate-700 font-medium mb-2">
+                    {session.user.name}
+                  </span>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false)
+                      handleSignOut()
+                    }}
+                    className="block w-full bg-slate-500 text-white px-6 py-3 rounded-lg hover:bg-slate-600 transition-colors font-semibold text-center"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="block bg-emerald-500 text-white px-6 py-3 rounded-lg hover:bg-emerald-600 transition-colors font-semibold text-center"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Login
+              </Link>
+            )}
           </div>
         )}
       </nav>
