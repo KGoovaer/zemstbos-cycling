@@ -1,4 +1,4 @@
-# 021 - Season Calendar
+# 021 - Season Calendar - Done
 
 **Epic:** Member Features
 **Priority:** Must

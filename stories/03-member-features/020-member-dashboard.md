@@ -1,4 +1,4 @@
-# 020 - Member Dashboard
+# 020 - Member Dashboard - Done
 
 **Epic:** Member Features
 **Priority:** Must

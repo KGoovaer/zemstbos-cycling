@@ -1,4 +1,4 @@
-# 010 - Landing Page
+# 010 - Landing Page - Done
 
 **Epic:** Public Features
 **Priority:** Must

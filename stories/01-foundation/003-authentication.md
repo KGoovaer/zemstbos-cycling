@@ -1,4 +1,4 @@
-# 003 - Authentication
+# 003 - Authentication - Done
 
 **Epic:** Foundation
 **Priority:** Must

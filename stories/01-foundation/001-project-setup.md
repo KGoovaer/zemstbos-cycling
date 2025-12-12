@@ -1,4 +1,4 @@
-# 001 - Project Setup
+# 001 - Project Setup - Done
 
 **Epic:** Foundation
 **Priority:** Must

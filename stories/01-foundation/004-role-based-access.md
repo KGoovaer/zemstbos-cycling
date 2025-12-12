@@ -1,4 +1,4 @@
-# 004 - Role-Based Access Control
+# 004 - Role-Based Access Control - Done
 
 **Epic:** Foundation
 **Priority:** Must

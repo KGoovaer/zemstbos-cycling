@@ -1,4 +1,4 @@
-# 002 - Database Schema
+# 002 - Database Schema - Done
 
 **Epic:** Foundation
 **Priority:** Must
