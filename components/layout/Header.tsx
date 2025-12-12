@@ -47,6 +47,26 @@ export function Header() {
                 >
                   Dashboard
                 </Link>
+                <Link
+                  href="/calendar"
+                  className="text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium"
+                >
+                  Kalender
+                </Link>
+                <Link
+                  href="/events"
+                  className="text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium"
+                >
+                  Events
+                </Link>
+                {session.user.role === 'admin' && (
+                  <Link
+                    href="/admin"
+                    className="text-lg text-emerald-700 hover:text-emerald-600 transition-colors font-semibold"
+                  >
+                    Admin
+                  </Link>
+                )}
                 <div className="flex items-center space-x-4">
                   <span className="text-slate-700 font-medium">
                     {session.user.name}
@@ -120,6 +140,29 @@ export function Header() {
                 >
                   Dashboard
                 </Link>
+                <Link
+                  href="/calendar"
+                  className="block text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Kalender
+                </Link>
+                <Link
+                  href="/events"
+                  className="block text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium py-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Events
+                </Link>
+                {session.user.role === 'admin' && (
+                  <Link
+                    href="/admin"
+                    className="block text-lg text-emerald-700 hover:text-emerald-600 transition-colors font-semibold py-2"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Admin
+                  </Link>
+                )}
                 <div className="py-2">
                   <span className="block text-slate-700 font-medium mb-2">
                     {session.user.name}
