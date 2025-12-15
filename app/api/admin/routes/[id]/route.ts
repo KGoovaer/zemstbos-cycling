@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
+import { deleteGPXFile } from '@/lib/gpx-storage'
 
 export async function PUT(
   request: Request,
@@ -79,6 +80,8 @@ export async function DELETE(
     await prisma.route.delete({
       where: { id: params.id },
     })
+
+    await deleteGPXFile(params.id)
 
     return NextResponse.json({ success: true })
   } catch (error) {

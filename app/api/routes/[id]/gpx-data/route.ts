@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
+import { readGPXFile } from '@/lib/gpx-storage'
 
 export async function GET(
   request: NextRequest,
@@ -35,7 +36,15 @@ export async function GET(
       )
     }
 
-    return NextResponse.json({ gpxData: route.gpxData })
+    let gpxData: string
+    
+    if (route.gpxData.startsWith('/gpx-files/')) {
+      gpxData = await readGPXFile(params.id)
+    } else {
+      gpxData = route.gpxData
+    }
+
+    return NextResponse.json({ gpxData })
   } catch (error) {
     console.error('Error fetching GPX data:', error)
     return NextResponse.json(

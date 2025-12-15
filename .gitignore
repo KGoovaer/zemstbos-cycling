@@ -36,3 +36,6 @@ yarn-error.log*
 next-env.d.ts
 
 /lib/generated/prisma
+
+# GPX Files
+public/gpx-files/*.gpx
