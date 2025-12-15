@@ -1,5 +1,6 @@
 import { auth } from '@/auth'
 import { redirect } from 'next/navigation'
+import Link from 'next/link'
 import { StatsCard } from '@/components/admin/StatsCard'
 import { QuickActions } from '@/components/admin/QuickActions'
 
@@ -25,16 +26,101 @@ interface AdminStats {
 }
 
 async function getAdminStats(): Promise<AdminStats | null> {
-  const baseUrl = process.env.NEXTAUTH_URL || 'http://localhost:3000'
-  const res = await fetch(`${baseUrl}/api/admin/stats`, {
-    cache: 'no-store',
-  })
-  
-  if (!res.ok) {
+  try {
+    const { prisma } = await import('@/lib/prisma')
+    
+    if (!prisma) {
+      return null
+    }
+
+    const currentYear = new Date().getFullYear()
+    const today = new Date()
+
+    const [
+      totalMembers,
+      activeMembers,
+      paidMembers,
+      unpaidMembers,
+      upcomingRides,
+      totalRoutes,
+      activeSeason,
+    ] = await Promise.all([
+      prisma.user.count(),
+      prisma.user.count({ where: { isActive: true } }),
+      prisma.user.count({
+        where: {
+          paymentStatus: 'paid',
+          paymentYear: currentYear,
+        },
+      }),
+      prisma.user.count({
+        where: {
+          OR: [
+            { paymentStatus: 'unpaid' },
+            { paymentYear: { not: currentYear } },
+            { paymentYear: null },
+          ],
+          isActive: true,
+        },
+      }),
+      prisma.scheduledRide.count({
+        where: {
+          rideDate: { gte: today },
+          status: 'scheduled',
+        },
+      }),
+      prisma.route.count(),
+      prisma.season.findFirst({
+        where: { isActive: true },
+        include: {
+          _count: {
+            select: { scheduledRides: true },
+          },
+        },
+      }),
+    ])
+
+    const recentRides = await prisma.scheduledRide.findMany({
+      where: {
+        rideDate: { gte: today },
+        status: 'scheduled',
+      },
+      orderBy: { rideDate: 'asc' },
+      take: 5,
+      include: {
+        route: {
+          select: {
+            name: true,
+            distanceKm: true,
+          },
+        },
+      },
+    })
+
+    return {
+      totalMembers,
+      activeMembers,
+      paidMembers,
+      unpaidMembers,
+      upcomingRides,
+      totalRoutes,
+      activeSeason: activeSeason
+        ? {
+            year: activeSeason.year,
+            totalRides: activeSeason._count.scheduledRides,
+          }
+        : null,
+      recentRides: recentRides.map((ride) => ({
+        id: ride.id,
+        date: ride.rideDate.toISOString(),
+        routeName: ride.route.name,
+        distance: Number(ride.route.distanceKm),
+      })),
+    }
+  } catch (error) {
+    console.error('Error fetching admin stats:', error)
     return null
   }
-  
-  return res.json()
 }
 
 export default async function AdminPage() {
@@ -132,26 +218,28 @@ export default async function AdminPage() {
                 }
               />
 
-              <StatsCard
-                title="Route Bibliotheek"
-                value={stats.totalRoutes}
-                subtitle="Beschikbare routes"
-                icon={
-                  <svg
-                    className="w-12 h-12"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
-                    />
-                  </svg>
-                }
-              />
+              <Link href="/admin/routes" className="block">
+                <StatsCard
+                  title="Route Bibliotheek"
+                  value={stats.totalRoutes}
+                  subtitle="Beschikbare routes"
+                  icon={
+                    <svg
+                      className="w-12 h-12"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                      />
+                    </svg>
+                  }
+                />
+              </Link>
             </div>
 
             {stats.recentRides.length > 0 && (
