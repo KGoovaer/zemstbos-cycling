@@ -22,6 +22,7 @@ export async function POST(request: Request) {
     }
 
     // Log the contact form submission (in production, this would send an email)
+    // eslint-disable-next-line no-console
     console.log('Contact form submission:', {
       name,
       email,

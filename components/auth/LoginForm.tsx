@@ -31,7 +31,7 @@ export function LoginForm() {
         router.push('/dashboard')
         router.refresh()
       }
-    } catch (err) {
+    } catch {
       setError('Er is iets misgegaan. Probeer het opnieuw.')
     } finally {
       setIsLoading(false)

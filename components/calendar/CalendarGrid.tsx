@@ -7,7 +7,7 @@ import Link from 'next/link'
 interface Ride {
   id: string
   rideDate: Date
-  startTime: Date
+  startTime: string
   status: string
   notes: string | null
   route: {

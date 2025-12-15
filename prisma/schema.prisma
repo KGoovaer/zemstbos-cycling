@@ -68,6 +68,7 @@ model ScheduledRide {
   seasonId       String   @map("season_id")
   routeId        String   @map("route_id")
   rideDate       DateTime @map("ride_date")
+  team           String   @default("A")
   startTime      String   @default("09:00:00") @map("start_time")
   status         String   @default("scheduled")
   notes          String?
@@ -78,7 +79,7 @@ model ScheduledRide {
   route          Route    @relation("ScheduledRideRoute", fields: [routeId], references: [id])
   backupRoute    Route?   @relation("WeatherBackupRoute", fields: [weatherBackup], references: [id])
 
-  @@unique([rideDate])
+  @@unique([rideDate, team])
   @@index([rideDate], name: "idx_scheduled_rides_date")
   @@map("scheduled_rides")
 }

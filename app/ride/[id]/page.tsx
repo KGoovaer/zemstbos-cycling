@@ -41,9 +41,7 @@ export default async function RideDetailPage({ params }: { params: { id: string 
   if (!ride) notFound()
 
   const formattedDate = format(new Date(ride.rideDate), 'EEEE d MMMM yyyy', { locale: nl })
-  const formattedTime = typeof ride.startTime === 'string' 
-    ? ride.startTime 
-    : ride.startTime.toISOString().slice(11, 16)
+  const formattedTime = ride.startTime.slice(0, 5)
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">

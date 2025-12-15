@@ -3,6 +3,13 @@ import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcryptjs'
 
 export async function POST() {
+  if (!prisma) {
+    return NextResponse.json(
+      { error: 'Database not available' },
+      { status: 503 }
+    )
+  }
+
   try {
     // Check if member already exists
     const existing = await prisma.user.findUnique({

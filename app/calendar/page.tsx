@@ -14,6 +14,17 @@ export default async function CalendarPage() {
     redirect('/login')
   }
 
+  if (!prisma) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-8">
+        <div className="container mx-auto">
+          <h1 className="text-4xl font-bold mb-8">Seizoenskalender</h1>
+          <p className="text-xl">Database niet beschikbaar</p>
+        </div>
+      </div>
+    )
+  }
+
   // Get active season
   const activeSeason = await prisma.season.findFirst({
     where: { isActive: true }

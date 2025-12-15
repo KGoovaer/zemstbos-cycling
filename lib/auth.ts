@@ -46,7 +46,7 @@ export const authConfig = {
           id: user.id,
           email: user.email,
           name: `${user.firstName} ${user.lastName}`,
-          role: user.role,
+          role: user.role as 'member' | 'admin',
         }
       },
     }),
@@ -69,7 +69,7 @@ export const authConfig = {
     },
     async session({ session, token }) {
       if (session.user) {
-        session.user.role = token.role as string
+        session.user.role = token.role as 'member' | 'admin'
         session.user.id = token.userId as string
       }
       return session

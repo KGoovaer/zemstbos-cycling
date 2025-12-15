@@ -1,4 +1,4 @@
-# 034 - GPX Upload - impl
+# 034 - GPX Upload - done
 
 **Epic:** Admin Features
 **Priority:** Must

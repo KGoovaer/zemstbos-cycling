@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma'
 import { readGPXFile } from '@/lib/gpx-storage'
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   const session = await auth()
