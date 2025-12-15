@@ -1,4 +1,4 @@
-# 031 - Member Management
+# 031 - Member Management - done
 
 **Epic:** Admin Features
 **Priority:** Must

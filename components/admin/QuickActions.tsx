@@ -15,6 +15,12 @@ const actions: QuickAction[] = [
     icon: '📅',
   },
   {
+    title: 'Beheer Seizoenen',
+    description: 'Maak seizoenen aan en activeer het huidige seizoen',
+    href: '/admin/seasons',
+    icon: '🗓️',
+  },
+  {
     title: 'Beheer Leden',
     description: 'Bekijk en beheer club leden en betalingen',
     href: '/admin/members',
