@@ -1,4 +1,4 @@
-# 035 - Schedule Management - donecan
+# 035 - Schedule Management - done
 
 **Epic:** Admin Features
 **Priority:** Must
