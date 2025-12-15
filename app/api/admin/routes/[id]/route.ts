@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
-import { deleteGPXFile } from '@/lib/gpx-storage'
+import { deleteGPXFile, saveGPXFile } from '@/lib/gpx-storage'
+import { parseGPX } from '@/lib/gpx-parser'
 
 export async function PUT(
   request: Request,
@@ -22,17 +23,39 @@ export async function PUT(
     }
 
     const body = await request.json()
-    const { name, description, difficulty, startLocation, region } = body
+    const { name, description, difficulty, startLocation, region, gpxData } = body
+
+    const updateData: {
+      name: string
+      description: string | null
+      difficulty: string | null
+      startLocation: string | null
+      region: string | null
+      distanceKm?: number
+      elevationM?: number | null
+      gpxData?: string
+    } = {
+      name,
+      description,
+      difficulty,
+      startLocation,
+      region,
+    }
+
+    // If new GPX data is provided, parse and recalculate distance/elevation
+    if (gpxData) {
+      const metadata = parseGPX(gpxData)
+      updateData.distanceKm = metadata.distance
+      updateData.elevationM = metadata.elevationGain
+      
+      // Save the new GPX file (will overwrite existing one)
+      const gpxPath = await saveGPXFile(params.id, gpxData)
+      updateData.gpxData = gpxPath
+    }
 
     const route = await prisma.route.update({
       where: { id: params.id },
-      data: {
-        name,
-        description,
-        difficulty,
-        startLocation,
-        region,
-      },
+      data: updateData,
     })
 
     return NextResponse.json(route)

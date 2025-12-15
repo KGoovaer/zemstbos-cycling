@@ -1,4 +1,4 @@
-# 024 - Elevation Profile
+# 024 - Elevation Profile - done
 
 **Epic:** Member Features
 **Priority:** Should

@@ -6,6 +6,8 @@ interface Member {
   firstName: string
   lastName: string
   phone: string | null
+  address: string | null
+  birthDate: string | null
   role: string
   paymentStatus: string
   paymentYear: number | null
@@ -74,6 +76,12 @@ export function MemberTable({ members, onEdit, onDeactivate }: Props) {
                 Telefoon
               </th>
               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                Adres
+              </th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
+                Geboortedatum
+              </th>
+              <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                 Rol
               </th>
               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
@@ -106,6 +114,16 @@ export function MemberTable({ members, onEdit, onDeactivate }: Props) {
                 <td className="px-6 py-4">
                   <div className="text-base text-gray-700">
                     {member.phone || '-'}
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="text-base text-gray-700 max-w-xs truncate" title={member.address || undefined}>
+                    {member.address || '-'}
+                  </div>
+                </td>
+                <td className="px-6 py-4">
+                  <div className="text-base text-gray-700">
+                    {member.birthDate ? new Date(member.birthDate).toLocaleDateString('nl-BE') : '-'}
                   </div>
                 </td>
                 <td className="px-6 py-4">{getRoleBadge(member.role)}</td>

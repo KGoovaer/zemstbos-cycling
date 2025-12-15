@@ -8,6 +8,8 @@ interface Member {
   firstName: string
   lastName: string
   phone: string | null
+  address: string | null
+  birthDate: string | null
   role: string
   paymentStatus: string
   paymentYear: number | null
@@ -24,6 +26,8 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [phone, setPhone] = useState('')
+  const [address, setAddress] = useState('')
+  const [birthDate, setBirthDate] = useState('')
   const [role, setRole] = useState('member')
   const [paymentStatus, setPaymentStatus] = useState('unpaid')
   const [paymentYear, setPaymentYear] = useState(new Date().getFullYear())
@@ -36,6 +40,8 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
       setFirstName(member.firstName)
       setLastName(member.lastName)
       setPhone(member.phone || '')
+      setAddress(member.address || '')
+      setBirthDate(member.birthDate ? member.birthDate.split('T')[0] : '')
       setRole(member.role)
       setPaymentStatus(member.paymentStatus)
       setPaymentYear(member.paymentYear || new Date().getFullYear())
@@ -71,6 +77,8 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
         firstName: string
         lastName: string
         phone: string | null
+        address: string | null
+        birthDate: string | null
         role: string
         paymentStatus: string
         paymentYear: number
@@ -82,6 +90,8 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
         firstName,
         lastName,
         phone: phone || null,
+        address: address || null,
+        birthDate: birthDate || null,
         role,
         paymentStatus,
         paymentYear,
@@ -200,6 +210,39 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
               onChange={(e) => setPhone(e.target.value)}
               className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="+32 123 45 67 89"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="address"
+              className="block text-lg font-semibold text-gray-900 mb-2"
+            >
+              Adres (optioneel)
+            </label>
+            <input
+              type="text"
+              id="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Straatnaam 123, 1234 Stad"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="birthDate"
+              className="block text-lg font-semibold text-gray-900 mb-2"
+            >
+              Geboortedatum (optioneel)
+            </label>
+            <input
+              type="date"
+              id="birthDate"
+              value={birthDate}
+              onChange={(e) => setBirthDate(e.target.value)}
+              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 

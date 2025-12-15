@@ -1,4 +1,4 @@
-# 023 - Route Map Visualization - not yet tested
+# 023 - Route Map Visualization - done
 
 **Epic:** Member Features
 **Priority:** Must

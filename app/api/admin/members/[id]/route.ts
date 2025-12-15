@@ -29,6 +29,8 @@ export async function GET(
         firstName: true,
         lastName: true,
         phone: true,
+        address: true,
+        birthDate: true,
         role: true,
         paymentStatus: true,
         paymentYear: true,
@@ -85,6 +87,8 @@ export async function PUT(
       firstName,
       lastName,
       phone,
+      address,
+      birthDate,
       role,
       paymentStatus,
       paymentYear,
@@ -115,6 +119,8 @@ export async function PUT(
       firstName: string
       lastName: string
       phone: string | null
+      address: string | null
+      birthDate: Date | null
       role: string
       paymentStatus: string
       paymentYear: number
@@ -126,6 +132,8 @@ export async function PUT(
       firstName,
       lastName,
       phone: phone || null,
+      address: address || null,
+      birthDate: birthDate ? new Date(birthDate) : null,
       role: role || 'member',
       paymentStatus: paymentStatus || 'unpaid',
       paymentYear: paymentYear || new Date().getFullYear(),
@@ -145,6 +153,8 @@ export async function PUT(
         firstName: true,
         lastName: true,
         phone: true,
+        address: true,
+        birthDate: true,
         role: true,
         paymentStatus: true,
         paymentYear: true,

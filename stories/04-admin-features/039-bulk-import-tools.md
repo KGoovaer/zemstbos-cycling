@@ -17,12 +17,12 @@ Command-line scripts to import GPX files in bulk and import historical ride sche
 
 ## Acceptance Criteria
 
-- [ ] Script to import multiple GPX files from directory
-- [ ] Script to import ride history from CSV
-- [ ] Validation and error reporting
-- [ ] Dry-run mode to preview imports
-- [ ] Progress indicator for bulk operations
-- [ ] Documentation for running scripts
+- [x] Script to import multiple GPX files from directory
+- [x] Script to import ride history from CSV
+- [x] Validation and error reporting
+- [x] Dry-run mode to preview imports
+- [x] Progress indicator for bulk operations
+- [x] Documentation for running scripts
 
 ## Technical Implementation
 
@@ -56,11 +56,11 @@ Not applicable (command-line tools)
 
 ## Testing Considerations
 
-- [ ] GPX bulk import works
-- [ ] History CSV import works
-- [ ] Error handling for invalid data
-- [ ] Dry-run shows what would be imported
-- [ ] Progress displays correctly
+- [x] GPX bulk import works
+- [x] History CSV import works
+- [x] Error handling for invalid data
+- [x] Dry-run shows what would be imported
+- [x] Progress displays correctly
 
 ## Implementation Steps
 

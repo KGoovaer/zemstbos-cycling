@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter, useParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import { validateGPXFile, parseGPX } from '@/lib/gpx-parser'
 
 interface RouteData {
   id: string
@@ -18,14 +19,18 @@ interface RouteData {
 }
 
 export default function EditRoutePage() {
-  const router = useRouter()
   const params = useParams()
   const routeId = params.id as string
 
   const [route, setRoute] = useState<RouteData | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [gpxFile, setGpxFile] = useState<File | null>(null)
+  const [gpxContent, setGpxContent] = useState<string | null>(null)
+  const [gpxMetadata, setGpxMetadata] = useState<{ distance: number; elevation: number } | null>(null)
+  const [gpxError, setGpxError] = useState<string | null>(null)
 
   const [formData, setFormData] = useState({
     name: '',
@@ -73,24 +78,65 @@ export default function EditRoutePage() {
     }
   }
 
+  const handleGPXUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setGpxFile(file)
+    setGpxError(null)
+    setGpxMetadata(null)
+
+    try {
+      const content = await validateGPXFile(file)
+      setGpxContent(content)
+      
+      const metadata = parseGPX(content)
+      setGpxMetadata({
+        distance: metadata.distance,
+        elevation: metadata.elevationGain,
+      })
+    } catch (err) {
+      setGpxError(err instanceof Error ? err.message : 'Ongeldig GPX bestand')
+      setGpxFile(null)
+      setGpxContent(null)
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSaving(true)
 
     try {
+      const payload: typeof formData & { gpxData?: string } = { ...formData }
+      
+      // Include GPX data if a new file was uploaded
+      if (gpxContent) {
+        payload.gpxData = gpxContent
+      }
+
       const res = await fetch(`/api/admin/routes/${routeId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       })
 
       if (!res.ok) {
         throw new Error('Failed to update route')
       }
 
-      router.push('/admin/routes')
+      const updatedRoute = await res.json()
+      
+      // Update local state with new values
+      setRoute(updatedRoute)
+      setSaved(true)
+      setSaving(false)
+      
+      // Reset GPX upload state
+      setGpxFile(null)
+      setGpxContent(null)
+      setGpxMetadata(null)
     } catch (err) {
       alert('Kon route niet opslaan. Probeer opnieuw.')
       console.error(err)
@@ -133,6 +179,40 @@ export default function EditRoutePage() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
+        {saved && (
+          <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-6">
+            <div className="flex items-start">
+              <svg
+                className="w-6 h-6 text-green-600 mr-3 mt-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-green-900 mb-1">
+                  Route succesvol bijgewerkt!
+                </h3>
+                <p className="text-base text-green-800 mb-3">
+                  {gpxContent ? 'Het GPX bestand is geüpload en de afstand en hoogtemeters zijn herberekend.' : 'De route metadata is bijgewerkt.'}
+                </p>
+                <Link
+                  href="/admin/routes"
+                  className="inline-flex items-center px-4 py-2 bg-green-600 text-white text-base font-semibold rounded-lg hover:bg-green-700"
+                >
+                  Terug naar Routes
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+        
         <div className="mb-6">
           <Link
             href="/admin/routes"
@@ -163,17 +243,31 @@ export default function EditRoutePage() {
 
         <div className="bg-white rounded-lg shadow border border-gray-200 p-6 mb-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Route Informatie (Alleen lezen)
+            Route Informatie {gpxMetadata ? '(Wordt bijgewerkt)' : '(Huidige waarden)'}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
             <div>
               <span className="font-semibold text-gray-700">Afstand:</span>{' '}
-              <span className="text-gray-900">{Number(route.distanceKm).toFixed(1)} km</span>
+              <span className={gpxMetadata ? 'text-gray-500 line-through' : 'text-gray-900'}>
+                {Number(route.distanceKm).toFixed(1)} km
+              </span>
+              {gpxMetadata && (
+                <span className="text-green-600 font-semibold ml-2">
+                  → {gpxMetadata.distance.toFixed(1)} km
+                </span>
+              )}
             </div>
-            {route.elevationM && (
+            {(route.elevationM || gpxMetadata) && (
               <div>
                 <span className="font-semibold text-gray-700">Hoogtemeters:</span>{' '}
-                <span className="text-gray-900">{route.elevationM}m</span>
+                <span className={gpxMetadata ? 'text-gray-500 line-through' : 'text-gray-900'}>
+                  {route.elevationM}m
+                </span>
+                {gpxMetadata && (
+                  <span className="text-green-600 font-semibold ml-2">
+                    → {gpxMetadata.elevation}m
+                  </span>
+                )}
               </div>
             )}
             <div>
@@ -192,6 +286,41 @@ export default function EditRoutePage() {
                   : 'Nooit'}
               </span>
             </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg shadow border border-gray-200 p-6 mb-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            GPX Bestand Bijwerken (Optioneel)
+          </h2>
+          <p className="text-base text-gray-600 mb-4">
+            Upload een nieuw GPX bestand om de route bij te werken. Afstand en hoogtemeters worden automatisch herberekend.
+          </p>
+          
+          <div>
+            <label
+              htmlFor="gpxFile"
+              className="block text-lg font-semibold text-gray-700 mb-2"
+            >
+              Nieuw GPX Bestand
+            </label>
+            <input
+              type="file"
+              id="gpxFile"
+              accept=".gpx"
+              onChange={handleGPXUpload}
+              className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-base file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+            />
+            {gpxFile && !gpxError && (
+              <p className="mt-2 text-base text-green-600">
+                ✓ {gpxFile.name} geladen - Route wordt bijgewerkt bij opslaan
+              </p>
+            )}
+            {gpxError && (
+              <p className="mt-2 text-base text-red-600">
+                ✗ {gpxError}
+              </p>
+            )}
           </div>
         </div>
 

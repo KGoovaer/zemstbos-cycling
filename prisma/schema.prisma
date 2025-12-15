@@ -11,20 +11,22 @@ generator client {
 }
 
 model User {
-  id            String   @id @default(uuid())
-  email         String   @unique
-  passwordHash  String?  @map("password_hash")
-  firstName     String   @map("first_name")
-  lastName      String   @map("last_name")
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String?   @map("password_hash")
+  firstName     String    @map("first_name")
+  lastName      String    @map("last_name")
   phone         String?
-  role          String   @default("member")
-  paymentStatus String   @default("unpaid") @map("payment_status")
-  paymentYear   Int?     @map("payment_year")
-  paidSeasonId  String?  @map("paid_season_id")
-  isActive      Boolean  @default(true) @map("is_active")
-  googleId      String?  @unique @map("google_id")
-  createdAt     DateTime @default(now()) @map("created_at")
-  updatedAt     DateTime @updatedAt @map("updated_at")
+  address       String?
+  birthDate     DateTime? @map("birth_date")
+  role          String    @default("member")
+  paymentStatus String    @default("unpaid") @map("payment_status")
+  paymentYear   Int?      @map("payment_year")
+  paidSeasonId  String?   @map("paid_season_id")
+  isActive      Boolean   @default(true) @map("is_active")
+  googleId      String?   @unique @map("google_id")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime  @updatedAt @map("updated_at")
 
   paidSeason       Season? @relation("UserPaidSeason", fields: [paidSeasonId], references: [id])
   seasonPayments   SeasonPayment[]

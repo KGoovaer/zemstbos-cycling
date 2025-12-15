@@ -10,6 +10,8 @@ interface Member {
   firstName: string
   lastName: string
   phone: string | null
+  address: string | null
+  birthDate: string | null
   role: string
   paymentStatus: string
   paymentYear: number | null

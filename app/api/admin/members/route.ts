@@ -62,6 +62,8 @@ export async function GET(request: Request) {
         firstName: true,
         lastName: true,
         phone: true,
+        address: true,
+        birthDate: true,
         role: true,
         paymentStatus: true,
         paymentYear: true,
@@ -119,7 +121,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json()
-    const { email, firstName, lastName, phone, role, paymentStatus, password } =
+    const { email, firstName, lastName, phone, address, birthDate, role, paymentStatus, password } =
       body
 
     if (!email || !firstName || !lastName) {
@@ -152,6 +154,8 @@ export async function POST(request: Request) {
         firstName,
         lastName,
         phone: phone || null,
+        address: address || null,
+        birthDate: birthDate ? new Date(birthDate) : null,
         role: role || 'member',
         paymentStatus: paymentStatus || 'unpaid',
         paymentYear: new Date().getFullYear(),
@@ -164,6 +168,8 @@ export async function POST(request: Request) {
         firstName: true,
         lastName: true,
         phone: true,
+        address: true,
+        birthDate: true,
         role: true,
         paymentStatus: true,
         paymentYear: true,

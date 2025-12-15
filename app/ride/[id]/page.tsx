@@ -6,6 +6,7 @@ import { nl } from 'date-fns/locale'
 import Link from 'next/link'
 import { RouteMapPreview } from '@/components/routes/RouteMapPreview'
 import { DownloadGPXButton } from '@/components/routes/DownloadGPXButton'
+import { ElevationProfile } from '@/components/routes/ElevationProfile'
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   if (!prisma) {
@@ -113,6 +114,8 @@ export default async function RideDetailPage({ params }: { params: { id: string 
               <p className="text-xl text-gray-700">{ride.notes}</p>
             </div>
           )}
+
+          <ElevationProfile routeId={ride.route.id} />
 
           <RouteMapPreview routeId={ride.route.id} routeName={ride.route.name} />
 
