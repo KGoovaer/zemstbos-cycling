@@ -11,6 +11,16 @@ interface Season {
   isActive: boolean
 }
 
+interface SeasonPayment {
+  id: string
+  seasonId: string
+  paidAt: string
+  season: {
+    id: string
+    year: number
+  }
+}
+
 interface Member {
   id: string
   email: string
@@ -22,6 +32,7 @@ interface Member {
   paymentYear: number | null
   paidSeasonId: string | null
   paidSeason?: Season | null
+  seasonPayments: SeasonPayment[]
   isActive: boolean
   createdAt: string
 }
@@ -85,9 +96,15 @@ export default function PaymentTrackingPage() {
     // Filter by season payment status
     if (selectedSeason && paymentFilter !== 'all') {
       if (paymentFilter === 'paid') {
-        filtered = filtered.filter((m) => m.paidSeasonId === selectedSeason)
+        filtered = filtered.filter((m) =>
+          m.seasonPayments.some((p) => p.seasonId === selectedSeason)
+        )
       } else if (paymentFilter === 'unpaid') {
-        filtered = filtered.filter((m) => m.paidSeasonId !== selectedSeason)
+        filtered = filtered.filter(
+          (m) =>
+            !m.seasonPayments.some((p) => p.seasonId === selectedSeason) &&
+            m.paymentStatus !== 'exempt'
+        )
       } else if (paymentFilter === 'exempt') {
         filtered = filtered.filter((m) => m.paymentStatus === 'exempt')
       }
@@ -108,7 +125,7 @@ export default function PaymentTrackingPage() {
 
   const handleUpdatePayment = async (
     id: string,
-    status: string,
+    action: string,
     seasonId: string | null
   ) => {
     try {
@@ -116,8 +133,8 @@ export default function PaymentTrackingPage() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          paymentStatus: status,
-          paidSeasonId: seasonId,
+          action,
+          seasonId,
         }),
       })
 
@@ -165,8 +182,8 @@ export default function PaymentTrackingPage() {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            paymentStatus: status,
-            paidSeasonId: status === 'paid' ? selectedSeason : null,
+            action: status,
+            seasonId: selectedSeason,
           }),
         })
       )
@@ -226,11 +243,13 @@ export default function PaymentTrackingPage() {
 
   const getStats = () => {
     const activeMembers = members.filter((m) => m.isActive)
-    const paid = activeMembers.filter(
-      (m) => m.paidSeasonId === selectedSeason
+    const paid = activeMembers.filter((m) =>
+      m.seasonPayments.some((p) => p.seasonId === selectedSeason)
     ).length
     const unpaid = activeMembers.filter(
-      (m) => m.paidSeasonId !== selectedSeason && m.paymentStatus !== 'exempt'
+      (m) =>
+        !m.seasonPayments.some((p) => p.seasonId === selectedSeason) &&
+        m.paymentStatus !== 'exempt'
     ).length
     const exempt = activeMembers.filter(
       (m) => m.paymentStatus === 'exempt'

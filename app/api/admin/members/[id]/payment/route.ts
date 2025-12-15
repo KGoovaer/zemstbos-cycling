@@ -21,21 +21,56 @@ export async function PUT(
 
   try {
     const body = await request.json()
-    const { paymentStatus, paidSeasonId } = body
+    const { seasonId, action } = body
 
-    if (!paymentStatus) {
+    if (!seasonId) {
       return NextResponse.json(
-        { error: 'Payment status is required' },
+        { error: 'Season ID is required' },
         { status: 400 }
       )
     }
 
-    const member = await prisma.user.update({
+    // Handle payment action
+    if (action === 'paid') {
+      // Create or update season payment record
+      await prisma.seasonPayment.upsert({
+        where: {
+          userId_seasonId: {
+            userId: params.id,
+            seasonId: seasonId,
+          },
+        },
+        create: {
+          userId: params.id,
+          seasonId: seasonId,
+        },
+        update: {}, // Already exists, do nothing
+      })
+    } else if (action === 'unpaid') {
+      // Delete season payment record
+      await prisma.seasonPayment.deleteMany({
+        where: {
+          userId: params.id,
+          seasonId: seasonId,
+        },
+      })
+    } else if (action === 'exempt') {
+      // Update user status to exempt (clears all payments)
+      await prisma.user.update({
+        where: { id: params.id },
+        data: { paymentStatus: 'exempt' },
+      })
+    } else if (action === 'unexempt') {
+      // Remove exempt status
+      await prisma.user.update({
+        where: { id: params.id },
+        data: { paymentStatus: 'unpaid' },
+      })
+    }
+
+    // Fetch updated member with all season payments
+    const member = await prisma.user.findUnique({
       where: { id: params.id },
-      data: {
-        paymentStatus,
-        paidSeasonId: paidSeasonId || null,
-      },
       select: {
         id: true,
         email: true,
@@ -53,6 +88,22 @@ export async function PUT(
             startDate: true,
             endDate: true,
             isActive: true,
+          },
+        },
+        seasonPayments: {
+          select: {
+            id: true,
+            seasonId: true,
+            paidAt: true,
+            season: {
+              select: {
+                id: true,
+                year: true,
+                startDate: true,
+                endDate: true,
+                isActive: true,
+              },
+            },
           },
         },
         isActive: true,

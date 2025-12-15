@@ -75,6 +75,19 @@ export async function GET(request: Request) {
             isActive: true,
           },
         },
+        seasonPayments: {
+          select: {
+            id: true,
+            seasonId: true,
+            paidAt: true,
+            season: {
+              select: {
+                id: true,
+                year: true,
+              },
+            },
+          },
+        },
         isActive: true,
         createdAt: true,
       },

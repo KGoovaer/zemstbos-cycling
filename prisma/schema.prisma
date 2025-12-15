@@ -26,7 +26,8 @@ model User {
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
-  paidSeason       Season? @relation(fields: [paidSeasonId], references: [id])
+  paidSeason       Season? @relation("UserPaidSeason", fields: [paidSeasonId], references: [id])
+  seasonPayments   SeasonPayment[]
   eventAttendances EventAttendee[]
   rideAttendances  RideAttendee[]
 
@@ -65,9 +66,28 @@ model Season {
   createdAt   DateTime @default(now()) @map("created_at")
 
   scheduledRides ScheduledRide[]
-  paidMembers    User[]
+  paidMembers    User[] @relation("UserPaidSeason")
+  seasonPayments SeasonPayment[]
 
   @@map("seasons")
+}
+
+model SeasonPayment {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  seasonId  String   @map("season_id")
+  paidAt    DateTime @default(now()) @map("paid_at")
+  amount    Float?
+  notes     String?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  season Season @relation(fields: [seasonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, seasonId])
+  @@index([userId])
+  @@index([seasonId])
+  @@map("season_payments")
 }
 
 model ScheduledRide {
