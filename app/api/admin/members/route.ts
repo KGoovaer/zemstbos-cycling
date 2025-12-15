@@ -65,6 +65,16 @@ export async function GET(request: Request) {
         role: true,
         paymentStatus: true,
         paymentYear: true,
+        paidSeasonId: true,
+        paidSeason: {
+          select: {
+            id: true,
+            year: true,
+            startDate: true,
+            endDate: true,
+            isActive: true,
+          },
+        },
         isActive: true,
         createdAt: true,
       },

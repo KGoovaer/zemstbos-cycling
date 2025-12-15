@@ -22,9 +22,15 @@ const actions: QuickAction[] = [
   },
   {
     title: 'Beheer Leden',
-    description: 'Bekijk en beheer club leden en betalingen',
+    description: 'Bekijk en beheer club leden',
     href: '/admin/members',
     icon: '👥',
+  },
+  {
+    title: 'Beheer Betalingen',
+    description: 'Volg en beheer betaalstatus van leden',
+    href: '/admin/payments',
+    icon: '💰',
   },
   {
     title: 'Beheer Routes',

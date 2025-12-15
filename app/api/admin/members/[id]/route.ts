@@ -32,6 +32,16 @@ export async function GET(
         role: true,
         paymentStatus: true,
         paymentYear: true,
+        paidSeasonId: true,
+        paidSeason: {
+          select: {
+            id: true,
+            year: true,
+            startDate: true,
+            endDate: true,
+            isActive: true,
+          },
+        },
         isActive: true,
         createdAt: true,
       },
@@ -138,6 +148,16 @@ export async function PUT(
         role: true,
         paymentStatus: true,
         paymentYear: true,
+        paidSeasonId: true,
+        paidSeason: {
+          select: {
+            id: true,
+            year: true,
+            startDate: true,
+            endDate: true,
+            isActive: true,
+          },
+        },
         isActive: true,
         createdAt: true,
       },

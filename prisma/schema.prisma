@@ -20,15 +20,18 @@ model User {
   role          String   @default("member")
   paymentStatus String   @default("unpaid") @map("payment_status")
   paymentYear   Int?     @map("payment_year")
+  paidSeasonId  String?  @map("paid_season_id")
   isActive      Boolean  @default(true) @map("is_active")
   googleId      String?  @unique @map("google_id")
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
 
+  paidSeason       Season? @relation(fields: [paidSeasonId], references: [id])
   eventAttendances EventAttendee[]
   rideAttendances  RideAttendee[]
 
   @@index([isActive], name: "idx_users_active")
+  @@index([paidSeasonId], name: "idx_users_paid_season")
   @@map("users")
 }
 
@@ -62,6 +65,7 @@ model Season {
   createdAt   DateTime @default(now()) @map("created_at")
 
   scheduledRides ScheduledRide[]
+  paidMembers    User[]
 
   @@map("seasons")
 }
