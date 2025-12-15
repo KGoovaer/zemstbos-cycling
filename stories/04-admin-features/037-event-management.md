@@ -1,4 +1,4 @@
-# 037 - Event Management
+# 037 - Event Management - done
 
 **Epic:** Admin Features
 **Priority:** Should

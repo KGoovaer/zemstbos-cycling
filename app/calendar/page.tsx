@@ -52,7 +52,18 @@ export default async function CalendarPage() {
           elevationM: true,
           difficulty: true,
         }
-      }
+      },
+      _count: {
+        select: { attendees: true },
+      },
+      attendees: session.user ? {
+        where: {
+          userId: session.user.id,
+        },
+        select: {
+          status: true,
+        },
+      } : false,
     },
     orderBy: { rideDate: 'asc' }
   })

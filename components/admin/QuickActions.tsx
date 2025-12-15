@@ -27,6 +27,12 @@ const actions: QuickAction[] = [
     icon: '🗺️',
   },
   {
+    title: 'Beheer Evenementen',
+    description: 'Maak en beheer club evenementen en sociale activiteiten',
+    href: '/admin/events',
+    icon: '🎉',
+  },
+  {
     title: 'Route Suggesties',
     description: 'Bekijk aanbevolen routes voor aankomende ritten',
     href: '/admin/suggestions',
