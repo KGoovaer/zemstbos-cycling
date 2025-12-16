@@ -12,6 +12,9 @@ RUN npm ci
 # Copy application code
 COPY . .
 
+# Set dummy DATABASE_URL for build (required by Prisma)
+ENV DATABASE_URL="file:./dev.db"
+
 # Generate Prisma Client
 RUN npx prisma generate
 
@@ -40,7 +43,7 @@ USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
-ENV HOSTNAME "0.0.0.0"
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]
