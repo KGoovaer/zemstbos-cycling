@@ -13,9 +13,9 @@ So that **the application can be deployed to our K8s cluster with HTTPS and prop
 
 ## Description
 
-Create Kubernetes deployment manifests for the Next.js application, including Deployment, Service, Ingress, and Secret resources. The setup should support HTTPS via cert-manager, proper resource limits, and connection to a PostgreSQL database.
+Create Kubernetes deployment manifests for the Next.js application, including Deployment, Service, Ingress, and Secret resources. The setup should support HTTPS via cert-manager, proper resource limits, and use SQLite3 as the database (stored outside the cluster).
 
-The deployment should be production-ready with health checks, proper scaling, and secure secret management.
+The deployment should be production-ready with health checks, proper scaling, and secure secret management. The SQLite database file will be stored on persistent storage outside the Kubernetes cluster and accessed via a mounted volume.
 
 ## Acceptance Criteria
 
@@ -24,6 +24,7 @@ The deployment should be production-ready with health checks, proper scaling, an
 - [ ] Kubernetes Service manifest created
 - [ ] Kubernetes Ingress manifest created with HTTPS
 - [ ] Kubernetes Secret manifest template created
+- [ ] PersistentVolume and PersistentVolumeClaim created for SQLite database
 - [ ] Resource limits defined (CPU and memory)
 - [ ] Health checks configured (liveness and readiness probes)
 - [ ] Environment variables properly configured
@@ -34,7 +35,7 @@ The deployment should be production-ready with health checks, proper scaling, an
 
 ### Database Changes
 
-None (assumes PostgreSQL is already running in K8s cluster)
+None (SQLite database file is stored outside the cluster on persistent storage)
 
 ### API Endpoints
 
@@ -133,10 +134,43 @@ metadata:
   namespace: cycling-club
 type: Opaque
 stringData:
-  database-url: "postgresql://user:password@postgres-service:5432/cycling_club?schema=public"
+  database-url: "file:/data/cycling_club.db"
   nextauth-secret: "generate-with-openssl-rand-base64-32"
   google-client-id: "your-google-client-id.apps.googleusercontent.com"
   google-client-secret: "your-google-client-secret"
+```
+
+Create `/k8s/persistent-volume.yaml`:
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: cycling-club-db-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  nfs:
+    # Replace with your NFS server details
+    server: your-nfs-server.local
+    path: "/path/to/cycling-club-data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cycling-club-db-pvc
+  namespace: cycling-club
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: manual
+  resources:
+    requests:
+      storage: 5Gi
 ```
 
 Create `/k8s/deployment.yaml`:
@@ -192,6 +226,9 @@ spec:
               key: google-client-secret
         - name: NODE_ENV
           value: "production"
+        volumeMounts:
+        - name: db-storage
+          mountPath: /data
         resources:
           requests:
             memory: "256Mi"
@@ -215,6 +252,10 @@ spec:
           periodSeconds: 5
           timeoutSeconds: 3
           failureThreshold: 3
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: cycling-club-db-pvc
       restartPolicy: Always
 ```
 
@@ -327,6 +368,7 @@ docker push ${REGISTRY}/${IMAGE_NAME}:${VERSION}
 
 echo "Applying Kubernetes manifests..."
 kubectl apply -f k8s/namespace.yaml
+kubectl apply -f k8s/persistent-volume.yaml
 kubectl apply -f k8s/secret.yaml
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
@@ -395,21 +437,23 @@ Not applicable (infrastructure only)
 1. Create Dockerfile with multi-stage build
 2. Update next.config.js for standalone output
 3. Create Kubernetes namespace manifest
-4. Create secret manifest template (with example values)
-5. Create deployment manifest with health checks
-6. Create service manifest
-7. Create ingress manifest with cert-manager annotations
-8. Create health check API endpoint
-9. Create deployment script
-10. Create .dockerignore file
-11. Test Docker build locally
-12. Test Kubernetes deployment in staging
-13. Document deployment process
+4. Create PersistentVolume and PersistentVolumeClaim for SQLite storage
+5. Create secret manifest template (with example values)
+6. Create deployment manifest with volume mounts and health checks
+7. Create service manifest
+8. Create ingress manifest with cert-manager annotations
+9. Create health check API endpoint
+10. Create deployment script
+11. Create .dockerignore file
+12. Initialize SQLite database on external storage
+13. Test Docker build locally
+14. Test Kubernetes deployment in staging
+15. Document deployment process
 
 ## Environment Variables Checklist
 
 **Required for Deployment:**
-- `DATABASE_URL` - PostgreSQL connection string
+- `DATABASE_URL` - SQLite database file path (e.g., file:/data/cycling_club.db)
 - `NEXTAUTH_SECRET` - NextAuth.js secret key
 - `NEXTAUTH_URL` - Public URL of application
 - `GOOGLE_CLIENT_ID` - Google OAuth client ID
@@ -431,7 +475,9 @@ Not applicable (infrastructure only)
 ## Prerequisites
 
 Before deploying:
-- [ ] PostgreSQL database running in cluster
+- [ ] NFS server or other network storage configured for SQLite database
+- [ ] PersistentVolume pointing to external storage location
+- [ ] SQLite database initialized on external storage (run migrations)
 - [ ] cert-manager installed for HTTPS certificates
 - [ ] nginx-ingress-controller installed
 - [ ] Docker registry credentials configured
@@ -504,7 +550,11 @@ kubectl scale deployment/cycling-club-web --replicas=1 -n cycling-club
 - **cert-manager:** Assumes Let's Encrypt cluster issuer named "letsencrypt-prod" exists
 - **Image Registry:** Replace "your-registry" with actual registry URL
 - **Domain:** Replace "club.yourdomain.be" with actual domain
-- **Database:** PostgreSQL should be accessible from cycling-club namespace
+- **Database Storage:** SQLite database file is stored on external NFS/network storage, not in the cluster
+- **Database Access:** Configure NFS server details in persistent-volume.yaml
+- **ReadWriteMany:** Required for multiple pod replicas to access the same SQLite file
+- **Database Initialization:** Run `npx prisma migrate deploy` on the mounted storage before first deployment
 - **Secrets Management:** Never commit actual secret.yaml - use secret.yaml.example
 - **Health Checks:** Adjust timing based on actual startup time after testing
 - **Resource Limits:** Monitor actual usage and adjust if needed
+- **Concurrent Access:** SQLite handles concurrent reads well, but writes are serialized

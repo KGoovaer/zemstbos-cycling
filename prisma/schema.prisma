@@ -45,7 +45,7 @@ model Route {
   distanceKm     Float    @map("distance_km")
   elevationM     Int?     @map("elevation_m")
   difficulty     String?
-  gpxData        String   @map("gpx_data")
+  gpxData        String?  @map("gpx_data")
   startLocation  String?  @map("start_location")
   region         String?
   timesRidden    Int      @default(0) @map("times_ridden")

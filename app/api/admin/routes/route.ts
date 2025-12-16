@@ -94,3 +94,59 @@ export async function GET(request: Request) {
     )
   }
 }
+
+export async function POST(request: Request) {
+  try {
+    const session = await auth()
+
+    if (!session || session.user.role !== 'admin') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    if (!prisma) {
+      return NextResponse.json(
+        { error: 'Database not configured' },
+        { status: 500 }
+      )
+    }
+
+    const body = await request.json()
+
+    const { name, description, distanceKm, elevationM, difficulty, startLocation, region, gpxData } = body
+
+    if (!name || !name.trim()) {
+      return NextResponse.json(
+        { error: 'Route naam is verplicht' },
+        { status: 400 }
+      )
+    }
+
+    if (!distanceKm || distanceKm <= 0) {
+      return NextResponse.json(
+        { error: 'Afstand moet groter zijn dan 0 km' },
+        { status: 400 }
+      )
+    }
+
+    const route = await prisma.route.create({
+      data: {
+        name: name.trim(),
+        description: description || null,
+        distanceKm: parseFloat(distanceKm),
+        elevationM: elevationM ? parseInt(elevationM) : null,
+        difficulty: difficulty || null,
+        startLocation: startLocation || null,
+        region: region || null,
+        gpxData: gpxData || null,
+      },
+    })
+
+    return NextResponse.json(route, { status: 201 })
+  } catch (error) {
+    console.error('Error creating route:', error)
+    return NextResponse.json(
+      { error: 'Failed to create route' },
+      { status: 500 }
+    )
+  }
+}

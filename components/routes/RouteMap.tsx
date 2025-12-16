@@ -27,6 +27,14 @@ export function RouteMap({ routeId, routeName }: RouteMapProps) {
         const response = await fetch(`/api/routes/${routeId}/gpx-data`)
         
         if (!response.ok) {
+          if (response.status === 404) {
+            const errorData = await response.json()
+            if (mounted) {
+              setError('Geen GPX data beschikbaar voor deze route')
+              setLoading(false)
+            }
+            return
+          }
           throw new Error('Failed to load route data')
         }
 

@@ -156,25 +156,46 @@ export default function RoutesPage() {
               {routes.length} routes in bibliotheek
             </p>
           </div>
-          <Link
-            href="/admin/routes/upload"
-            className="inline-flex items-center px-6 py-3 bg-green-600 text-white text-lg font-semibold rounded-lg hover:bg-green-700"
-          >
-            <svg
-              className="w-6 h-6 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+          <div className="flex gap-2">
+            <Link
+              href="/admin/routes/create"
+              className="inline-flex items-center px-6 py-3 bg-green-600 text-white text-lg font-semibold rounded-lg hover:bg-green-700"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            Nieuwe Route
-          </Link>
+              <svg
+                className="w-6 h-6 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              Nieuwe Route
+            </Link>
+            <Link
+              href="/admin/routes/upload"
+              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700"
+            >
+              <svg
+                className="w-6 h-6 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                />
+              </svg>
+              Upload GPX
+            </Link>
+          </div>
         </div>
 
         <div className="bg-white rounded-lg shadow border border-gray-200 p-6 mb-6">

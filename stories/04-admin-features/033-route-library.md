@@ -25,7 +25,7 @@ View all routes in the library, search and filter them, edit route metadata, and
 - [ ] See times ridden count
 - [ ] Edit route metadata
 - [ ] Delete routes (with confirmation)
-- [ ] Link to upload new route
+- [ ] Link to create new route (manual or GPX upload)
 
 ## Technical Implementation
 
@@ -34,13 +34,16 @@ None (uses routes table)
 
 ### API Endpoints
 - `GET /api/admin/routes` - List all routes
+- `POST /api/admin/routes` - Create new route (manual entry)
 - `PUT /api/admin/routes/[id]` - Update route metadata
 - `DELETE /api/admin/routes/[id]` - Delete route
 
 ### Components/Pages
 - `/app/(admin)/admin/routes/page.tsx` - Route library
+- `/app/(admin)/admin/routes/create/page.tsx` - Create route manually
 - `/app/(admin)/admin/routes/[id]/edit/page.tsx` - Edit route
 - `/components/admin/RouteTable.tsx` - Route list table
+- `/components/admin/RouteForm.tsx` - Reusable form for creating/editing routes
 
 ## Dependencies
 

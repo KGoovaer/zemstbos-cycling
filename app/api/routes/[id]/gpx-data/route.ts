@@ -36,6 +36,13 @@ export async function GET(
       )
     }
 
+    if (!route.gpxData) {
+      return NextResponse.json(
+        { error: 'No GPX data available for this route' },
+        { status: 404 }
+      )
+    }
+
     let gpxData: string
     
     if (route.gpxData.startsWith('/gpx-files/')) {
