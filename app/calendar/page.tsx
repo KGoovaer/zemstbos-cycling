@@ -41,8 +41,8 @@ export default async function CalendarPage() {
     )
   }
 
-  // Get all scheduled rides for active season
-  const rides = await prisma.scheduledRide.findMany({
+  // Get all scheduled rides for active season with attendee counts
+  const ridesRaw = await prisma.scheduledRide.findMany({
     where: { seasonId: activeSeason.id },
     include: {
       route: {
@@ -53,19 +53,53 @@ export default async function CalendarPage() {
           difficulty: true,
         }
       },
-      _count: {
-        select: { attendees: true },
-      },
-      attendees: session.user ? {
-        where: {
-          userId: session.user.id,
-        },
+      attendees: {
         select: {
           status: true,
+          userId: true,
+          user: {
+            select: {
+              firstName: true,
+              lastName: true,
+            },
+          },
         },
-      } : false,
+      },
     },
     orderBy: { rideDate: 'asc' }
+  })
+
+  // Calculate attendance breakdown for each ride
+  const rides = ridesRaw.map(ride => {
+    const attendingList = ride.attendees
+      .filter(a => a.status === 'attending')
+      .map(a => `${a.user.firstName} ${a.user.lastName}`);
+    
+    const maybeList = ride.attendees
+      .filter(a => a.status === 'maybe')
+      .map(a => `${a.user.firstName} ${a.user.lastName}`);
+    
+    const declinedList = ride.attendees
+      .filter(a => a.status === 'declined')
+      .map(a => `${a.user.firstName} ${a.user.lastName}`);
+    
+    return {
+      ...ride,
+      _count: {
+        attendees: ride.attendees.length,
+      },
+      attendeeCounts: {
+        attending: attendingList.length,
+        maybe: maybeList.length,
+        declined: declinedList.length,
+      },
+      attendeeNames: {
+        attending: attendingList,
+        maybe: maybeList,
+        declined: declinedList,
+      },
+      attendees: ride.attendees.filter(a => a.userId === session.user.id)
+    };
   })
 
   return (

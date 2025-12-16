@@ -14,6 +14,16 @@ interface Event {
   _count: {
     attendees: number
   }
+  attendeeCounts?: {
+    attending: number
+    maybe: number
+    declined: number
+  }
+  attendeeNames?: {
+    attending: string[]
+    maybe: string[]
+    declined: string[]
+  }
   attendees: Array<{ status: string }>
 }
 
@@ -139,7 +149,7 @@ export default function MemberEventsPage() {
                   key={event.id}
                   className="bg-white rounded-lg shadow border border-gray-200 p-6"
                 >
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="mb-4">
                     <span
                       className={`px-3 py-1 text-sm font-semibold rounded-full border ${getEventTypeColor(
                         event.eventType
@@ -147,13 +157,65 @@ export default function MemberEventsPage() {
                     >
                       {getEventTypeLabel(event.eventType)}
                     </span>
-                    <div className="flex items-center gap-2 text-gray-700">
-                      <span className="font-medium">👥</span>
-                      <span className="font-semibold">
-                        {event._count.attendees} aanmeldingen
-                      </span>
-                    </div>
                   </div>
+
+                  {event.attendeeCounts && (event.attendeeCounts.attending > 0 || event.attendeeCounts.maybe > 0 || event.attendeeCounts.declined > 0) && (
+                    <div className="mb-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="font-medium">👥</span>
+                        <span className="font-semibold text-gray-700">
+                          {event._count.attendees} {event._count.attendees === 1 ? 'reactie' : 'reacties'}
+                        </span>
+                      </div>
+                      <div className="flex gap-2 text-sm">
+                        {event.attendeeCounts.attending > 0 && (
+                          <div 
+                            className="flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 rounded-full cursor-help relative group"
+                            title={event.attendeeNames?.attending.join(', ')}
+                          >
+                            <span>✓</span>
+                            <span className="font-semibold">{event.attendeeCounts.attending}</span>
+                            {event.attendeeNames?.attending && event.attendeeNames.attending.length > 0 && (
+                              <div className="hidden group-hover:block absolute bottom-full left-0 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-10">
+                                {event.attendeeNames.attending.join(', ')}
+                                <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        {event.attendeeCounts.maybe > 0 && (
+                          <div 
+                            className="flex items-center gap-1 px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full cursor-help relative group"
+                            title={event.attendeeNames?.maybe.join(', ')}
+                          >
+                            <span>?</span>
+                            <span className="font-semibold">{event.attendeeCounts.maybe}</span>
+                            {event.attendeeNames?.maybe && event.attendeeNames.maybe.length > 0 && (
+                              <div className="hidden group-hover:block absolute bottom-full left-0 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-10">
+                                {event.attendeeNames.maybe.join(', ')}
+                                <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        {event.attendeeCounts.declined > 0 && (
+                          <div 
+                            className="flex items-center gap-1 px-3 py-1 bg-red-100 text-red-800 rounded-full cursor-help relative group"
+                            title={event.attendeeNames?.declined.join(', ')}
+                          >
+                            <span>✗</span>
+                            <span className="font-semibold">{event.attendeeCounts.declined}</span>
+                            {event.attendeeNames?.declined && event.attendeeNames.declined.length > 0 && (
+                              <div className="hidden group-hover:block absolute bottom-full left-0 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-10">
+                                {event.attendeeNames.declined.join(', ')}
+                                <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   <h2 className="text-2xl font-bold text-gray-900 mb-3">
                     {event.title}

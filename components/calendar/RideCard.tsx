@@ -21,6 +21,16 @@ interface Ride {
   _count?: {
     attendees: number
   }
+  attendeeCounts?: {
+    attending: number
+    maybe: number
+    declined: number
+  }
+  attendeeNames?: {
+    attending: string[]
+    maybe: string[]
+    declined: string[]
+  }
   attendees?: Array<{ status: string }>
 }
 
@@ -123,13 +133,64 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
           className="pt-4 border-t border-gray-200"
           onClick={(e) => e.preventDefault()}
         >
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2 text-gray-700">
-              <span className="font-semibold">👥</span>
-              <span className="font-semibold">
-                {ride._count.attendees} {ride._count.attendees === 1 ? 'deelnemer' : 'deelnemers'}
-              </span>
+          {ride.attendeeCounts && (ride.attendeeCounts.attending > 0 || ride.attendeeCounts.maybe > 0 || ride.attendeeCounts.declined > 0) && (
+            <div className="mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="font-semibold">👥</span>
+                <span className="font-semibold text-gray-700">
+                  {ride._count.attendees} {ride._count.attendees === 1 ? 'reactie' : 'reacties'}
+                </span>
+              </div>
+              <div className="flex gap-2 text-sm">
+                {ride.attendeeCounts.attending > 0 && (
+                  <div 
+                    className="flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 rounded-full cursor-help relative group"
+                    title={ride.attendeeNames?.attending.join(', ')}
+                  >
+                    <span>✓</span>
+                    <span className="font-semibold">{ride.attendeeCounts.attending}</span>
+                    {ride.attendeeNames?.attending && ride.attendeeNames.attending.length > 0 && (
+                      <div className="hidden group-hover:block absolute bottom-full left-0 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-10">
+                        {ride.attendeeNames.attending.join(', ')}
+                        <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {ride.attendeeCounts.maybe > 0 && (
+                  <div 
+                    className="flex items-center gap-1 px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full cursor-help relative group"
+                    title={ride.attendeeNames?.maybe.join(', ')}
+                  >
+                    <span>?</span>
+                    <span className="font-semibold">{ride.attendeeCounts.maybe}</span>
+                    {ride.attendeeNames?.maybe && ride.attendeeNames.maybe.length > 0 && (
+                      <div className="hidden group-hover:block absolute bottom-full left-0 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-10">
+                        {ride.attendeeNames.maybe.join(', ')}
+                        <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {ride.attendeeCounts.declined > 0 && (
+                  <div 
+                    className="flex items-center gap-1 px-3 py-1 bg-red-100 text-red-800 rounded-full cursor-help relative group"
+                    title={ride.attendeeNames?.declined.join(', ')}
+                  >
+                    <span>✗</span>
+                    <span className="font-semibold">{ride.attendeeCounts.declined}</span>
+                    {ride.attendeeNames?.declined && ride.attendeeNames.declined.length > 0 && (
+                      <div className="hidden group-hover:block absolute bottom-full left-0 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg shadow-lg whitespace-nowrap z-10">
+                        {ride.attendeeNames.declined.join(', ')}
+                        <div className="absolute top-full left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900"></div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
+          )}
+          <div className="flex items-center justify-between mb-3">
             <p className="text-sm font-semibold text-gray-700">
               Kom je?
             </p>

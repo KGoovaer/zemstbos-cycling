@@ -20,7 +20,7 @@ export async function GET() {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
-    const events = await prisma.event.findMany({
+    const eventsRaw = await prisma.event.findMany({
       where: {
         eventDate: {
           gte: today,
@@ -28,18 +28,52 @@ export async function GET() {
       },
       orderBy: { eventDate: 'asc' },
       include: {
-        _count: {
-          select: { attendees: true },
-        },
         attendees: {
-          where: {
-            userId: session.user.id,
-          },
           select: {
             status: true,
+            userId: true,
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
+              },
+            },
           },
         },
       },
+    })
+
+    // Calculate attendance breakdown for each event
+    const events = eventsRaw.map(event => {
+      const attendingList = event.attendees
+        .filter(a => a.status === 'attending')
+        .map(a => `${a.user.firstName} ${a.user.lastName}`);
+      
+      const maybeList = event.attendees
+        .filter(a => a.status === 'maybe')
+        .map(a => `${a.user.firstName} ${a.user.lastName}`);
+      
+      const declinedList = event.attendees
+        .filter(a => a.status === 'declined')
+        .map(a => `${a.user.firstName} ${a.user.lastName}`);
+      
+      return {
+        ...event,
+        _count: {
+          attendees: event.attendees.length,
+        },
+        attendeeCounts: {
+          attending: attendingList.length,
+          maybe: maybeList.length,
+          declined: declinedList.length,
+        },
+        attendeeNames: {
+          attending: attendingList,
+          maybe: maybeList,
+          declined: declinedList,
+        },
+        attendees: event.attendees.filter(a => a.userId === session.user.id)
+      };
     })
 
     return NextResponse.json(events)
