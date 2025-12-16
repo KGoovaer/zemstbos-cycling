@@ -5,6 +5,7 @@ import { nl } from 'date-fns/locale'
 
 type NextRideData = ScheduledRide & {
   route: Route
+  isWinterRide?: boolean
 }
 
 interface NextRideProps {
@@ -44,24 +45,39 @@ export function NextRide({ ride }: NextRideProps) {
   const formattedDate = format(rideDate, 'EEEE d MMMM yyyy', { locale: nl })
   const capitalizedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1)
   
-  const startTime = new Date(ride.startTime).toLocaleTimeString('nl-BE', { 
-    hour: '2-digit', 
-    minute: '2-digit' 
-  })
+  const startTime = typeof ride.startTime === 'string' && ride.startTime.includes(':')
+    ? ride.startTime.slice(0, 5)
+    : new Date(ride.startTime).toLocaleTimeString('nl-BE', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      })
+
+  const isWinter = ride.isWinterRide || false
 
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
+          {isWinter && (
+            <div className="inline-block mb-4">
+              <span className="text-6xl">❄️</span>
+            </div>
+          )}
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900">
             Volgende Rit
           </h2>
           <p className="text-xl text-slate-600">
-            Sluit je aan voor onze eerstvolgende zondagrit
+            {isWinter 
+              ? 'Sluit je aan voor onze wekelijkse wintertoer' 
+              : 'Sluit je aan voor onze eerstvolgende zondagrit'}
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto card p-8 md:p-12 bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-200">
+        <div className={`max-w-4xl mx-auto card p-8 md:p-12 border-2 ${
+          isWinter 
+            ? 'bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-50 border-blue-300'
+            : 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200'
+        }`}>
           <div className="text-center mb-8">
             <div className="inline-block bg-white px-6 py-3 rounded-full shadow-md mb-4">
               <p className="text-2xl font-bold text-emerald-600">
@@ -79,7 +95,7 @@ export function NextRide({ ride }: NextRideProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <div className="bg-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-4xl font-bold text-emerald-600 mb-2">
+              <div className={`text-4xl font-bold mb-2 ${isWinter ? 'text-blue-600' : 'text-emerald-600'}`}>
                 {ride.route.distanceKm.toString()} km
               </div>
               <div className="text-lg text-slate-600 font-medium">Afstand</div>
@@ -87,7 +103,7 @@ export function NextRide({ ride }: NextRideProps) {
 
             {ride.route.elevationM !== null && (
               <div className="bg-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
-                <div className="text-4xl font-bold text-emerald-600 mb-2">
+                <div className={`text-4xl font-bold mb-2 ${isWinter ? 'text-blue-600' : 'text-emerald-600'}`}>
                   {ride.route.elevationM}m
                 </div>
                 <div className="text-lg text-slate-600 font-medium">Hoogtemeters</div>
@@ -95,7 +111,7 @@ export function NextRide({ ride }: NextRideProps) {
             )}
 
             <div className="bg-white rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
-              <div className="text-4xl font-bold text-emerald-600 mb-2">
+              <div className={`text-4xl font-bold mb-2 ${isWinter ? 'text-blue-600' : 'text-emerald-600'}`}>
                 {getDifficultyLabel(ride.route.difficulty)}
               </div>
               <div className="text-lg text-slate-600 font-medium">Niveau</div>
@@ -109,8 +125,23 @@ export function NextRide({ ride }: NextRideProps) {
           )}
 
           {ride.notes && (
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+            <div className={`border-l-4 p-4 mb-6 ${
+              isWinter 
+                ? 'bg-blue-50 border-blue-400' 
+                : 'bg-yellow-50 border-yellow-400'
+            }`}>
               <p className="text-lg">{ride.notes}</p>
+            </div>
+          )}
+
+          {isWinter && (
+            <div className="bg-blue-100 border-l-4 border-blue-400 p-4 mb-6">
+              <p className="text-lg font-semibold text-blue-900">
+                ℹ️ Vaste winterrit
+              </p>
+              <p className="text-base text-blue-800 mt-1">
+                Geen inschrijving nodig - kom gewoon langs elke zondag om 9:00!
+              </p>
             </div>
           )}
 

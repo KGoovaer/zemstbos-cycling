@@ -32,6 +32,7 @@ interface Ride {
     declined: string[]
   }
   attendees?: Array<{ status: string }>
+  isWinterRide?: boolean
 }
 
 export function RideCard({ ride: initialRide }: { ride: Ride }) {
@@ -40,6 +41,7 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
 
   const isPast = new Date(ride.rideDate) < new Date()
   const isCancelled = ride.status === 'cancelled'
+  const isWinter = ride.isWinterRide || false
   const userStatus = ride.attendees?.[0]?.status || null
 
   const handleAttendance = async (status: string) => {
@@ -74,10 +76,11 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
 
   return (
     <Link
-      href={`/ride/${ride.id}`}
+      href={isWinter ? '#' : `/ride/${ride.id}`}
       className={`block bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow ${
         isCancelled ? 'opacity-60' : ''
-      } ${isPast ? 'bg-gray-50' : ''}`}
+      } ${isPast ? 'bg-gray-50' : ''} ${isWinter ? 'border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-white' : ''}`}
+      onClick={(e) => isWinter && e.preventDefault()}
     >
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
@@ -85,9 +88,15 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
             <span className="text-sm font-semibold px-3 py-1 rounded-full bg-blue-100 text-blue-800">
               {format(new Date(ride.rideDate), 'EEEE d MMMM', { locale: nl })}
             </span>
-            <span className="text-sm font-semibold px-3 py-1 rounded-full bg-purple-100 text-purple-800">
-              Team {ride.team}
-            </span>
+            {isWinter ? (
+              <span className="text-sm font-semibold px-3 py-1 rounded-full bg-cyan-100 text-cyan-800">
+                ❄️ Wintertoer
+              </span>
+            ) : (
+              <span className="text-sm font-semibold px-3 py-1 rounded-full bg-purple-100 text-purple-800">
+                Team {ride.team}
+              </span>
+            )}
             {isCancelled && (
               <span className="text-sm font-semibold px-3 py-1 rounded-full bg-red-100 text-red-800">
                 Geannuleerd
@@ -128,7 +137,7 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
         </div>
       </div>
 
-      {!isPast && !isCancelled && ride._count !== undefined && (
+      {!isPast && !isCancelled && !isWinter && ride._count !== undefined && (
         <div 
           className="pt-4 border-t border-gray-200"
           onClick={(e) => e.preventDefault()}
@@ -245,7 +254,13 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
         </div>
       )}
 
-      {!isPast && !isCancelled && ride._count && ride._count.attendees > 0 && (
+      {isWinter && !isPast && (
+        <div className="mt-4 pt-4 border-t border-blue-200 text-center text-sm text-gray-600">
+          ℹ️ Vaste winterrit - Geen inschrijving nodig
+        </div>
+      )}
+
+      {!isPast && !isCancelled && !isWinter && ride._count && ride._count.attendees > 0 && (
         <div className="mt-2 text-center text-xs text-gray-500">
           Klik op de kaart voor meer details
         </div>

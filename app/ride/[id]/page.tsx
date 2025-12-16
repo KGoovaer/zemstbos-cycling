@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { RouteMapPreview } from '@/components/routes/RouteMapPreview'
 import { DownloadGPXButton } from '@/components/routes/DownloadGPXButton'
 import { ElevationProfile } from '@/components/routes/ElevationProfile'
+import { WeatherForecast } from '@/components/weather/WeatherForecast'
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   if (!prisma) {
@@ -43,6 +44,7 @@ export default async function RideDetailPage({ params }: { params: { id: string 
 
   const formattedDate = format(new Date(ride.rideDate), 'EEEE d MMMM yyyy', { locale: nl })
   const formattedTime = ride.startTime.slice(0, 5)
+  const rideDateString = format(new Date(ride.rideDate), 'yyyy-MM-dd')
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
@@ -114,6 +116,11 @@ export default async function RideDetailPage({ params }: { params: { id: string 
               <p className="text-xl text-gray-700">{ride.notes}</p>
             </div>
           )}
+
+          <WeatherForecast 
+            rideDate={rideDateString} 
+            startTime={formattedTime}
+          />
 
           <ElevationProfile routeId={ride.route.id} />
 

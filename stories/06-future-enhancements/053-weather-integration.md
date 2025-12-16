@@ -17,11 +17,11 @@ Display weather forecast for the ride date and start time on route detail pages.
 
 ## Acceptance Criteria
 
-- [ ] Weather forecast shown on route detail page
-- [ ] Temperature, precipitation, wind displayed
-- [ ] 7-day forecast accuracy
-- [ ] Weather icons for conditions
-- [ ] Updates daily
+- [x] Weather forecast shown on route detail page
+- [x] Temperature, precipitation, wind displayed
+- [x] 7-day forecast accuracy
+- [x] Weather icons for conditions
+- [x] Updates daily
 
 ## Technical Implementation
 

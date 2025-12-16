@@ -1,4 +1,4 @@
-# 051 - Attendance Tracking
+# 051 - Attendance Tracking - Done
 
 **Epic:** Future Enhancements
 **Priority:** Could
