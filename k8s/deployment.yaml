@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cycling-club-web
+  namespace: cycling-club
+  labels:
+    app: cycling-club-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cycling-club-web
+  template:
+    metadata:
+      labels:
+        app: cycling-club-web
+    spec:
+      initContainers:
+      - name: db-init
+        image: ghcr.io/kgoovaer/zemstbos-cycling:latest
+        command: ['sh', '-c', 'npx prisma migrate deploy && npx prisma db seed || true']
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: cycling-club-secrets
+              key: database-url
+        volumeMounts:
+        - name: db-storage
+          mountPath: /data
+      containers:
+      - name: web
+        image: ghcr.io/kgoovaer/zemstbos-cycling:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          name: http
+          protocol: TCP
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: cycling-club-secrets
+              key: database-url
+        - name: NEXTAUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: cycling-club-secrets
+              key: nextauth-secret
+        - name: NEXTAUTH_URL
+          value: "https://club.yourdomain.be"
+        - name: GOOGLE_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: cycling-club-secrets
+              key: google-client-id
+        - name: GOOGLE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: cycling-club-secrets
+              key: google-client-secret
+        - name: NODE_ENV
+          value: "production"
+        volumeMounts:
+        - name: db-storage
+          mountPath: /data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: cycling-club-db-pvc
+      restartPolicy: Always

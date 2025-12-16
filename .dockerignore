@@ -1,0 +1,14 @@
+.git
+.gitignore
+.next
+node_modules
+npm-debug.log
+.env.local
+.env.*.local
+README.md
+.vscode
+.idea
+k8s
+scripts
+stories
+*.md

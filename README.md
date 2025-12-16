@@ -115,11 +115,33 @@ The application is designed for older users with limited technical experience:
 - **Simple navigation**: Clear, consistent menu structure
 - **Forgiving interactions**: Confirmation dialogs for important actions
 
+## Deployment
+
+This application uses **GitHub Container Registry** for Docker images and is configured for Kubernetes deployment.
+
+### Quick Deploy
+
+1. Push code to trigger automatic Docker build via GitHub Actions
+2. Configure `k8s/` manifests for your environment
+3. Deploy to Kubernetes: `./scripts/deploy.sh v1.0.0`
+
+### Documentation
+
+- **[docs/GITHUB_CONTAINER_REGISTRY.md](docs/GITHUB_CONTAINER_REGISTRY.md)** - Docker image publishing with GitHub
+- **[docs/KUBERNETES_DEPLOYMENT.md](docs/KUBERNETES_DEPLOYMENT.md)** - Complete K8s deployment guide
+
+Includes:
+- Automated Docker builds via GitHub Actions
+- Kubernetes manifests with HTTPS
+- Database backup and recovery
+- Monitoring and troubleshooting
+
 ## Documentation
 
 - **Project Plan**: See `cycling-club-plan.md` for comprehensive architecture
 - **User Stories**: See `stories/` directory for detailed feature specifications
 - **Development Guide**: See `CLAUDE.md` for AI assistant context
+- **Deployment Guide**: See `docs/KUBERNETES_DEPLOYMENT.md` for Kubernetes deployment
 
 ## License
 

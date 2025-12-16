@@ -13,9 +13,9 @@ So that **the application can be deployed to our K8s cluster with HTTPS and prop
 
 ## Description
 
-Create Kubernetes deployment manifests for the Next.js application, including Deployment, Service, Ingress, and Secret resources. The setup should support HTTPS via cert-manager, proper resource limits, and use SQLite3 as the database (stored outside the cluster).
+Create Kubernetes deployment manifests for the Next.js application, including Deployment, Service, Ingress, and Secret resources. The setup should support HTTPS via cert-manager, proper resource limits, and use SQLite3 as the database.
 
-The deployment should be production-ready with health checks, proper scaling, and secure secret management. The SQLite database file will be stored on persistent storage outside the Kubernetes cluster and accessed via a mounted volume.
+The deployment should be production-ready with health checks, proper scaling, and secure secret management. The SQLite database file will be stored on persistent storage within the Kubernetes cluster using NFS or iSCSI backend storage.
 
 ## Acceptance Criteria
 
@@ -35,7 +35,7 @@ The deployment should be production-ready with health checks, proper scaling, an
 
 ### Database Changes
 
-None (SQLite database file is stored outside the cluster on persistent storage)
+None (SQLite database file is included with deployment and stored on cluster persistent storage)
 
 ### API Endpoints
 
@@ -140,25 +140,9 @@ stringData:
   google-client-secret: "your-google-client-secret"
 ```
 
-Create `/k8s/persistent-volume.yaml`:
+Create `/k8s/persistent-volume-claim.yaml`:
 
 ```yaml
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: cycling-club-db-pv
-spec:
-  capacity:
-    storage: 5Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: manual
-  nfs:
-    # Replace with your NFS server details
-    server: your-nfs-server.local
-    path: "/path/to/cycling-club-data"
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -167,11 +151,17 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
-  storageClassName: manual
+  storageClassName: nfs-client  # or your cluster's storage class (e.g., 'iscsi', 'ceph-rbd')
   resources:
     requests:
       storage: 5Gi
 ```
+
+**Note:** This uses dynamic provisioning. Your cluster must have a StorageClass configured with NFS or iSCSI provisioner. Common options:
+- `nfs-client` - NFS dynamic provisioner
+- `iscsi` - iSCSI provisioner  
+- `ceph-rbd` - Ceph block storage
+- Check available storage classes: `kubectl get storageclass`
 
 Create `/k8s/deployment.yaml`:
 
@@ -193,6 +183,19 @@ spec:
       labels:
         app: cycling-club-web
     spec:
+      initContainers:
+      - name: db-init
+        image: your-registry/cycling-club:latest
+        command: ['sh', '-c', 'npx prisma migrate deploy && npx prisma db seed || true']
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: cycling-club-secrets
+              key: database-url
+        volumeMounts:
+        - name: db-storage
+          mountPath: /data
       containers:
       - name: web
         image: your-registry/cycling-club:latest
@@ -368,7 +371,7 @@ docker push ${REGISTRY}/${IMAGE_NAME}:${VERSION}
 
 echo "Applying Kubernetes manifests..."
 kubectl apply -f k8s/namespace.yaml
-kubectl apply -f k8s/persistent-volume.yaml
+kubectl apply -f k8s/persistent-volume-claim.yaml
 kubectl apply -f k8s/secret.yaml
 kubectl apply -f k8s/deployment.yaml
 kubectl apply -f k8s/service.yaml
@@ -437,7 +440,7 @@ Not applicable (infrastructure only)
 1. Create Dockerfile with multi-stage build
 2. Update next.config.js for standalone output
 3. Create Kubernetes namespace manifest
-4. Create PersistentVolume and PersistentVolumeClaim for SQLite storage
+4. Create PersistentVolumeClaim for SQLite storage (dynamic provisioning)
 5. Create secret manifest template (with example values)
 6. Create deployment manifest with volume mounts and health checks
 7. Create service manifest
@@ -445,8 +448,8 @@ Not applicable (infrastructure only)
 9. Create health check API endpoint
 10. Create deployment script
 11. Create .dockerignore file
-12. Initialize SQLite database on external storage
-13. Test Docker build locally
+12. Test Docker build locally
+13. Initialize SQLite database (first run or via init container)
 14. Test Kubernetes deployment in staging
 15. Document deployment process
 
@@ -475,14 +478,59 @@ Not applicable (infrastructure only)
 ## Prerequisites
 
 Before deploying:
-- [ ] NFS server or other network storage configured for SQLite database
-- [ ] PersistentVolume pointing to external storage location
-- [ ] SQLite database initialized on external storage (run migrations)
+- [ ] Kubernetes cluster with dynamic storage provisioner (NFS/iSCSI/Ceph)
+- [ ] StorageClass configured and available (check with `kubectl get storageclass`)
 - [ ] cert-manager installed for HTTPS certificates
 - [ ] nginx-ingress-controller installed
 - [ ] Docker registry credentials configured
 - [ ] DNS record pointing to cluster
 - [ ] All secrets created from secret.yaml.example
+
+## Storage Configuration
+
+### Available Storage Classes
+
+Check what storage classes are available in your cluster:
+
+```bash
+kubectl get storageclass
+```
+
+Common storage class names:
+- **NFS:** `nfs-client`, `nfs`, `managed-nfs-storage`
+- **iSCSI:** `iscsi`, `openebs-iscsi`
+- **Ceph:** `ceph-rbd`, `rook-ceph-block`
+- **Cloud Providers:** `standard`, `gp2`, `pd-standard`
+
+Update the `storageClassName` in `k8s/persistent-volume-claim.yaml` to match your cluster's available storage.
+
+### Database Initialization
+
+The deployment uses an **init container** to automatically handle database setup:
+
+1. **First deployment:** Init container runs `prisma migrate deploy` to create tables
+2. **Subsequent deployments:** Migrations are applied only if needed
+3. **Seed data:** Optional seeding with `prisma db seed` (fails silently if not configured)
+
+The init container runs before the main application starts, ensuring the database is ready.
+
+### Manual Database Operations
+
+If needed, you can manually run database operations:
+
+```bash
+# Get a shell in a running pod
+kubectl exec -it -n cycling-club deployment/cycling-club-web -- sh
+
+# Run migrations manually
+npx prisma migrate deploy
+
+# Seed the database
+npx prisma db seed
+
+# Access SQLite directly
+sqlite3 /data/cycling_club.db
+```
 
 ## Deployment Process
 
@@ -490,14 +538,25 @@ Before deploying:
 # 1. Build and push image
 ./scripts/deploy.sh v1.0.0
 
-# 2. Verify deployment
+# 2. Verify PVC is bound
+kubectl get pvc -n cycling-club
+# Should show: cycling-club-db-pvc   Bound   ...
+
+# 3. Verify deployment
 kubectl get pods -n cycling-club
+# Check init container completed: Init:0/1
+# Check main container running: Running
+
+# 4. Check init container logs (database setup)
+kubectl logs -n cycling-club -l app=cycling-club-web -c db-init
+
+# 5. Check application logs
 kubectl logs -f deployment/cycling-club-web -n cycling-club
 
-# 3. Check health
+# 6. Check health
 curl https://club.yourdomain.be/api/health
 
-# 4. Monitor
+# 7. Monitor
 kubectl get ingress -n cycling-club
 kubectl describe ingress cycling-club-ingress -n cycling-club
 ```
@@ -545,16 +604,169 @@ kubectl scale deployment/cycling-club-web --replicas=3 -n cycling-club
 kubectl scale deployment/cycling-club-web --replicas=1 -n cycling-club
 ```
 
+## Database Backup and Recovery
+
+### Backup Strategy
+
+Create regular backups of the SQLite database:
+
+```bash
+# Create a backup using a Job
+cat <<EOF | kubectl apply -f -
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cycling-club-backup-$(date +%Y%m%d-%H%M%S)
+  namespace: cycling-club
+spec:
+  template:
+    spec:
+      containers:
+      - name: backup
+        image: alpine:latest
+        command:
+        - sh
+        - -c
+        - |
+          apk add --no-cache sqlite
+          cp /data/cycling_club.db /backup/cycling_club-$(date +%Y%m%d-%H%M%S).db
+          sqlite3 /backup/cycling_club-$(date +%Y%m%d-%H%M%S).db "VACUUM;"
+          ls -lh /backup/
+        volumeMounts:
+        - name: db-storage
+          mountPath: /data
+          readOnly: true
+        - name: backup-storage
+          mountPath: /backup
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: cycling-club-db-pvc
+      - name: backup-storage
+        # Configure your backup destination (NFS share, S3, etc.)
+        persistentVolumeClaim:
+          claimName: cycling-club-backup-pvc
+      restartPolicy: OnFailure
+EOF
+```
+
+### Automated Backups
+
+Create a CronJob for regular automated backups:
+
+```yaml
+# k8s/backup-cronjob.yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cycling-club-backup
+  namespace: cycling-club
+spec:
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: backup
+            image: alpine:latest
+            command:
+            - sh
+            - -c
+            - |
+              apk add --no-cache sqlite
+              BACKUP_FILE="/backup/cycling_club-$(date +%Y%m%d-%H%M%S).db"
+              cp /data/cycling_club.db "$BACKUP_FILE"
+              sqlite3 "$BACKUP_FILE" "VACUUM;"
+              
+              # Keep only last 7 days of backups
+              find /backup -name "cycling_club-*.db" -mtime +7 -delete
+              
+              echo "Backup completed: $BACKUP_FILE"
+              ls -lh /backup/
+            volumeMounts:
+            - name: db-storage
+              mountPath: /data
+              readOnly: true
+            - name: backup-storage
+              mountPath: /backup
+          volumes:
+          - name: db-storage
+            persistentVolumeClaim:
+              claimName: cycling-club-db-pvc
+          - name: backup-storage
+            persistentVolumeClaim:
+              claimName: cycling-club-backup-pvc
+          restartPolicy: OnFailure
+```
+
+### Recovery
+
+To restore from a backup:
+
+```bash
+# 1. Scale down the application
+kubectl scale deployment/cycling-club-web --replicas=0 -n cycling-club
+
+# 2. Create a restore job
+cat <<EOF | kubectl apply -f -
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cycling-club-restore-$(date +%Y%m%d-%H%M%S)
+  namespace: cycling-club
+spec:
+  template:
+    spec:
+      containers:
+      - name: restore
+        image: alpine:latest
+        command:
+        - sh
+        - -c
+        - |
+          # Replace with your backup file name
+          BACKUP_FILE="/backup/cycling_club-20231216-020000.db"
+          cp "\$BACKUP_FILE" /data/cycling_club.db
+          echo "Database restored from \$BACKUP_FILE"
+        volumeMounts:
+        - name: db-storage
+          mountPath: /data
+        - name: backup-storage
+          mountPath: /backup
+          readOnly: true
+      volumes:
+      - name: db-storage
+        persistentVolumeClaim:
+          claimName: cycling-club-db-pvc
+      - name: backup-storage
+        persistentVolumeClaim:
+          claimName: cycling-club-backup-pvc
+      restartPolicy: OnFailure
+EOF
+
+# 3. Wait for restore to complete
+kubectl wait --for=condition=complete --timeout=300s job/cycling-club-restore-* -n cycling-club
+
+# 4. Scale application back up
+kubectl scale deployment/cycling-club-web --replicas=2 -n cycling-club
+```
+
 ## Notes
 
 - **cert-manager:** Assumes Let's Encrypt cluster issuer named "letsencrypt-prod" exists
 - **Image Registry:** Replace "your-registry" with actual registry URL
 - **Domain:** Replace "club.yourdomain.be" with actual domain
-- **Database Storage:** SQLite database file is stored on external NFS/network storage, not in the cluster
-- **Database Access:** Configure NFS server details in persistent-volume.yaml
+- **Database Storage:** SQLite database file stored on cluster persistent storage (NFS/iSCSI backend)
+- **Storage Class:** Update `storageClassName` in PVC to match your cluster's available storage classes
 - **ReadWriteMany:** Required for multiple pod replicas to access the same SQLite file
-- **Database Initialization:** Run `npx prisma migrate deploy` on the mounted storage before first deployment
+- **Database Initialization:** Init container automatically runs migrations on pod startup
+- **Dynamic Provisioning:** PVC automatically provisions storage from configured StorageClass
+- **First Deployment:** Init container creates database schema and optionally seeds data
+- **Storage Backend:** Must support ReadWriteMany (RWX) - typically NFS, CephFS, or similar
 - **Secrets Management:** Never commit actual secret.yaml - use secret.yaml.example
 - **Health Checks:** Adjust timing based on actual startup time after testing
 - **Resource Limits:** Monitor actual usage and adjust if needed
 - **Concurrent Access:** SQLite handles concurrent reads well, but writes are serialized
+- **Backup Strategy:** Use CronJob for automated daily backups to separate PVC or external storage
+- **Data Persistence:** Database survives pod restarts and redeployments as data is on PVC

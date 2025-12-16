@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cycling-club-db-pvc
+  namespace: cycling-club
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: nfs-client  # or your cluster's storage class (e.g., 'iscsi', 'ceph-rbd')
+  resources:
+    requests:
+      storage: 5Gi
