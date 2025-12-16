@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
+import { auth } from '@/auth'
 import { LoginForm } from '@/components/auth/LoginForm'
 import { GoogleButton } from '@/components/auth/GoogleButton'
 
@@ -7,7 +9,13 @@ export const metadata = {
   description: 'Meld je aan bij Zemst BOS Cycling Club',
 }
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await auth()
+
+  // If already logged in, redirect to homepage
+  if (session) {
+    redirect('/')
+  }
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-slate-50">
       <div className="max-w-md w-full">
