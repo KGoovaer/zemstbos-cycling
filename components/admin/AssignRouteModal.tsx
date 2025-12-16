@@ -52,6 +52,7 @@ export function AssignRouteModal({
   const [weatherBackupId, setWeatherBackupId] = useState<string>(
     existingRide?.weatherBackup || ''
   )
+  const [selectedTeam, setSelectedTeam] = useState<string>(existingRide ? team : 'A')
   const [loading, setLoading] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(!existingRide)
 
@@ -92,7 +93,7 @@ export function AssignRouteModal({
         seasonId,
         routeId: selectedRouteId,
         rideDate: date.toISOString(),
-        team,
+        team: existingRide ? team : selectedTeam,
         startTime: `${startTime}:00`,
         status,
         notes: notes || null,
@@ -135,10 +136,10 @@ export function AssignRouteModal({
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-3xl font-bold text-gray-900">
-                {existingRide ? 'Rit Bewerken' : 'Rit Toevoegen'}
+                {existingRide ? `Team ${team} - Rit Bewerken` : 'Nieuwe Rit Toevoegen'}
               </h2>
               <p className="text-xl text-slate-800 mt-1">
-                {formatDate(date)} - Team {team}
+                {formatDate(date)}
               </p>
             </div>
             <button
@@ -151,61 +152,171 @@ export function AssignRouteModal({
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          {showSuggestions && (
-            <div>
-              <button
-                type="button"
-                onClick={() => setShowSuggestions(false)}
-                className="text-blue-600 hover:text-blue-700 font-semibold text-lg mb-3"
-              >
-                ← Verberg suggesties
-              </button>
-              <RouteSuggestions
-                date={date}
-                seasonId={seasonId}
-                team={team}
-                onSelectRoute={(routeId) => {
-                  setSelectedRouteId(routeId)
-                  setShowSuggestions(false)
-                }}
-              />
-            </div>
-          )}
+          {!existingRide ? (
+            <>
+              <div className="bg-emerald-50 border-2 border-emerald-200 rounded-lg p-4">
+                <h3 className="text-xl font-bold text-emerald-900 mb-2">
+                  Welk team wil je plannen?
+                </h3>
+                <p className="text-emerald-800 mb-4">
+                  Kies eerst het team, selecteer dan de route voor dat specifieke team
+                </p>
+              </div>
 
-          {!showSuggestions && !existingRide && (
-            <button
-              type="button"
-              onClick={() => setShowSuggestions(true)}
-              className="w-full py-3 px-4 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors font-semibold text-lg border-2 border-blue-200"
-            >
-              📊 Bekijk route suggesties
-            </button>
-          )}
+              <div className="grid grid-cols-3 gap-4">
+                {['A', 'B', 'C'].map((teamLetter) => (
+                  <button
+                    key={teamLetter}
+                    type="button"
+                    onClick={() => setSelectedTeam(teamLetter)}
+                    className={`p-6 rounded-xl border-4 transition-all ${
+                      selectedTeam === teamLetter
+                        ? 'bg-emerald-500 text-white border-emerald-600 shadow-xl scale-105'
+                        : 'bg-white text-slate-800 border-slate-300 hover:border-emerald-400 hover:shadow-lg'
+                    }`}
+                  >
+                    <div className="text-center">
+                      <div className="text-4xl font-bold mb-2">Team {teamLetter}</div>
+                      <div className="text-lg font-semibold">
+                        {teamLetter === 'A' ? 'Snel & Lang' : teamLetter === 'B' ? 'Gemiddeld' : 'Rustig'}
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
 
-          <div>
-            <label
-              htmlFor="route"
-              className="block text-lg font-semibold text-gray-900 mb-2"
-            >
-              Route *
-            </label>
-            <select
-              id="route"
-              value={selectedRouteId}
-              onChange={(e) => setSelectedRouteId(e.target.value)}
-              required
-              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="">Selecteer een route</option>
-              {routes.map((route) => (
-                <option key={route.id} value={route.id}>
-                  {route.name} - {route.distanceKm}km
-                  {route.elevationM ? ` - ${route.elevationM}m` : ''}
-                  {route.difficulty ? ` - ${route.difficulty}` : ''}
-                </option>
-              ))}
-            </select>
-          </div>
+              <div className={`rounded-xl border-4 p-6 transition-all ${
+                selectedTeam === 'A' ? 'bg-blue-50 border-blue-400' : 
+                selectedTeam === 'B' ? 'bg-purple-50 border-purple-400' : 
+                'bg-orange-50 border-orange-400'
+              }`}>
+                <h3 className="text-2xl font-bold mb-4 text-slate-900">
+                  Route voor Team {selectedTeam}
+                </h3>
+
+                {showSuggestions && (
+                  <div className="mb-4">
+                    <button
+                      type="button"
+                      onClick={() => setShowSuggestions(false)}
+                      className="text-blue-600 hover:text-blue-700 font-semibold text-lg mb-3"
+                    >
+                      ← Verberg suggesties
+                    </button>
+                    <RouteSuggestions
+                      date={date}
+                      seasonId={seasonId}
+                      team={selectedTeam}
+                      onSelectRoute={(routeId) => {
+                        setSelectedRouteId(routeId)
+                        setShowSuggestions(false)
+                      }}
+                    />
+                  </div>
+                )}
+
+                {!showSuggestions && (
+                  <button
+                    type="button"
+                    onClick={() => setShowSuggestions(true)}
+                    className="w-full py-3 px-4 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors font-semibold text-lg border-2 border-blue-200 mb-4"
+                  >
+                    📊 Bekijk route suggesties voor Team {selectedTeam}
+                  </button>
+                )}
+
+                <div>
+                  <label
+                    htmlFor="route"
+                    className="block text-lg font-semibold text-gray-900 mb-2"
+                  >
+                    Selecteer Route *
+                  </label>
+                  <select
+                    id="route"
+                    value={selectedRouteId}
+                    onChange={(e) => setSelectedRouteId(e.target.value)}
+                    required
+                    className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">-- Kies een route voor Team {selectedTeam} --</option>
+                    {routes.map((route) => (
+                      <option key={route.id} value={route.id}>
+                        {route.name} - {route.distanceKm}km
+                        {route.elevationM ? ` - ${route.elevationM}m` : ''}
+                        {route.difficulty ? ` - ${route.difficulty}` : ''}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-slate-800">
+                  <strong>Team {team}</strong> - Team kan niet worden gewijzigd bij bewerken. 
+                  Verwijder de rit en maak een nieuwe aan om van team te wisselen.
+                </p>
+              </div>
+
+              {showSuggestions && (
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setShowSuggestions(false)}
+                    className="text-blue-600 hover:text-blue-700 font-semibold text-lg mb-3"
+                  >
+                    ← Verberg suggesties
+                  </button>
+                  <RouteSuggestions
+                    date={date}
+                    seasonId={seasonId}
+                    team={team}
+                    onSelectRoute={(routeId) => {
+                      setSelectedRouteId(routeId)
+                      setShowSuggestions(false)
+                    }}
+                  />
+                </div>
+              )}
+
+              {!showSuggestions && (
+                <button
+                  type="button"
+                  onClick={() => setShowSuggestions(true)}
+                  className="w-full py-3 px-4 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors font-semibold text-lg border-2 border-blue-200"
+                >
+                  📊 Bekijk route suggesties
+                </button>
+              )}
+
+              <div>
+                <label
+                  htmlFor="route"
+                  className="block text-lg font-semibold text-gray-900 mb-2"
+                >
+                  Route *
+                </label>
+                <select
+                  id="route"
+                  value={selectedRouteId}
+                  onChange={(e) => setSelectedRouteId(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">Selecteer een route</option>
+                  {routes.map((route) => (
+                    <option key={route.id} value={route.id}>
+                      {route.name} - {route.distanceKm}km
+                      {route.elevationM ? ` - ${route.elevationM}m` : ''}
+                      {route.difficulty ? ` - ${route.difficulty}` : ''}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -295,9 +406,17 @@ export function AssignRouteModal({
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-6 py-4 bg-blue-600 text-white text-xl font-semibold rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+              className={`flex-1 px-6 py-4 text-white text-xl font-semibold rounded-lg transition-colors disabled:opacity-50 ${
+                existingRide 
+                  ? 'bg-blue-600 hover:bg-blue-700'
+                  : selectedTeam === 'A' 
+                    ? 'bg-blue-600 hover:bg-blue-700'
+                    : selectedTeam === 'B'
+                      ? 'bg-purple-600 hover:bg-purple-700'
+                      : 'bg-orange-600 hover:bg-orange-700'
+              }`}
             >
-              {loading ? 'Bezig...' : existingRide ? 'Opslaan' : 'Toevoegen'}
+              {loading ? 'Bezig...' : existingRide ? 'Opslaan' : `Team ${existingRide ? team : selectedTeam} Toevoegen ✓`}
             </button>
           </div>
         </form>

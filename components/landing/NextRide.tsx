@@ -84,6 +84,19 @@ export function NextRide({ ride }: NextRideProps) {
                 📅 {capitalizedDate}
               </p>
             </div>
+            {isWinter ? (
+              <div className="mb-2">
+                <span className="inline-block text-lg font-semibold px-4 py-2 rounded-full bg-cyan-100 text-cyan-800">
+                  Teams A, B & C
+                </span>
+              </div>
+            ) : (
+              <div className="mb-2">
+                <span className="inline-block text-lg font-semibold px-4 py-2 rounded-full bg-purple-100 text-purple-800">
+                  Team {ride.team}
+                </span>
+              </div>
+            )}
             <p className="text-xl text-slate-700 font-medium">
               ⏰ Start om {startTime}
             </p>

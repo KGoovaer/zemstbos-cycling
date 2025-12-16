@@ -60,6 +60,12 @@ export async function NextRideCard() {
               <p className="text-xl text-slate-800">Start: 09:00</p>
             </div>
 
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-sm font-semibold px-3 py-1 rounded-full bg-cyan-100 text-cyan-800">
+                Teams A, B & C
+              </span>
+            </div>
+
             <h3 className="text-4xl font-bold mb-2 text-gray-900">
               {winterRoute.name}
             </h3>
@@ -147,6 +153,12 @@ export async function NextRideCard() {
           {formattedDate}
         </p>
         <p className="text-xl text-slate-800">Start: {formattedTime}</p>
+      </div>
+
+      <div className="mb-4">
+        <span className="text-sm font-semibold px-3 py-1 rounded-full bg-purple-100 text-purple-800">
+          Team {nextRide.team}
+        </span>
       </div>
 
       <h3 className="text-4xl font-bold mb-6 text-gray-900">

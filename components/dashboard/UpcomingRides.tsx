@@ -84,10 +84,15 @@ export async function UpcomingRides() {
                       <div className="flex-1 flex items-center gap-2">
                         <span className="text-xl">❄️</span>
                         <div>
-                          <p className="text-lg font-semibold text-gray-900 capitalize">
-                            {formattedDate}
-                          </p>
-                          <p className="text-lg text-slate-800 mt-1">{winterRoute.name}</p>
+                          <div className="flex items-center gap-2 mb-1">
+                            <p className="text-lg font-semibold text-gray-900 capitalize">
+                              {formattedDate}
+                            </p>
+                            <span className="text-xs font-semibold px-2 py-1 rounded-full bg-cyan-100 text-cyan-800">
+                              A, B, C
+                            </span>
+                          </div>
+                          <p className="text-lg text-slate-800">{winterRoute.name}</p>
                         </div>
                       </div>
                       <div className="text-right ml-4">
@@ -133,10 +138,15 @@ export async function UpcomingRides() {
             >
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <p className="text-lg font-semibold text-gray-900 capitalize">
-                    {formattedDate}
-                  </p>
-                  <p className="text-lg text-slate-800 mt-1">{ride.route.name}</p>
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="text-lg font-semibold text-gray-900 capitalize">
+                      {formattedDate}
+                    </p>
+                    <span className="text-xs font-semibold px-2 py-1 rounded-full bg-purple-100 text-purple-800">
+                      Team {ride.team}
+                    </span>
+                  </div>
+                  <p className="text-lg text-slate-800">{ride.route.name}</p>
                 </div>
                 <div className="text-right ml-4">
                   <p className="text-lg text-blue-600 font-semibold">

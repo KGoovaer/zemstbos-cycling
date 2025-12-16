@@ -36,7 +36,7 @@ interface ScheduledRide {
 export default function ScheduleManagementPage() {
   const [seasons, setSeasons] = useState<Season[]>([])
   const [selectedSeason, setSelectedSeason] = useState<string | null>(null)
-  const [selectedTeam, setSelectedTeam] = useState<string>('A')
+  const [selectedTeam, setSelectedTeam] = useState<string>('ALL')
   const [scheduledRides, setScheduledRides] = useState<ScheduledRide[]>([])
   const [loading, setLoading] = useState(true)
   const [showAssignModal, setShowAssignModal] = useState(false)
@@ -78,8 +78,10 @@ export default function ScheduleManagementPage() {
     try {
       const params = new URLSearchParams({
         seasonId: selectedSeason!,
-        team: selectedTeam,
       })
+      if (selectedTeam !== 'ALL') {
+        params.append('team', selectedTeam)
+      }
       const response = await fetch(`/api/admin/schedule?${params}`)
       if (response.ok) {
         const data = await response.json()
@@ -182,7 +184,7 @@ export default function ScheduleManagementPage() {
                 htmlFor="team"
                 className="block text-lg font-semibold text-gray-900 mb-2"
               >
-                Team
+                Team Weergave
               </label>
               <select
                 id="team"
@@ -190,9 +192,10 @@ export default function ScheduleManagementPage() {
                 onChange={(e) => setSelectedTeam(e.target.value)}
                 className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="A">Team A (Snel & Lang)</option>
-                <option value="B">Team B (Gemiddeld)</option>
-                <option value="C">Team C (Rustig)</option>
+                <option value="ALL">Alle Teams (Aanbevolen)</option>
+                <option value="A">Alleen Team A (Snel & Lang)</option>
+                <option value="B">Alleen Team B (Gemiddeld)</option>
+                <option value="C">Alleen Team C (Rustig)</option>
               </select>
             </div>
           </div>
@@ -219,7 +222,7 @@ export default function ScheduleManagementPage() {
       {showAssignModal && selectedDate && selectedSeason && (
         <AssignRouteModal
           date={selectedDate}
-          team={selectedTeam}
+          team={editingRide?.team || 'A'}
           seasonId={selectedSeason}
           existingRide={editingRide}
           onClose={() => {

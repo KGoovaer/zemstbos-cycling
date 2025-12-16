@@ -100,8 +100,8 @@ export function ScheduleCalendar({
     return days
   }, [selectedMonth])
 
-  const getRideForDate = (date: Date) => {
-    return scheduledRides.find((ride) => {
+  const getRidesForDate = (date: Date) => {
+    return scheduledRides.filter((ride) => {
       const rideDate = new Date(ride.rideDate)
       return (
         rideDate.getFullYear() === date.getFullYear() &&
@@ -160,7 +160,7 @@ export function ScheduleCalendar({
   return (
     <div className="bg-white rounded-lg shadow border border-slate-200 p-6">
       <h2 className="text-2xl font-bold text-gray-900 mb-6">
-        Seizoenskalender {season.year} - Team {team}
+        Seizoenskalender {season.year}{team !== 'ALL' ? ` - Team ${team}` : ' - Alle Teams'}
       </h2>
 
       <div className="mb-6">
@@ -194,8 +194,9 @@ export function ScheduleCalendar({
 
       <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
         <p className="text-sm text-blue-900">
-          💡 <strong>Tip:</strong> Klik op een willekeurige dag om een rit toe te voegen. 
-          Weekenden zijn gemarkeerd voor makkelijke herkenning.
+          💡 <strong>Tip:</strong> {team === 'ALL' 
+            ? 'Klik op een dag om een rit toe te voegen. Je kan meerdere teams op dezelfde dag plannen, elk met hun eigen route!' 
+            : 'Klik op een willekeurige dag om een rit toe te voegen. Weekenden zijn gemarkeerd voor makkelijke herkenning.'}
         </p>
       </div>
 
@@ -220,7 +221,8 @@ export function ScheduleCalendar({
           {/* Calendar grid */}
           <div className="grid grid-cols-7 gap-2">
             {calendarDays.map((date) => {
-              const ride = getRideForDate(date)
+              const rides = getRidesForDate(date)
+              const hasRides = rides.length > 0
               const isPast = date < new Date()
               const inSeason = isInSeason(date)
               const selectedMonthDate = getSelectedMonthDate()
@@ -231,17 +233,17 @@ export function ScheduleCalendar({
                   <div
                     key={date.toISOString()}
                     className={`
-                      relative border-2 rounded-lg p-2 min-h-[100px] flex flex-col
+                      relative border-2 rounded-lg p-2 min-h-[120px] flex flex-col
                       ${!isCurrentMonth ? 'opacity-30' : ''}
-                      ${ride ? getStatusColor(ride.status) : ''}
-                      ${!ride && inSeason && !isPast ? 'bg-white border-slate-300 hover:border-blue-400 hover:shadow-md cursor-pointer' : ''}
-                      ${!ride && isPast ? 'bg-slate-50 border-slate-200' : ''}
-                      ${!ride && !inSeason ? 'bg-slate-100 border-slate-300' : ''}
-                      ${weekend && !ride && inSeason && !isPast ? 'border-blue-300 bg-blue-50' : ''}
+                      ${hasRides ? 'bg-green-50 border-green-200' : ''}
+                      ${!hasRides && inSeason && !isPast ? 'bg-white border-slate-300 hover:border-blue-400 hover:shadow-md cursor-pointer' : ''}
+                      ${!hasRides && isPast ? 'bg-slate-50 border-slate-200' : ''}
+                      ${!hasRides && !inSeason ? 'bg-slate-100 border-slate-300' : ''}
+                      ${weekend && !hasRides && inSeason && !isPast ? 'border-blue-300 bg-blue-50' : ''}
                       transition-all
                     `}
                     onClick={() => {
-                      if (!ride && inSeason && !isPast) {
+                      if (inSeason && !isPast) {
                         onAddRide(date)
                       }
                     }}
@@ -257,51 +259,63 @@ export function ScheduleCalendar({
                       >
                         {date.getDate()}
                       </span>
-                      {ride && (
-                        <span
-                          className={`px-1.5 py-0.5 text-xs font-semibold rounded ${
-                            ride.status === 'scheduled'
-                              ? 'bg-green-600 text-white'
-                              : ride.status === 'cancelled'
-                              ? 'bg-red-600 text-white'
-                              : 'bg-gray-600 text-white'
-                          }`}
-                        >
-                          {ride.status === 'scheduled' ? '✓' : ride.status === 'cancelled' ? '✗' : '○'}
+                      {hasRides && (
+                        <span className="px-1.5 py-0.5 text-xs font-semibold rounded bg-green-600 text-white">
+                          {rides.length}
                         </span>
                       )}
                     </div>
 
-                    {/* Ride content or add prompt */}
-                    {ride ? (
-                      <div className="flex-1 flex flex-col text-xs">
-                        <p className="font-semibold text-gray-900 line-clamp-2 mb-1">
-                          {ride.route.name}
-                        </p>
-                        <div className="text-slate-800 space-y-0.5">
-                          <div>{ride.route.distanceKm} km</div>
-                          <div>{ride.startTime.slice(0, 5)}</div>
-                        </div>
-                        <div className="mt-auto pt-2 flex gap-1">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              onEditRide(ride)
-                            }}
-                            className="flex-1 px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
+                    {/* Rides content or add prompt */}
+                    {hasRides ? (
+                      <div className="flex-1 flex flex-col text-xs space-y-1">
+                        {rides.map((ride) => (
+                          <div 
+                            key={ride.id}
+                            className={`p-1.5 rounded ${getStatusColor(ride.status)}`}
                           >
-                            ✎
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              onDeleteRide(ride.id)
-                            }}
-                            className="flex-1 px-2 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700"
-                          >
-                            ✗
-                          </button>
-                        </div>
+                            <div className="flex items-center justify-between mb-0.5">
+                              <span className="font-semibold text-purple-700">Team {ride.team}</span>
+                              <span
+                                className={`px-1 py-0.5 text-xs font-semibold rounded ${
+                                  ride.status === 'scheduled'
+                                    ? 'bg-green-600 text-white'
+                                    : ride.status === 'cancelled'
+                                    ? 'bg-red-600 text-white'
+                                    : 'bg-gray-600 text-white'
+                                }`}
+                              >
+                                {ride.status === 'scheduled' ? '✓' : ride.status === 'cancelled' ? '✗' : '○'}
+                              </span>
+                            </div>
+                            <p className="font-semibold text-gray-900 line-clamp-1 text-xs">
+                              {ride.route.name}
+                            </p>
+                            <div className="text-slate-800 text-xs">
+                              {ride.route.distanceKm}km • {ride.startTime.slice(0, 5)}
+                            </div>
+                            <div className="mt-1 flex gap-1">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  onEditRide(ride)
+                                }}
+                                className="flex-1 px-1.5 py-0.5 bg-blue-600 text-white text-xs rounded hover:bg-blue-700"
+                              >
+                                ✎
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  onDeleteRide(ride.id)
+                                }}
+                                className="flex-1 px-1.5 py-0.5 bg-red-600 text-white text-xs rounded hover:bg-red-700"
+                              >
+                                ✗
+                              </button>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     ) : inSeason && !isPast ? (
                       <div className="flex-1 flex items-center justify-center text-slate-600">
