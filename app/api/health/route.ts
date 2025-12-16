@@ -3,6 +3,19 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
+    // Check if Prisma client is available
+    if (!prisma) {
+      return NextResponse.json(
+        {
+          status: 'unhealthy',
+          timestamp: new Date().toISOString(),
+          database: 'not_configured',
+          error: 'Database not configured'
+        },
+        { status: 503 }
+      )
+    }
+
     // Check database connection
     await prisma.$queryRaw`SELECT 1`
 
