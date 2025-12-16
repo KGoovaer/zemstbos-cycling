@@ -54,7 +54,7 @@ export default function NewSeasonPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-3xl mx-auto">
         <div className="mb-8">
           <Link
@@ -66,7 +66,7 @@ export default function NewSeasonPage() {
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Nieuw Seizoen Aanmaken
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-slate-800">
             Maak een nieuw cycling seizoen aan met start en einddatum
           </p>
         </div>
@@ -77,7 +77,7 @@ export default function NewSeasonPage() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow border border-gray-200 p-6">
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow border border-slate-200 p-6">
           <div className="space-y-6">
             <div>
               <label htmlFor="year" className="block text-lg font-semibold text-gray-900 mb-2">
@@ -91,9 +91,9 @@ export default function NewSeasonPage() {
                 max={2100}
                 value={formData.year}
                 onChange={(e) => handleYearChange(parseInt(e.target.value))}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-              <p className="text-gray-600 text-base mt-2">
+              <p className="text-slate-800 text-base mt-2">
                 Het jaar waarin het seizoen plaatsvindt
               </p>
             </div>
@@ -108,9 +108,9 @@ export default function NewSeasonPage() {
                 required
                 value={formData.startDate}
                 onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-              <p className="text-gray-600 text-base mt-2">
+              <p className="text-slate-800 text-base mt-2">
                 Typisch de eerste zondag van maart
               </p>
             </div>
@@ -125,9 +125,9 @@ export default function NewSeasonPage() {
                 required
                 value={formData.endDate}
                 onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
-              <p className="text-gray-600 text-base mt-2">
+              <p className="text-slate-800 text-base mt-2">
                 Typisch de laatste zondag van oktober
               </p>
             </div>
@@ -138,7 +138,7 @@ export default function NewSeasonPage() {
                 id="isActive"
                 checked={formData.isActive}
                 onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                className="w-6 h-6 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                className="w-6 h-6 text-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-blue-500"
               />
               <label htmlFor="isActive" className="ml-3 text-lg font-semibold text-gray-900">
                 Dit seizoen direct activeren
@@ -164,7 +164,7 @@ export default function NewSeasonPage() {
             </button>
             <Link
               href="/admin/seasons"
-              className="flex-1 px-6 py-3 bg-gray-200 text-gray-900 text-lg font-semibold rounded-lg hover:bg-gray-300 transition-colors text-center"
+              className="flex-1 px-6 py-3 bg-slate-200 text-gray-900 text-lg font-semibold rounded-lg hover:bg-gray-300 transition-colors text-center"
             >
               Annuleren
             </Link>

@@ -97,7 +97,7 @@ export default function UploadRoutePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-5xl mx-auto">
         <div className="mb-8">
           <div className="flex items-center mb-4">
@@ -111,25 +111,25 @@ export default function UploadRoutePage() {
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Nieuwe Route Uploaden
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-slate-800">
             Upload een GPX bestand om een nieuwe route toe te voegen
           </p>
         </div>
 
         {!gpxData || !metadata ? (
-          <div className="bg-white rounded-lg shadow border border-gray-200 p-8">
+          <div className="bg-white rounded-lg shadow border border-slate-200 p-8">
             <GPXUploadForm onParsed={handleParsed} />
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+            <div className="bg-white rounded-lg shadow border border-slate-200 p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">
                 Route Details Bewerken
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-base font-semibold text-gray-700 mb-2">
+                  <label className="block text-base font-semibold text-slate-800 mb-2">
                     Route Naam <span className="text-red-600">*</span>
                   </label>
                   <input
@@ -138,20 +138,20 @@ export default function UploadRoutePage() {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Bijvoorbeeld: Zennedijk - Temse - Weert"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-base font-semibold text-gray-700 mb-2">
+                  <label className="block text-base font-semibold text-slate-800 mb-2">
                     Moeilijkheid
                   </label>
                   <select
                     name="difficulty"
                     value={formData.difficulty}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="">Selecteer moeilijkheid</option>
                     <option value="easy">Makkelijk</option>
@@ -161,7 +161,7 @@ export default function UploadRoutePage() {
                 </div>
 
                 <div>
-                  <label className="block text-base font-semibold text-gray-700 mb-2">
+                  <label className="block text-base font-semibold text-slate-800 mb-2">
                     Startlocatie
                   </label>
                   <input
@@ -169,13 +169,13 @@ export default function UploadRoutePage() {
                     name="startLocation"
                     value={formData.startLocation}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Bijvoorbeeld: Zennedijk"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-base font-semibold text-gray-700 mb-2">
+                  <label className="block text-base font-semibold text-slate-800 mb-2">
                     Regio
                   </label>
                   <input
@@ -183,14 +183,14 @@ export default function UploadRoutePage() {
                     name="region"
                     value={formData.region}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Bijvoorbeeld: Waasland"
                   />
                 </div>
               </div>
 
               <div className="mt-6">
-                <label className="block text-base font-semibold text-gray-700 mb-2">
+                <label className="block text-base font-semibold text-slate-800 mb-2">
                   Beschrijving
                 </label>
                 <textarea
@@ -198,7 +198,7 @@ export default function UploadRoutePage() {
                   value={formData.description}
                   onChange={handleInputChange}
                   rows={4}
-                  className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Optionele beschrijving van de route..."
                 />
               </div>
@@ -246,7 +246,7 @@ export default function UploadRoutePage() {
               <button
                 onClick={handleReset}
                 disabled={isSaving}
-                className="px-8 py-4 bg-gray-200 text-gray-700 text-xl font-bold rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-8 py-4 bg-slate-200 text-slate-800 text-xl font-bold rounded-lg hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Annuleren
               </button>

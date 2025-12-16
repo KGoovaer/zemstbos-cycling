@@ -26,54 +26,42 @@ export function Header() {
           <div className="hidden md:flex items-center space-x-8">
             <Link
               href="/"
-              className="text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium"
+              className="text-lg text-slate-800 hover:text-emerald-600 transition-colors font-semibold"
             >
               Home
             </Link>
-            <Link
-              href="/contact"
-              className="text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium"
-            >
-              Contact
-            </Link>
 
             {status === 'loading' ? (
-              <div className="text-slate-500">Loading...</div>
+              <div className="text-slate-600">Loading...</div>
             ) : session ? (
               <>
                 <Link
-                  href="/dashboard"
-                  className="text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium"
-                >
-                  Dashboard
-                </Link>
-                <Link
                   href="/calendar"
-                  className="text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium"
+                  className="text-lg text-slate-800 hover:text-emerald-600 transition-colors font-semibold"
                 >
                   Kalender
                 </Link>
                 <Link
                   href="/events"
-                  className="text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium"
+                  className="text-lg text-slate-800 hover:text-emerald-600 transition-colors font-semibold"
                 >
                   Events
                 </Link>
                 {session.user.role === 'admin' && (
                   <Link
                     href="/admin"
-                    className="text-lg text-emerald-700 hover:text-emerald-600 transition-colors font-semibold"
+                    className="text-lg text-emerald-700 hover:text-emerald-600 transition-colors font-bold"
                   >
                     Admin
                   </Link>
                 )}
                 <div className="flex items-center space-x-4">
-                  <span className="text-slate-700 font-medium">
+                  <span className="text-slate-800 font-semibold">
                     {session.user.name}
                   </span>
                   <button
                     onClick={handleSignOut}
-                    className="bg-slate-500 text-white px-6 py-2 rounded-lg hover:bg-slate-600 transition-colors font-semibold"
+                    className="bg-slate-700 text-white px-6 py-2 rounded-lg hover:bg-slate-800 transition-colors font-semibold shadow-md hover:shadow-lg"
                   >
                     Logout
                   </button>
@@ -82,7 +70,7 @@ export function Header() {
             ) : (
               <Link
                 href="/login"
-                className="bg-emerald-500 text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors font-semibold"
+                className="bg-emerald-500 text-white px-6 py-2 rounded-lg hover:bg-emerald-600 transition-colors font-semibold shadow-md hover:shadow-lg"
               >
                 Login
               </Link>
@@ -116,40 +104,26 @@ export function Header() {
           <div className="md:hidden mt-4 pb-4 space-y-4">
             <Link
               href="/"
-              className="block text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium py-2"
+              className="block text-lg text-slate-800 hover:text-emerald-600 transition-colors font-semibold py-2"
               onClick={() => setMobileMenuOpen(false)}
             >
               Home
             </Link>
-            <Link
-              href="/contact"
-              className="block text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium py-2"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Contact
-            </Link>
 
             {status === 'loading' ? (
-              <div className="text-slate-500 py-2">Loading...</div>
+              <div className="text-slate-600 py-2">Loading...</div>
             ) : session ? (
               <>
                 <Link
-                  href="/dashboard"
-                  className="block text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium py-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Dashboard
-                </Link>
-                <Link
                   href="/calendar"
-                  className="block text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium py-2"
+                  className="block text-lg text-slate-800 hover:text-emerald-600 transition-colors font-semibold py-2"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Kalender
                 </Link>
                 <Link
                   href="/events"
-                  className="block text-lg text-slate-700 hover:text-emerald-600 transition-colors font-medium py-2"
+                  className="block text-lg text-slate-800 hover:text-emerald-600 transition-colors font-semibold py-2"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Events
@@ -157,14 +131,14 @@ export function Header() {
                 {session.user.role === 'admin' && (
                   <Link
                     href="/admin"
-                    className="block text-lg text-emerald-700 hover:text-emerald-600 transition-colors font-semibold py-2"
+                    className="block text-lg text-emerald-700 hover:text-emerald-600 transition-colors font-bold py-2"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Admin
                   </Link>
                 )}
                 <div className="py-2">
-                  <span className="block text-slate-700 font-medium mb-2">
+                  <span className="block text-slate-800 font-semibold mb-2">
                     {session.user.name}
                   </span>
                   <button
@@ -172,7 +146,7 @@ export function Header() {
                       setMobileMenuOpen(false)
                       handleSignOut()
                     }}
-                    className="block w-full bg-slate-500 text-white px-6 py-3 rounded-lg hover:bg-slate-600 transition-colors font-semibold text-center"
+                    className="block w-full bg-slate-700 text-white px-6 py-3 rounded-lg hover:bg-slate-800 transition-colors font-semibold text-center shadow-md"
                   >
                     Logout
                   </button>
@@ -181,7 +155,7 @@ export function Header() {
             ) : (
               <Link
                 href="/login"
-                className="block bg-emerald-500 text-white px-6 py-3 rounded-lg hover:bg-emerald-600 transition-colors font-semibold text-center"
+                className="block bg-emerald-500 text-white px-6 py-3 rounded-lg hover:bg-emerald-600 transition-colors font-semibold text-center shadow-md"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Login

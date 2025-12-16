@@ -26,11 +26,11 @@ export function PaymentStatusCard({
           {!isPaid && !isExempt && 'In afwachting'}
         </div>
         {year && (
-          <div className="text-lg text-gray-600 mt-2">Seizoen {year}</div>
+          <div className="text-lg text-slate-800 mt-2">Seizoen {year}</div>
         )}
       </div>
 
-      <p className="text-base text-gray-600 mt-4">
+      <p className="text-base text-slate-800 mt-4">
         Neem contact op met de admin bij vragen over je betaalstatus
       </p>
     </div>

@@ -18,7 +18,7 @@ export default async function CalendarPage() {
 
   if (!prisma) {
     return (
-      <div className="min-h-screen bg-gray-50 p-8">
+      <div className="min-h-screen bg-slate-50 p-8">
         <div className="container mx-auto">
           <h1 className="text-4xl font-bold mb-8">Seizoenskalender</h1>
           <p className="text-xl">Database niet beschikbaar</p>
@@ -42,12 +42,12 @@ export default async function CalendarPage() {
     const winterRides = await generateOffSeasonRides(startDate, endDate)
     
     return (
-      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="container mx-auto max-w-4xl">
           <h1 className="text-4xl md:text-5xl font-bold mb-2">
             Wintertoer Kalender
           </h1>
-          <p className="text-xl text-gray-600 mb-8">
+          <p className="text-xl text-slate-800 mb-8">
             Geen actief seizoen - Wintertoer ritten worden getoond
           </p>
 
@@ -145,12 +145,12 @@ export default async function CalendarPage() {
   const firstSeasonRide = seasonRides.length > 0 ? seasonRides[0] : null
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="container mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold mb-2">
           Seizoenskalender {activeSeason.year}
         </h1>
-        <p className="text-xl text-gray-600 mb-8">
+        <p className="text-xl text-slate-800 mb-8">
           {seasonRides.length} seizoensritten gepland
         </p>
 

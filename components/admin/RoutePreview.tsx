@@ -42,24 +42,24 @@ export function RoutePreview({
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+      <div className="bg-white rounded-lg shadow border border-slate-200 p-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">
           Route Preview
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           <div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
+            <h3 className="text-lg font-semibold text-slate-800 mb-2">
               Route Informatie
             </h3>
             <dl className="space-y-3">
               <div>
-                <dt className="text-base font-medium text-gray-600">Naam</dt>
+                <dt className="text-base font-medium text-slate-800">Naam</dt>
                 <dd className="text-lg text-gray-900">{routeName}</dd>
               </div>
               {description && (
                 <div>
-                  <dt className="text-base font-medium text-gray-600">
+                  <dt className="text-base font-medium text-slate-800">
                     Beschrijving
                   </dt>
                   <dd className="text-base text-gray-900">{description}</dd>
@@ -67,7 +67,7 @@ export function RoutePreview({
               )}
               {startLocation && (
                 <div>
-                  <dt className="text-base font-medium text-gray-600">
+                  <dt className="text-base font-medium text-slate-800">
                     Startlocatie
                   </dt>
                   <dd className="text-base text-gray-900">{startLocation}</dd>
@@ -75,7 +75,7 @@ export function RoutePreview({
               )}
               {region && (
                 <div>
-                  <dt className="text-base font-medium text-gray-600">Regio</dt>
+                  <dt className="text-base font-medium text-slate-800">Regio</dt>
                   <dd className="text-base text-gray-900">{region}</dd>
                 </div>
               )}
@@ -83,12 +83,12 @@ export function RoutePreview({
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
+            <h3 className="text-lg font-semibold text-slate-800 mb-2">
               Route Details
             </h3>
             <dl className="space-y-3">
               <div>
-                <dt className="text-base font-medium text-gray-600">
+                <dt className="text-base font-medium text-slate-800">
                   Afstand
                 </dt>
                 <dd className="text-lg font-semibold text-blue-600">
@@ -96,7 +96,7 @@ export function RoutePreview({
                 </dd>
               </div>
               <div>
-                <dt className="text-base font-medium text-gray-600">
+                <dt className="text-base font-medium text-slate-800">
                   Hoogtemeters
                 </dt>
                 <dd className="text-lg font-semibold text-green-600">
@@ -105,7 +105,7 @@ export function RoutePreview({
               </div>
               {difficulty && (
                 <div>
-                  <dt className="text-base font-medium text-gray-600">
+                  <dt className="text-base font-medium text-slate-800">
                     Moeilijkheid
                   </dt>
                   <dd className="text-base text-gray-900">
@@ -114,7 +114,7 @@ export function RoutePreview({
                 </div>
               )}
               <div>
-                <dt className="text-base font-medium text-gray-600">
+                <dt className="text-base font-medium text-slate-800">
                   Track Points
                 </dt>
                 <dd className="text-base text-gray-900">
@@ -126,15 +126,15 @@ export function RoutePreview({
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-700 mb-4">
+          <h3 className="text-lg font-semibold text-slate-800 mb-4">
             Route Kaart
           </h3>
-          <div className="bg-gray-100 rounded-lg overflow-hidden border border-gray-300">
+          <div className="bg-slate-100 rounded-lg overflow-hidden border border-slate-300">
             {showMap ? (
               <MapComponent gpxData={gpxData} bounds={metadata.bounds} />
             ) : (
               <div className="h-96 flex items-center justify-center">
-                <p className="text-gray-500">Kaart laden...</p>
+                <p className="text-slate-700">Kaart laden...</p>
               </div>
             )}
           </div>

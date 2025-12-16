@@ -130,11 +130,11 @@ export function WinterRideCard({ winterSundayCount, seasonYear, firstSeasonRideD
           </div>
 
           <div className="bg-white/70 backdrop-blur rounded-lg p-4 mb-4">
-            <p className="text-lg text-gray-700 mb-3">
+            <p className="text-lg text-slate-800 mb-3">
               <strong>Elke zondag om 9:00</strong> tijdens het winterseizoen (november t/m februari)
             </p>
             
-            <div className="flex flex-wrap gap-4 text-gray-700 mb-2">
+            <div className="flex flex-wrap gap-4 text-slate-800 mb-2">
               <span className="flex items-center gap-2 text-lg">
                 <span className="font-semibold">📏</span>
                 <strong>{route.distanceKm} km</strong>
@@ -154,7 +154,7 @@ export function WinterRideCard({ winterSundayCount, seasonYear, firstSeasonRideD
             </div>
 
             {route.startLocation && (
-              <p className="text-gray-600 mt-2">
+              <p className="text-slate-800 mt-2">
                 📍 <strong>Start:</strong> {route.startLocation}
               </p>
             )}
@@ -183,7 +183,7 @@ export function WinterRideCard({ winterSundayCount, seasonYear, firstSeasonRideD
         </div>
       </div>
 
-      <div className="bg-blue-100 border-l-4 border-blue-400 p-3 rounded text-sm text-gray-700">
+      <div className="bg-blue-100 border-l-4 border-blue-400 p-3 rounded text-sm text-slate-800">
         <p className="font-semibold">ℹ️ Vaste winterrit</p>
         <p className="mt-1">
           Geen inschrijving nodig - kom gewoon langs!

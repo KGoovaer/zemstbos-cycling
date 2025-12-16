@@ -125,14 +125,14 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-200 p-6">
+        <div className="sticky top-0 bg-white border-b border-slate-200 p-6">
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-bold text-gray-900">
               {member ? 'Lid Bewerken' : 'Nieuw Lid'}
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-4xl leading-none"
+              className="text-slate-700 hover:text-slate-800 text-4xl leading-none"
             >
               ×
             </button>
@@ -154,7 +154,7 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
                 required
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Jan"
               />
             </div>
@@ -172,7 +172,7 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 required
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Janssens"
               />
             </div>
@@ -191,7 +191,7 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="jan.janssens@example.com"
             />
           </div>
@@ -208,7 +208,7 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
               id="phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="+32 123 45 67 89"
             />
           </div>
@@ -225,7 +225,7 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
               id="address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Straatnaam 123, 1234 Stad"
             />
           </div>
@@ -242,7 +242,7 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
               id="birthDate"
               value={birthDate}
               onChange={(e) => setBirthDate(e.target.value)}
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
@@ -259,11 +259,11 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required={!member}
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="••••••••"
             />
             {!member && (
-              <p className="mt-1 text-sm text-gray-500">
+              <p className="mt-1 text-sm text-slate-700">
                 Minimaal 6 karakters aanbevolen
               </p>
             )}
@@ -281,7 +281,7 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
                 id="role"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="member">Lid</option>
                 <option value="admin">Beheerder</option>
@@ -299,7 +299,7 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
                 id="paymentStatus"
                 value={paymentStatus}
                 onChange={(e) => setPaymentStatus(e.target.value)}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="unpaid">Onbetaald</option>
                 <option value="paid">Betaald</option>
@@ -321,16 +321,16 @@ export function MemberForm({ member, onClose, onSuccess }: Props) {
               onChange={(e) => setPaymentYear(parseInt(e.target.value))}
               min="2020"
               max="2050"
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
 
-          <div className="flex gap-3 pt-4 border-t border-gray-200">
+          <div className="flex gap-3 pt-4 border-t border-slate-200">
             <button
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="flex-1 px-6 py-4 bg-gray-200 text-gray-900 text-xl font-semibold rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50"
+              className="flex-1 px-6 py-4 bg-slate-200 text-gray-900 text-xl font-semibold rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50"
             >
               Annuleren
             </button>

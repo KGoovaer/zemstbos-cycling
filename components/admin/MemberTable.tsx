@@ -54,17 +54,17 @@ export function MemberTable({ members, onEdit, onDeactivate }: Props) {
 
   if (members.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow border border-gray-200 p-8 text-center">
-        <p className="text-xl text-gray-600">Geen leden gevonden</p>
+      <div className="bg-white rounded-lg shadow border border-slate-200 p-8 text-center">
+        <p className="text-xl text-slate-800">Geen leden gevonden</p>
       </div>
     )
   }
 
   return (
-    <div className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-lg shadow border border-slate-200 overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
               <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
                 Naam
@@ -99,7 +99,7 @@ export function MemberTable({ members, onEdit, onDeactivate }: Props) {
             {members.map((member) => (
               <tr
                 key={member.id}
-                className={`hover:bg-gray-50 ${
+                className={`hover:bg-slate-50 ${
                   !member.isActive ? 'opacity-50' : ''
                 }`}
               >
@@ -109,20 +109,20 @@ export function MemberTable({ members, onEdit, onDeactivate }: Props) {
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="text-base text-gray-700">{member.email}</div>
+                  <div className="text-base text-slate-800">{member.email}</div>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="text-base text-gray-700">
+                  <div className="text-base text-slate-800">
                     {member.phone || '-'}
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="text-base text-gray-700 max-w-xs truncate" title={member.address || undefined}>
+                  <div className="text-base text-slate-800 max-w-xs truncate" title={member.address || undefined}>
                     {member.address || '-'}
                   </div>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="text-base text-gray-700">
+                  <div className="text-base text-slate-800">
                     {member.birthDate ? new Date(member.birthDate).toLocaleDateString('nl-BE') : '-'}
                   </div>
                 </td>
@@ -131,7 +131,7 @@ export function MemberTable({ members, onEdit, onDeactivate }: Props) {
                   <div className="flex flex-col gap-1">
                     {getPaymentStatusBadge(member.paymentStatus)}
                     {member.paymentYear && (
-                      <span className="text-sm text-gray-500">
+                      <span className="text-sm text-slate-700">
                         {member.paymentYear}
                       </span>
                     )}
@@ -143,7 +143,7 @@ export function MemberTable({ members, onEdit, onDeactivate }: Props) {
                       Actief
                     </span>
                   ) : (
-                    <span className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm font-semibold border border-gray-200">
+                    <span className="px-3 py-1 bg-slate-100 text-gray-800 rounded-full text-sm font-semibold border border-slate-200">
                       Inactief
                     </span>
                   )}

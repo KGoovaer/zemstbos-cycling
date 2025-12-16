@@ -122,10 +122,10 @@ export default function RoutesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-center items-center py-20">
-            <div className="text-xl text-gray-600">Routes laden...</div>
+            <div className="text-xl text-slate-800">Routes laden...</div>
           </div>
         </div>
       </div>
@@ -134,7 +134,7 @@ export default function RoutesPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
           <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
             <p className="text-red-800 text-lg">{error}</p>
@@ -145,14 +145,14 @@ export default function RoutesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8 flex justify-between items-center">
           <div>
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
               Route Bibliotheek
             </h1>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-slate-800">
               {routes.length} routes in bibliotheek
             </p>
           </div>
@@ -198,13 +198,13 @@ export default function RoutesPage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-lg shadow border border-slate-200 p-6 mb-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             Filters & Zoeken
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label className="block text-base font-semibold text-gray-700 mb-2">
+              <label className="block text-base font-semibold text-slate-800 mb-2">
                 Zoeken
               </label>
               <input
@@ -212,18 +212,18 @@ export default function RoutesPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Naam, regio, startlocatie..."
-                className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-base font-semibold text-gray-700 mb-2">
+              <label className="block text-base font-semibold text-slate-800 mb-2">
                 Moeilijkheid
               </label>
               <select
                 value={difficultyFilter}
                 onChange={(e) => setDifficultyFilter(e.target.value)}
-                className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Alle</option>
                 <option value="easy">Makkelijk</option>
@@ -233,7 +233,7 @@ export default function RoutesPage() {
             </div>
 
             <div>
-              <label className="block text-base font-semibold text-gray-700 mb-2">
+              <label className="block text-base font-semibold text-slate-800 mb-2">
                 Min. Afstand (km)
               </label>
               <input
@@ -241,12 +241,12 @@ export default function RoutesPage() {
                 value={minDistance}
                 onChange={(e) => setMinDistance(e.target.value)}
                 placeholder="0"
-                className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-base font-semibold text-gray-700 mb-2">
+              <label className="block text-base font-semibold text-slate-800 mb-2">
                 Max. Afstand (km)
               </label>
               <input
@@ -254,7 +254,7 @@ export default function RoutesPage() {
                 value={maxDistance}
                 onChange={(e) => setMaxDistance(e.target.value)}
                 placeholder="100"
-                className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           </div>
@@ -267,14 +267,14 @@ export default function RoutesPage() {
               >
                 Filters resetten
               </button>
-              <span className="ml-4 text-gray-600">
+              <span className="ml-4 text-slate-800">
                 {filteredRoutes.length} van {routes.length} routes weergegeven
               </span>
             </div>
           )}
         </div>
 
-        <div className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+        <div className="bg-white rounded-lg shadow border border-slate-200 overflow-hidden">
           <RouteTable routes={filteredRoutes} onDelete={handleDelete} />
         </div>
       </div>

@@ -146,10 +146,10 @@ export default function EditRoutePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="max-w-4xl mx-auto">
           <div className="flex justify-center items-center py-20">
-            <div className="text-xl text-gray-600">Route laden...</div>
+            <div className="text-xl text-slate-800">Route laden...</div>
           </div>
         </div>
       </div>
@@ -158,7 +158,7 @@ export default function EditRoutePage() {
 
   if (error || !route) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="max-w-4xl mx-auto">
           <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
             <p className="text-red-800 text-lg mb-4">
@@ -177,7 +177,7 @@ export default function EditRoutePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
         {saved && (
           <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-6">
@@ -236,19 +236,19 @@ export default function EditRoutePage() {
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Route Bewerken
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-slate-800">
             {route.distanceKm} km • {route.timesRidden} keer gereden
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-lg shadow border border-slate-200 p-6 mb-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             Route Informatie {gpxMetadata ? '(Wordt bijgewerkt)' : '(Huidige waarden)'}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-base">
             <div>
-              <span className="font-semibold text-gray-700">Afstand:</span>{' '}
-              <span className={gpxMetadata ? 'text-gray-500 line-through' : 'text-gray-900'}>
+              <span className="font-semibold text-slate-800">Afstand:</span>{' '}
+              <span className={gpxMetadata ? 'text-slate-700 line-through' : 'text-gray-900'}>
                 {Number(route.distanceKm).toFixed(1)} km
               </span>
               {gpxMetadata && (
@@ -259,8 +259,8 @@ export default function EditRoutePage() {
             </div>
             {(route.elevationM || gpxMetadata) && (
               <div>
-                <span className="font-semibold text-gray-700">Hoogtemeters:</span>{' '}
-                <span className={gpxMetadata ? 'text-gray-500 line-through' : 'text-gray-900'}>
+                <span className="font-semibold text-slate-800">Hoogtemeters:</span>{' '}
+                <span className={gpxMetadata ? 'text-slate-700 line-through' : 'text-gray-900'}>
                   {route.elevationM}m
                 </span>
                 {gpxMetadata && (
@@ -271,11 +271,11 @@ export default function EditRoutePage() {
               </div>
             )}
             <div>
-              <span className="font-semibold text-gray-700">Keren gereden:</span>{' '}
+              <span className="font-semibold text-slate-800">Keren gereden:</span>{' '}
               <span className="text-gray-900">{route.timesRidden}</span>
             </div>
             <div>
-              <span className="font-semibold text-gray-700">Laatst gereden:</span>{' '}
+              <span className="font-semibold text-slate-800">Laatst gereden:</span>{' '}
               <span className="text-gray-900">
                 {route.lastRidden
                   ? new Date(route.lastRidden).toLocaleDateString('nl-BE', {
@@ -289,18 +289,18 @@ export default function EditRoutePage() {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-lg shadow border border-slate-200 p-6 mb-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
             GPX Bestand Bijwerken (Optioneel)
           </h2>
-          <p className="text-base text-gray-600 mb-4">
+          <p className="text-base text-slate-800 mb-4">
             Upload een nieuw GPX bestand om de route bij te werken. Afstand en hoogtemeters worden automatisch herberekend.
           </p>
           
           <div>
             <label
               htmlFor="gpxFile"
-              className="block text-lg font-semibold text-gray-700 mb-2"
+              className="block text-lg font-semibold text-slate-800 mb-2"
             >
               Nieuw GPX Bestand
             </label>
@@ -309,7 +309,7 @@ export default function EditRoutePage() {
               id="gpxFile"
               accept=".gpx"
               onChange={handleGPXUpload}
-              className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-base file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+              className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-base file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
             />
             {gpxFile && !gpxError && (
               <p className="mt-2 text-base text-green-600">
@@ -324,7 +324,7 @@ export default function EditRoutePage() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow border border-gray-200 p-6">
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow border border-slate-200 p-6">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">
             Route Metadata (Bewerkbaar)
           </h2>
@@ -333,7 +333,7 @@ export default function EditRoutePage() {
             <div>
               <label
                 htmlFor="name"
-                className="block text-lg font-semibold text-gray-700 mb-2"
+                className="block text-lg font-semibold text-slate-800 mb-2"
               >
                 Route Naam *
               </label>
@@ -345,14 +345,14 @@ export default function EditRoutePage() {
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
-                className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
             <div>
               <label
                 htmlFor="description"
-                className="block text-lg font-semibold text-gray-700 mb-2"
+                className="block text-lg font-semibold text-slate-800 mb-2"
               >
                 Beschrijving
               </label>
@@ -363,7 +363,7 @@ export default function EditRoutePage() {
                 onChange={(e) =>
                   setFormData({ ...formData, description: e.target.value })
                 }
-                className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Beschrijving van de route..."
               />
             </div>
@@ -371,7 +371,7 @@ export default function EditRoutePage() {
             <div>
               <label
                 htmlFor="startLocation"
-                className="block text-lg font-semibold text-gray-700 mb-2"
+                className="block text-lg font-semibold text-slate-800 mb-2"
               >
                 Startlocatie
               </label>
@@ -382,7 +382,7 @@ export default function EditRoutePage() {
                 onChange={(e) =>
                   setFormData({ ...formData, startLocation: e.target.value })
                 }
-                className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Bijv. Parking Gemeentehuis"
               />
             </div>
@@ -390,7 +390,7 @@ export default function EditRoutePage() {
             <div>
               <label
                 htmlFor="region"
-                className="block text-lg font-semibold text-gray-700 mb-2"
+                className="block text-lg font-semibold text-slate-800 mb-2"
               >
                 Regio
               </label>
@@ -401,7 +401,7 @@ export default function EditRoutePage() {
                 onChange={(e) =>
                   setFormData({ ...formData, region: e.target.value })
                 }
-                className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="Bijv. Waasland, Scheldeland"
               />
             </div>
@@ -409,7 +409,7 @@ export default function EditRoutePage() {
             <div>
               <label
                 htmlFor="difficulty"
-                className="block text-lg font-semibold text-gray-700 mb-2"
+                className="block text-lg font-semibold text-slate-800 mb-2"
               >
                 Moeilijkheid
               </label>
@@ -419,7 +419,7 @@ export default function EditRoutePage() {
                 onChange={(e) =>
                   setFormData({ ...formData, difficulty: e.target.value })
                 }
-                className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-base border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Selecteer moeilijkheid</option>
                 <option value="easy">Makkelijk</option>
@@ -432,7 +432,7 @@ export default function EditRoutePage() {
           <div className="mt-8 flex justify-end space-x-4">
             <Link
               href="/admin/routes"
-              className="px-6 py-3 text-lg font-semibold text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300"
+              className="px-6 py-3 text-lg font-semibold text-slate-800 bg-slate-200 rounded-lg hover:bg-gray-300"
             >
               Annuleren
             </Link>

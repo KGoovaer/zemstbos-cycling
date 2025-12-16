@@ -111,29 +111,29 @@ export default function EventsManagementPage() {
       case 'closing':
         return 'bg-orange-100 text-orange-800 border-orange-200'
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200'
+        return 'bg-slate-100 text-gray-800 border-slate-200'
     }
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
-          <p className="text-xl text-gray-600">Laden...</p>
+          <p className="text-xl text-slate-800">Laden...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
               Evenementen Beheer
             </h1>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-slate-800">
               Beheer club evenementen en sociale activiteiten
             </p>
           </div>
@@ -146,8 +146,8 @@ export default function EventsManagementPage() {
         </div>
 
         {events.length === 0 ? (
-          <div className="bg-white rounded-lg shadow border border-gray-200 p-8 text-center">
-            <p className="text-xl text-gray-600">Nog geen evenementen</p>
+          <div className="bg-white rounded-lg shadow border border-slate-200 p-8 text-center">
+            <p className="text-xl text-slate-800">Nog geen evenementen</p>
             <button
               onClick={() => setShowForm(true)}
               className="mt-4 px-6 py-3 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-colors"
@@ -160,7 +160,7 @@ export default function EventsManagementPage() {
             {events.map((event) => (
               <div
                 key={event.id}
-                className="bg-white rounded-lg shadow border border-gray-200 p-6 hover:shadow-lg transition-shadow"
+                className="bg-white rounded-lg shadow border border-slate-200 p-6 hover:shadow-lg transition-shadow"
               >
                 <div className="flex items-start justify-between mb-3">
                   <span
@@ -192,7 +192,7 @@ export default function EventsManagementPage() {
                   {event.title}
                 </h3>
 
-                <div className="space-y-2 text-gray-700">
+                <div className="space-y-2 text-slate-800">
                   <div className="flex items-center gap-2">
                     <span className="font-medium">📅</span>
                     <span>{formatDate(event.eventDate)}</span>
@@ -214,13 +214,13 @@ export default function EventsManagementPage() {
                 </div>
 
                 {event.description && (
-                  <p className="mt-3 text-gray-600 line-clamp-3">
+                  <p className="mt-3 text-slate-800 line-clamp-3">
                     {event.description}
                   </p>
                 )}
 
                 {event._count && event._count.attendees > 0 && (
-                  <div className="mt-3 pt-3 border-t border-gray-200">
+                  <div className="mt-3 pt-3 border-t border-slate-200">
                     <div className="flex items-center gap-2 text-green-600 font-semibold">
                       <span>👥</span>
                       <span>{event._count.attendees} aanmeldingen</span>

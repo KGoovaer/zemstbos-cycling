@@ -23,7 +23,7 @@ export function CalendarGrid({ rides }: { rides: Ride[] }) {
   if (rides.length === 0) {
     return (
       <div className="bg-white rounded-lg shadow p-8 text-center">
-        <p className="text-xl text-gray-600">
+        <p className="text-xl text-slate-800">
           Nog geen ritten gepland voor dit seizoen
         </p>
       </div>

@@ -54,17 +54,17 @@ export function PaymentTable({ members, selectedSeason, onUpdatePayment }: Props
 
   if (members.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow border border-gray-200 p-8 text-center">
-        <p className="text-xl text-gray-600">Geen leden gevonden</p>
+      <div className="bg-white rounded-lg shadow border border-slate-200 p-8 text-center">
+        <p className="text-xl text-slate-800">Geen leden gevonden</p>
       </div>
     )
   }
 
   return (
-    <div className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+    <div className="bg-white rounded-lg shadow border border-slate-200 overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
+          <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
               <th className="px-6 py-4 text-left text-base font-semibold text-gray-900">
                 Naam
@@ -90,7 +90,7 @@ export function PaymentTable({ members, selectedSeason, onUpdatePayment }: Props
             {members.map((member) => (
               <tr
                 key={member.id}
-                className={`hover:bg-gray-50 ${
+                className={`hover:bg-slate-50 ${
                   !member.isActive ? 'opacity-50' : ''
                 }`}
               >
@@ -99,14 +99,14 @@ export function PaymentTable({ members, selectedSeason, onUpdatePayment }: Props
                     {member.firstName} {member.lastName}
                   </div>
                   {!member.isActive && (
-                    <span className="text-sm text-gray-500">(Inactief)</span>
+                    <span className="text-sm text-slate-700">(Inactief)</span>
                   )}
                 </td>
                 <td className="px-6 py-4">
-                  <div className="text-base text-gray-700">{member.email}</div>
+                  <div className="text-base text-slate-800">{member.email}</div>
                 </td>
                 <td className="px-6 py-4">
-                  <div className="text-base text-gray-700">
+                  <div className="text-base text-slate-800">
                     {member.phone || '-'}
                   </div>
                 </td>
@@ -116,7 +116,7 @@ export function PaymentTable({ members, selectedSeason, onUpdatePayment }: Props
                       ✓ Betaald
                     </span>
                   ) : member.paymentStatus === 'exempt' ? (
-                    <span className="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-800 rounded-full text-base font-semibold border-2 border-gray-200">
+                    <span className="inline-flex items-center px-4 py-2 bg-slate-100 text-gray-800 rounded-full text-base font-semibold border-2 border-slate-200">
                       ◉ Vrijgesteld
                     </span>
                   ) : (
@@ -144,7 +144,7 @@ export function PaymentTable({ members, selectedSeason, onUpdatePayment }: Props
                         ))}
                     </div>
                   ) : (
-                    <span className="text-gray-500 text-base">-</span>
+                    <span className="text-slate-700 text-base">-</span>
                   )}
                 </td>
                 <td className="px-6 py-4">

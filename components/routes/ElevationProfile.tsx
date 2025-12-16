@@ -145,7 +145,7 @@ export function ElevationProfile({ routeId }: ElevationProfileProps) {
         <div className="flex items-center justify-center h-[300px]">
           <div className="text-center">
             <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mb-4"></div>
-            <p className="text-xl text-gray-600">Hoogteprofiel laden...</p>
+            <p className="text-xl text-slate-800">Hoogteprofiel laden...</p>
           </div>
         </div>
       </div>
@@ -226,7 +226,7 @@ export function ElevationProfile({ routeId }: ElevationProfileProps) {
         <h2 className="text-2xl font-bold">Hoogteprofiel</h2>
         {totalElevationGain > 0 && (
           <div className="bg-blue-50 rounded-lg px-4 py-2">
-            <span className="text-lg text-gray-600">Totale stijging: </span>
+            <span className="text-lg text-slate-800">Totale stijging: </span>
             <span className="text-xl font-bold text-blue-600">{totalElevationGain}m</span>
           </div>
         )}

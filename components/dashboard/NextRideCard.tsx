@@ -8,7 +8,7 @@ export async function NextRideCard() {
   if (!prisma) {
     return (
       <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-        <p className="text-xl text-gray-600">
+        <p className="text-xl text-slate-800">
           Database niet beschikbaar
         </p>
       </div>
@@ -57,7 +57,7 @@ export async function NextRideCard() {
               <p className="text-2xl font-semibold text-blue-900 capitalize mb-2">
                 {formattedDate}
               </p>
-              <p className="text-xl text-gray-700">Start: 09:00</p>
+              <p className="text-xl text-slate-800">Start: 09:00</p>
             </div>
 
             <h3 className="text-4xl font-bold mb-2 text-gray-900">
@@ -72,13 +72,13 @@ export async function NextRideCard() {
                 <div className="text-3xl font-bold text-blue-600">
                   {winterRoute.distanceKm.toString()} km
                 </div>
-                <div className="text-lg text-gray-600">Afstand</div>
+                <div className="text-lg text-slate-800">Afstand</div>
               </div>
               <div className="bg-white rounded-lg p-4 text-center">
                 <div className="text-3xl font-bold text-blue-600">
                   {winterRoute.elevationM || 0}m
                 </div>
-                <div className="text-lg text-gray-600">Hoogte</div>
+                <div className="text-lg text-slate-800">Hoogte</div>
               </div>
               <div className="bg-white rounded-lg p-4 text-center">
                 <div className="text-3xl font-bold text-blue-600 capitalize">
@@ -87,7 +87,7 @@ export async function NextRideCard() {
                   {winterRoute.difficulty === 'hard' && 'Zwaar'}
                   {!winterRoute.difficulty && '-'}
                 </div>
-                <div className="text-lg text-gray-600">Niveau</div>
+                <div className="text-lg text-slate-800">Niveau</div>
               </div>
             </div>
 
@@ -126,7 +126,7 @@ export async function NextRideCard() {
   if (!nextRide) {
     return (
       <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-        <p className="text-xl text-gray-600">
+        <p className="text-xl text-slate-800">
           Geen ritten gepland op dit moment
         </p>
       </div>
@@ -146,7 +146,7 @@ export async function NextRideCard() {
         <p className="text-2xl font-semibold text-blue-900 capitalize mb-2">
           {formattedDate}
         </p>
-        <p className="text-xl text-gray-700">Start: {formattedTime}</p>
+        <p className="text-xl text-slate-800">Start: {formattedTime}</p>
       </div>
 
       <h3 className="text-4xl font-bold mb-6 text-gray-900">
@@ -158,13 +158,13 @@ export async function NextRideCard() {
           <div className="text-3xl font-bold text-blue-600">
             {nextRide.route.distanceKm.toString()} km
           </div>
-          <div className="text-lg text-gray-600">Afstand</div>
+          <div className="text-lg text-slate-800">Afstand</div>
         </div>
         <div className="bg-white rounded-lg p-4 text-center">
           <div className="text-3xl font-bold text-blue-600">
             {nextRide.route.elevationM || 0}m
           </div>
-          <div className="text-lg text-gray-600">Hoogte</div>
+          <div className="text-lg text-slate-800">Hoogte</div>
         </div>
         <div className="bg-white rounded-lg p-4 text-center">
           <div className="text-3xl font-bold text-blue-600 capitalize">
@@ -173,7 +173,7 @@ export async function NextRideCard() {
             {nextRide.route.difficulty === 'hard' && 'Zwaar'}
             {!nextRide.route.difficulty && '-'}
           </div>
-          <div className="text-lg text-gray-600">Niveau</div>
+          <div className="text-lg text-slate-800">Niveau</div>
         </div>
       </div>
 

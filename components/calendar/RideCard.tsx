@@ -79,7 +79,7 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
       href={isWinter ? '#' : `/ride/${ride.id}`}
       className={`block bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow ${
         isCancelled ? 'opacity-60' : ''
-      } ${isPast ? 'bg-gray-50' : ''} ${isWinter ? 'border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-white' : ''}`}
+      } ${isPast ? 'bg-slate-50' : ''} ${isWinter ? 'border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-white' : ''}`}
       onClick={(e) => isWinter && e.preventDefault()}
     >
       <div className="flex items-start justify-between mb-4">
@@ -108,7 +108,7 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
             {ride.route.name}
           </h3>
 
-          <div className="flex flex-wrap gap-4 text-gray-700 mb-2">
+          <div className="flex flex-wrap gap-4 text-slate-800 mb-2">
             <span className="flex items-center gap-1">
               <span className="font-semibold">📏</span>
               {ride.route.distanceKm} km
@@ -132,21 +132,21 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
           </div>
 
           {ride.notes && (
-            <p className="text-gray-600 text-sm mb-2">{ride.notes}</p>
+            <p className="text-slate-800 text-sm mb-2">{ride.notes}</p>
           )}
         </div>
       </div>
 
       {!isPast && !isCancelled && !isWinter && ride._count !== undefined && (
         <div 
-          className="pt-4 border-t border-gray-200"
+          className="pt-4 border-t border-slate-200"
           onClick={(e) => e.preventDefault()}
         >
           {ride.attendeeCounts && (ride.attendeeCounts.attending > 0 || ride.attendeeCounts.maybe > 0 || ride.attendeeCounts.declined > 0) && (
             <div className="mb-4">
               <div className="flex items-center gap-2 mb-2">
                 <span className="font-semibold">👥</span>
-                <span className="font-semibold text-gray-700">
+                <span className="font-semibold text-slate-800">
                   {ride._count.attendees} {ride._count.attendees === 1 ? 'reactie' : 'reacties'}
                 </span>
               </div>
@@ -200,7 +200,7 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
             </div>
           )}
           <div className="flex items-center justify-between mb-3">
-            <p className="text-sm font-semibold text-gray-700">
+            <p className="text-sm font-semibold text-slate-800">
               Kom je?
             </p>
           </div>
@@ -255,13 +255,13 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
       )}
 
       {isWinter && !isPast && (
-        <div className="mt-4 pt-4 border-t border-blue-200 text-center text-sm text-gray-600">
+        <div className="mt-4 pt-4 border-t border-blue-200 text-center text-sm text-slate-800">
           ℹ️ Vaste winterrit - Geen inschrijving nodig
         </div>
       )}
 
       {!isPast && !isCancelled && !isWinter && ride._count && ride._count.attendees > 0 && (
-        <div className="mt-2 text-center text-xs text-gray-500">
+        <div className="mt-2 text-center text-xs text-slate-700">
           Klik op de kaart voor meer details
         </div>
       )}

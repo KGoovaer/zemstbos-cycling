@@ -28,14 +28,6 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="/contact"
-                  className="text-slate-300 hover:text-emerald-400 text-lg transition-colors"
-                >
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link
                   href="/login"
                   className="text-slate-300 hover:text-emerald-400 text-lg transition-colors"
                 >

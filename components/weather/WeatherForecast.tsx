@@ -52,7 +52,7 @@ export function WeatherForecast({ rideDate, startTime, latitude, longitude }: We
     return (
       <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg p-6 mb-8">
         <div className="flex items-center justify-center">
-          <div className="animate-pulse text-xl text-gray-600">
+          <div className="animate-pulse text-xl text-slate-800">
             Weersvoorspelling laden...
           </div>
         </div>
@@ -89,34 +89,34 @@ export function WeatherForecast({ rideDate, startTime, latitude, longitude }: We
         <span className="text-5xl mr-4">{weather.weatherIcon}</span>
         <div>
           <h2 className="text-2xl font-bold text-gray-800">Weersvoorspelling</h2>
-          <p className="text-lg text-gray-600">{weather.weatherDescription}</p>
+          <p className="text-lg text-slate-800">{weather.weatherDescription}</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white rounded-lg p-4 text-center shadow-sm">
-          <div className="text-lg text-gray-600 mb-2">🌡️ Temperatuur</div>
+          <div className="text-lg text-slate-800 mb-2">🌡️ Temperatuur</div>
           <div className={`text-4xl font-bold ${getTemperatureColor(weather.temperature)}`}>
             {weather.temperature}°C
           </div>
         </div>
 
         <div className="bg-white rounded-lg p-4 text-center shadow-sm">
-          <div className="text-lg text-gray-600 mb-2">💧 Neerslag kans</div>
+          <div className="text-lg text-slate-800 mb-2">💧 Neerslag kans</div>
           <div className={`text-4xl font-bold ${getPrecipitationColor(weather.precipitationChance)}`}>
             {weather.precipitationChance}%
           </div>
         </div>
 
         <div className="bg-white rounded-lg p-4 text-center shadow-sm">
-          <div className="text-lg text-gray-600 mb-2">💨 Windsnelheid</div>
+          <div className="text-lg text-slate-800 mb-2">💨 Windsnelheid</div>
           <div className={`text-4xl font-bold ${getWindSpeedColor(weather.windSpeed)}`}>
             {weather.windSpeed} km/u
           </div>
         </div>
       </div>
 
-      <div className="mt-4 text-sm text-gray-500 text-center">
+      <div className="mt-4 text-sm text-slate-700 text-center">
         Voorspelling wordt dagelijks bijgewerkt • Bron: Open-Meteo
       </div>
     </div>

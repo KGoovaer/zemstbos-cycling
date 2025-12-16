@@ -164,23 +164,23 @@ export default function MembersManagementPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
-          <p className="text-xl text-gray-600">Laden...</p>
+          <p className="text-xl text-slate-800">Laden...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
               Leden Beheer
             </h1>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-slate-800">
               Beheer clubleden en hun betaalstatus
             </p>
           </div>
@@ -203,10 +203,10 @@ export default function MembersManagementPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+          <div className="bg-white rounded-lg shadow border border-slate-200 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-lg text-gray-600 mb-1">Actieve Leden</p>
+                <p className="text-lg text-slate-800 mb-1">Actieve Leden</p>
                 <p className="text-4xl font-bold text-gray-900">
                   {stats.active}
                 </p>
@@ -215,10 +215,10 @@ export default function MembersManagementPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+          <div className="bg-white rounded-lg shadow border border-slate-200 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-lg text-gray-600 mb-1">Betaald</p>
+                <p className="text-lg text-slate-800 mb-1">Betaald</p>
                 <p className="text-4xl font-bold text-green-600">
                   {stats.paid}
                 </p>
@@ -227,10 +227,10 @@ export default function MembersManagementPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+          <div className="bg-white rounded-lg shadow border border-slate-200 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-lg text-gray-600 mb-1">Onbetaald</p>
+                <p className="text-lg text-slate-800 mb-1">Onbetaald</p>
                 <p className="text-4xl font-bold text-red-600">
                   {stats.unpaid}
                 </p>
@@ -241,7 +241,7 @@ export default function MembersManagementPage() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-lg shadow border border-slate-200 p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label
@@ -256,7 +256,7 @@ export default function MembersManagementPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Naam, email of telefoon..."
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
@@ -271,7 +271,7 @@ export default function MembersManagementPage() {
                 id="statusFilter"
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="all">Alle</option>
                 <option value="active">Actief</option>
@@ -290,7 +290,7 @@ export default function MembersManagementPage() {
                 id="paymentFilter"
                 value={paymentFilter}
                 onChange={(e) => setPaymentFilter(e.target.value)}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="all">Alle</option>
                 <option value="paid">Betaald</option>

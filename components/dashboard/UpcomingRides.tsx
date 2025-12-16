@@ -87,14 +87,14 @@ export async function UpcomingRides() {
                           <p className="text-lg font-semibold text-gray-900 capitalize">
                             {formattedDate}
                           </p>
-                          <p className="text-lg text-gray-700 mt-1">{winterRoute.name}</p>
+                          <p className="text-lg text-slate-800 mt-1">{winterRoute.name}</p>
                         </div>
                       </div>
                       <div className="text-right ml-4">
                         <p className="text-lg text-blue-600 font-semibold">
                           {winterRoute.distanceKm.toString()} km
                         </p>
-                        <p className="text-sm text-gray-600">09:00</p>
+                        <p className="text-sm text-slate-800">09:00</p>
                       </div>
                     </div>
                   </Link>
@@ -129,20 +129,20 @@ export async function UpcomingRides() {
             <Link
               key={ride.id}
               href={`/ride/${ride.id}`}
-              className="block p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+              className="block p-4 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors"
             >
               <div className="flex justify-between items-start">
                 <div className="flex-1">
                   <p className="text-lg font-semibold text-gray-900 capitalize">
                     {formattedDate}
                   </p>
-                  <p className="text-lg text-gray-700 mt-1">{ride.route.name}</p>
+                  <p className="text-lg text-slate-800 mt-1">{ride.route.name}</p>
                 </div>
                 <div className="text-right ml-4">
                   <p className="text-lg text-blue-600 font-semibold">
                     {ride.route.distanceKm.toString()} km
                   </p>
-                  <p className="text-sm text-gray-600">{formattedTime}</p>
+                  <p className="text-sm text-slate-800">{formattedTime}</p>
                 </div>
               </div>
             </Link>

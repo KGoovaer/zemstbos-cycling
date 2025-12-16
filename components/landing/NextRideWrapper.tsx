@@ -48,7 +48,7 @@ export function NextRideWrapper() {
           <h2 className="text-4xl font-bold mb-4">Volgende Rit</h2>
           <div className="flex justify-center items-center">
             <div className="animate-pulse">
-              <p className="text-xl text-gray-600">Laden...</p>
+              <p className="text-xl text-slate-800">Laden...</p>
             </div>
           </div>
         </div>
@@ -61,10 +61,10 @@ export function NextRideWrapper() {
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-4">Volgende Rit</h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-slate-800">
             Er is een fout opgetreden bij het laden van de rit
           </p>
-          <p className="text-lg text-gray-500 mt-2">
+          <p className="text-lg text-slate-700 mt-2">
             Probeer de pagina later opnieuw te laden
           </p>
         </div>

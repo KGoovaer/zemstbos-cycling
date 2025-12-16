@@ -34,13 +34,7 @@ export function Hero() {
               href="/login"
               className="btn-primary"
             >
-              Word lid
-            </Link>
-            <Link
-              href="/contact"
-              className="btn-outline"
-            >
-              Neem contact op
+              Word lid en rijd mee
             </Link>
           </div>
         </div>

@@ -56,9 +56,9 @@ export function ProfileForm({ user }: { user: User }) {
             type="text"
             value={`${user.firstName} ${user.lastName}`}
             disabled
-            className="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg bg-gray-50"
+            className="w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-lg bg-slate-50"
           />
-          <p className="text-base text-gray-500 mt-1">
+          <p className="text-base text-slate-700 mt-1">
             Neem contact op met de admin om je naam te wijzigen
           </p>
         </div>
@@ -69,7 +69,7 @@ export function ProfileForm({ user }: { user: User }) {
             type="email"
             value={user.email}
             disabled
-            className="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg bg-gray-50"
+            className="w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-lg bg-slate-50"
           />
         </div>
 
@@ -82,7 +82,7 @@ export function ProfileForm({ user }: { user: User }) {
             type="tel"
             value={formData.phone}
             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-            className="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600"
+            className="w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-lg focus:border-blue-600"
           />
         </div>
 
@@ -95,7 +95,7 @@ export function ProfileForm({ user }: { user: User }) {
             type="text"
             value={formData.address}
             onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-            className="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg focus:border-blue-600"
+            className="w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-lg focus:border-blue-600"
           />
         </div>
 
@@ -107,9 +107,9 @@ export function ProfileForm({ user }: { user: User }) {
             type="text"
             value={user.birthDate ? new Date(user.birthDate).toLocaleDateString('nl-BE') : 'Niet ingevuld'}
             disabled
-            className="w-full px-4 py-3 text-lg border-2 border-gray-300 rounded-lg bg-gray-50"
+            className="w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-lg bg-slate-50"
           />
-          <p className="text-base text-gray-500 mt-1">
+          <p className="text-base text-slate-700 mt-1">
             Neem contact op met de admin om je geboortedatum te wijzigen
           </p>
         </div>

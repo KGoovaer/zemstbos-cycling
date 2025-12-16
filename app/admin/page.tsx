@@ -137,13 +137,13 @@ export default async function AdminPage() {
   const stats = await getAdminStats()
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Admin Dashboard
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-slate-800">
             Welkom, {session.user.name}! Beheer je wielerclub.
           </p>
         </div>
@@ -249,7 +249,7 @@ export default async function AdminPage() {
             </div>
 
             {stats.recentRides.length > 0 && (
-              <div className="bg-white rounded-lg shadow border border-gray-200 p-6 mb-8">
+              <div className="bg-white rounded-lg shadow border border-slate-200 p-6 mb-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">
                   Aankomende Ritten
                 </h2>
@@ -257,13 +257,13 @@ export default async function AdminPage() {
                   {stats.recentRides.map((ride) => (
                     <div
                       key={ride.id}
-                      className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200"
+                      className="flex items-center justify-between p-4 bg-slate-50 rounded-lg border border-slate-200"
                     >
                       <div>
                         <p className="font-semibold text-lg text-gray-900">
                           {ride.routeName}
                         </p>
-                        <p className="text-gray-600">
+                        <p className="text-slate-800">
                           {new Date(ride.date).toLocaleDateString('nl-BE', {
                             weekday: 'long',
                             year: 'numeric',

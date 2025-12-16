@@ -79,11 +79,11 @@ export function RouteTable({ routes, onDelete }: RouteTableProps) {
 
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-        <thead className="bg-gray-50">
+      <table className="min-w-full bg-white border border-slate-200 rounded-lg">
+        <thead className="bg-slate-50">
           <tr>
             <th
-              className="px-6 py-4 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100"
+              className="px-6 py-4 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-slate-100"
               onClick={() => handleSort('name')}
             >
               Route Naam <SortIcon column="name" />
@@ -92,7 +92,7 @@ export function RouteTable({ routes, onDelete }: RouteTableProps) {
               Regio
             </th>
             <th
-              className="px-6 py-4 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100"
+              className="px-6 py-4 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-slate-100"
               onClick={() => handleSort('distance')}
             >
               Afstand <SortIcon column="distance" />
@@ -101,13 +101,13 @@ export function RouteTable({ routes, onDelete }: RouteTableProps) {
               Moeilijkheid
             </th>
             <th
-              className="px-6 py-4 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100"
+              className="px-6 py-4 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-slate-100"
               onClick={() => handleSort('timesRidden')}
             >
               Keren Gereden <SortIcon column="timesRidden" />
             </th>
             <th
-              className="px-6 py-4 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-gray-100"
+              className="px-6 py-4 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-slate-100"
               onClick={() => handleSort('lastRidden')}
             >
               Laatst Gereden <SortIcon column="lastRidden" />
@@ -119,13 +119,13 @@ export function RouteTable({ routes, onDelete }: RouteTableProps) {
         </thead>
         <tbody className="divide-y divide-gray-200">
           {sortedRoutes.map((route) => (
-            <tr key={route.id} className="hover:bg-gray-50">
+            <tr key={route.id} className="hover:bg-slate-50">
               <td className="px-6 py-4">
                 <div className="text-base font-semibold text-gray-900">
                   {route.name}
                 </div>
                 {route.startLocation && (
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-slate-800">
                     Start: {route.startLocation}
                   </div>
                 )}
@@ -136,7 +136,7 @@ export function RouteTable({ routes, onDelete }: RouteTableProps) {
               <td className="px-6 py-4 text-base text-gray-900">
                 {Number(route.distanceKm).toFixed(1)} km
                 {route.elevationM && (
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-slate-800">
                     {route.elevationM}m hoogte
                   </div>
                 )}
@@ -159,7 +159,7 @@ export function RouteTable({ routes, onDelete }: RouteTableProps) {
                       : 'Moeilijk'}
                   </span>
                 ) : (
-                  <span className="text-gray-400">-</span>
+                  <span className="text-slate-600">-</span>
                 )}
               </td>
               <td className="px-6 py-4 text-base text-gray-900 text-center">
@@ -207,7 +207,7 @@ export function RouteTable({ routes, onDelete }: RouteTableProps) {
         </tbody>
       </table>
       {sortedRoutes.length === 0 && (
-        <div className="text-center py-12 text-gray-500 text-lg">
+        <div className="text-center py-12 text-slate-700 text-lg">
           Geen routes gevonden
         </div>
       )}

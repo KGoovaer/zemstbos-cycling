@@ -30,10 +30,10 @@ export function NextRide({ ride }: NextRideProps) {
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-4">Volgende Rit</h2>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-slate-800">
             Geen ritten gepland op dit moment
           </p>
-          <p className="text-lg text-gray-500 mt-2">
+          <p className="text-lg text-slate-700 mt-2">
             Neem contact op met de club voor meer informatie
           </p>
         </div>
@@ -119,7 +119,7 @@ export function NextRide({ ride }: NextRideProps) {
           </div>
 
           {ride.route.description && (
-            <p className="text-lg text-gray-700 mb-6 text-center">
+            <p className="text-lg text-slate-800 mb-6 text-center">
               {ride.route.description}
             </p>
           )}

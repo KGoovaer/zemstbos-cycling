@@ -132,27 +132,27 @@ export default function ScheduleManagementPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
-          <p className="text-xl text-gray-600">Laden...</p>
+          <p className="text-xl text-slate-800">Laden...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Planning Beheer
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-slate-800">
             Beheer de rittenkalender per team
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-lg shadow border border-slate-200 p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label
@@ -165,7 +165,7 @@ export default function ScheduleManagementPage() {
                 id="season"
                 value={selectedSeason || ''}
                 onChange={(e) => setSelectedSeason(e.target.value)}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Selecteer seizoen</option>
                 {seasons.map((season) => (
@@ -188,7 +188,7 @@ export default function ScheduleManagementPage() {
                 id="team"
                 value={selectedTeam}
                 onChange={(e) => setSelectedTeam(e.target.value)}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="A">Team A (Snel & Lang)</option>
                 <option value="B">Team B (Gemiddeld)</option>

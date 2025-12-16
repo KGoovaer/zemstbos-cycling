@@ -103,7 +103,7 @@ export default function MemberEventsPage() {
       case 'closing':
         return 'bg-orange-100 text-orange-800 border-orange-200'
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200'
+        return 'bg-slate-100 text-gray-800 border-slate-200'
     }
   }
 
@@ -113,29 +113,29 @@ export default function MemberEventsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="max-w-5xl mx-auto">
-          <p className="text-xl text-gray-600">Laden...</p>
+          <p className="text-xl text-slate-800">Laden...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-5xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Aankomende Evenementen
           </h1>
-          <p className="text-xl text-gray-600">
+          <p className="text-xl text-slate-800">
             Meld je aan voor club evenementen
           </p>
         </div>
 
         {events.length === 0 ? (
-          <div className="bg-white rounded-lg shadow border border-gray-200 p-8 text-center">
-            <p className="text-xl text-gray-600">
+          <div className="bg-white rounded-lg shadow border border-slate-200 p-8 text-center">
+            <p className="text-xl text-slate-800">
               Geen aankomende evenementen
             </p>
           </div>
@@ -147,7 +147,7 @@ export default function MemberEventsPage() {
               return (
                 <div
                   key={event.id}
-                  className="bg-white rounded-lg shadow border border-gray-200 p-6"
+                  className="bg-white rounded-lg shadow border border-slate-200 p-6"
                 >
                   <div className="mb-4">
                     <span
@@ -163,7 +163,7 @@ export default function MemberEventsPage() {
                     <div className="mb-4">
                       <div className="flex items-center gap-2 mb-2">
                         <span className="font-medium">👥</span>
-                        <span className="font-semibold text-gray-700">
+                        <span className="font-semibold text-slate-800">
                           {event._count.attendees} {event._count.attendees === 1 ? 'reactie' : 'reacties'}
                         </span>
                       </div>
@@ -221,7 +221,7 @@ export default function MemberEventsPage() {
                     {event.title}
                   </h2>
 
-                  <div className="space-y-2 text-lg text-gray-700 mb-4">
+                  <div className="space-y-2 text-lg text-slate-800 mb-4">
                     <div className="flex items-center gap-2">
                       <span className="font-medium">📅</span>
                       <span>{formatDate(event.eventDate)}</span>
@@ -243,11 +243,11 @@ export default function MemberEventsPage() {
                   </div>
 
                   {event.description && (
-                    <p className="text-gray-600 mb-4">{event.description}</p>
+                    <p className="text-slate-800 mb-4">{event.description}</p>
                   )}
 
-                  <div className="pt-4 border-t border-gray-200">
-                    <p className="text-sm font-semibold text-gray-700 mb-3">
+                  <div className="pt-4 border-t border-slate-200">
+                    <p className="text-sm font-semibold text-slate-800 mb-3">
                       Kom je?
                     </p>
                     <div className="flex gap-3">

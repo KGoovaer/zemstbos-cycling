@@ -59,7 +59,7 @@ export function QuickActions() {
         <Link
           key={action.href}
           href={action.href}
-          className="bg-white rounded-lg shadow border border-gray-200 p-6 hover:shadow-lg hover:border-blue-300 transition-all duration-200 group"
+          className="bg-white rounded-lg shadow border border-slate-200 p-6 hover:shadow-lg hover:border-blue-300 transition-all duration-200 group"
         >
           <div className="flex items-start">
             <span className="text-4xl mr-4 group-hover:scale-110 transition-transform duration-200">
@@ -69,7 +69,7 @@ export function QuickActions() {
               <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                 {action.title}
               </h3>
-              <p className="text-gray-600 text-lg">{action.description}</p>
+              <p className="text-slate-800 text-lg">{action.description}</p>
             </div>
           </div>
         </Link>

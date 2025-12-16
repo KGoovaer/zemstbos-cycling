@@ -74,7 +74,7 @@ export function GPXUploadForm({ onParsed }: GPXUploadFormProps) {
           transition-colors
           ${isDragging 
             ? 'border-blue-500 bg-blue-50' 
-            : 'border-gray-300 hover:border-gray-400 bg-white'
+            : 'border-slate-300 hover:border-gray-400 bg-white'
           }
           ${isProcessing ? 'opacity-50 cursor-not-allowed' : ''}
         `}
@@ -90,7 +90,7 @@ export function GPXUploadForm({ onParsed }: GPXUploadFormProps) {
 
         <div className="space-y-4">
           <svg
-            className="mx-auto h-16 w-16 text-gray-400"
+            className="mx-auto h-16 w-16 text-slate-600"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -104,15 +104,15 @@ export function GPXUploadForm({ onParsed }: GPXUploadFormProps) {
           </svg>
 
           <div>
-            <p className="text-xl font-semibold text-gray-700 mb-2">
+            <p className="text-xl font-semibold text-slate-800 mb-2">
               {isProcessing ? 'Bestand verwerken...' : 'Sleep een GPX bestand hierheen'}
             </p>
-            <p className="text-lg text-gray-500">
+            <p className="text-lg text-slate-700">
               of klik om een bestand te selecteren
             </p>
           </div>
 
-          <p className="text-base text-gray-400">
+          <p className="text-base text-slate-600">
             Maximum bestandsgrootte: 5MB
           </p>
         </div>

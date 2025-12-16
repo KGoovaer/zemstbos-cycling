@@ -131,19 +131,19 @@ export function AssignRouteModal({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-200 p-6">
+        <div className="sticky top-0 bg-white border-b border-slate-200 p-6">
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-3xl font-bold text-gray-900">
                 {existingRide ? 'Rit Bewerken' : 'Rit Toevoegen'}
               </h2>
-              <p className="text-xl text-gray-600 mt-1">
+              <p className="text-xl text-slate-800 mt-1">
                 {formatDate(date)} - Team {team}
               </p>
             </div>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-4xl leading-none"
+              className="text-slate-700 hover:text-slate-800 text-4xl leading-none"
             >
               ×
             </button>
@@ -194,7 +194,7 @@ export function AssignRouteModal({
               value={selectedRouteId}
               onChange={(e) => setSelectedRouteId(e.target.value)}
               required
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">Selecteer een route</option>
               {routes.map((route) => (
@@ -220,7 +220,7 @@ export function AssignRouteModal({
                 id="startTime"
                 value={startTime}
                 onChange={(e) => setStartTime(e.target.value)}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
@@ -235,7 +235,7 @@ export function AssignRouteModal({
                 id="status"
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="scheduled">Gepland</option>
                 <option value="cancelled">Geannuleerd</option>
@@ -255,7 +255,7 @@ export function AssignRouteModal({
               id="weatherBackup"
               value={weatherBackupId}
               onChange={(e) => setWeatherBackupId(e.target.value)}
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">Geen backup route</option>
               {routes.map((route) => (
@@ -278,17 +278,17 @@ export function AssignRouteModal({
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               rows={3}
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Bijv. Afspraak bij café, extra pauze..."
             />
           </div>
 
-          <div className="flex gap-3 pt-4 border-t border-gray-200">
+          <div className="flex gap-3 pt-4 border-t border-slate-200">
             <button
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="flex-1 px-6 py-4 bg-gray-200 text-gray-900 text-xl font-semibold rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50"
+              className="flex-1 px-6 py-4 bg-slate-200 text-gray-900 text-xl font-semibold rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50"
             >
               Annuleren
             </button>

@@ -33,7 +33,7 @@ export async function PaymentStatus({ userId }: PaymentStatusProps) {
           <>
             <div className="text-5xl mb-3">✅</div>
             <p className="text-xl font-semibold text-green-800 mb-2">Betaald</p>
-            <p className="text-lg text-gray-700">
+            <p className="text-lg text-slate-800">
               Je lidmaatschap is in orde voor {currentYear}
             </p>
           </>
@@ -41,12 +41,12 @@ export async function PaymentStatus({ userId }: PaymentStatusProps) {
           <>
             <div className="text-5xl mb-3">⏳</div>
             <p className="text-xl font-semibold text-orange-800 mb-2">Betaling uitstaand</p>
-            <p className="text-lg text-gray-700 mb-4">
+            <p className="text-lg text-slate-800 mb-4">
               Je lidmaatschap voor {currentYear} is nog niet betaald
             </p>
             <div className="bg-white rounded-lg p-4 text-left">
               <p className="text-sm font-semibold text-gray-800 mb-2">Betaalinformatie:</p>
-              <p className="text-sm text-gray-700">
+              <p className="text-sm text-slate-800">
                 Neem contact op met de penningmeester voor betaaldetails
               </p>
             </div>

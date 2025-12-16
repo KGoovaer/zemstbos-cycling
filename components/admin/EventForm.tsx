@@ -87,14 +87,14 @@ export function EventForm({ event, onClose, onSuccess }: Props) {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-200 p-6">
+        <div className="sticky top-0 bg-white border-b border-slate-200 p-6">
           <div className="flex items-center justify-between">
             <h2 className="text-3xl font-bold text-gray-900">
               {event ? 'Evenement Bewerken' : 'Nieuw Evenement'}
             </h2>
             <button
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 text-4xl leading-none"
+              className="text-slate-700 hover:text-slate-800 text-4xl leading-none"
             >
               ×
             </button>
@@ -115,7 +115,7 @@ export function EventForm({ event, onClose, onSuccess }: Props) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Bijv. Seizoen Opening 2025"
             />
           </div>
@@ -131,7 +131,7 @@ export function EventForm({ event, onClose, onSuccess }: Props) {
               id="eventType"
               value={eventType}
               onChange={(e) => setEventType(e.target.value)}
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="">Algemeen</option>
               <option value="kickoff">Seizoen Start</option>
@@ -155,7 +155,7 @@ export function EventForm({ event, onClose, onSuccess }: Props) {
                 value={eventDate}
                 onChange={(e) => setEventDate(e.target.value)}
                 required
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
@@ -171,7 +171,7 @@ export function EventForm({ event, onClose, onSuccess }: Props) {
                 id="eventTime"
                 value={eventTime}
                 onChange={(e) => setEventTime(e.target.value)}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
           </div>
@@ -188,7 +188,7 @@ export function EventForm({ event, onClose, onSuccess }: Props) {
               id="location"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Bijv. Clubhuis, Marktplein"
             />
           </div>
@@ -205,17 +205,17 @@ export function EventForm({ event, onClose, onSuccess }: Props) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={5}
-              className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Extra informatie over het evenement..."
             />
           </div>
 
-          <div className="flex gap-3 pt-4 border-t border-gray-200">
+          <div className="flex gap-3 pt-4 border-t border-slate-200">
             <button
               type="button"
               onClick={onClose}
               disabled={loading}
-              className="flex-1 px-6 py-4 bg-gray-200 text-gray-900 text-xl font-semibold rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50"
+              className="flex-1 px-6 py-4 bg-slate-200 text-gray-900 text-xl font-semibold rounded-lg hover:bg-gray-300 transition-colors disabled:opacity-50"
             >
               Annuleren
             </button>

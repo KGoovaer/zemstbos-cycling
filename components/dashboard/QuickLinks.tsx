@@ -30,13 +30,13 @@ export function QuickLinks() {
           <Link
             key={link.href}
             href={link.href}
-            className="block p-4 bg-gray-50 rounded-lg hover:bg-blue-50 transition-colors border-2 border-transparent hover:border-blue-300"
+            className="block p-4 bg-slate-50 rounded-lg hover:bg-blue-50 transition-colors border-2 border-transparent hover:border-blue-300"
           >
             <div className="flex items-center">
               <span className="text-3xl mr-3">{link.icon}</span>
               <div>
                 <p className="text-lg font-semibold text-gray-900">{link.label}</p>
-                <p className="text-sm text-gray-600">{link.description}</p>
+                <p className="text-sm text-slate-800">{link.description}</p>
               </div>
             </div>
           </Link>

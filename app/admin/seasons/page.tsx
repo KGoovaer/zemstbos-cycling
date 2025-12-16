@@ -81,23 +81,23 @@ export default function SeasonsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
-          <p className="text-xl text-gray-600">Laden...</p>
+          <p className="text-xl text-slate-800">Laden...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
               Seizoen Beheer
             </h1>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-slate-800">
               Beheer cycling seizoenen en activeer het huidige seizoen
             </p>
           </div>
@@ -122,9 +122,9 @@ export default function SeasonsPage() {
             </Link>
           </div>
         ) : (
-          <div className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+          <div className="bg-white rounded-lg shadow border border-slate-200 overflow-hidden">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-slate-50 border-b border-slate-200">
                 <tr>
                   <th className="px-6 py-4 text-left text-lg font-bold text-gray-900">
                     Jaar
@@ -145,18 +145,18 @@ export default function SeasonsPage() {
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {seasons.map((season) => (
-                  <tr key={season.id} className="hover:bg-gray-50">
+                  <tr key={season.id} className="hover:bg-slate-50">
                     <td className="px-6 py-4 text-lg text-gray-900 font-semibold">
                       {season.year}
                     </td>
-                    <td className="px-6 py-4 text-lg text-gray-600">
+                    <td className="px-6 py-4 text-lg text-slate-800">
                       {new Date(season.startDate).toLocaleDateString('nl-BE', {
                         day: 'numeric',
                         month: 'long',
                         year: 'numeric',
                       })}
                     </td>
-                    <td className="px-6 py-4 text-lg text-gray-600">
+                    <td className="px-6 py-4 text-lg text-slate-800">
                       {new Date(season.endDate).toLocaleDateString('nl-BE', {
                         day: 'numeric',
                         month: 'long',
@@ -169,7 +169,7 @@ export default function SeasonsPage() {
                           ✓ Actief
                         </span>
                       ) : (
-                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gray-100 text-gray-600">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-slate-100 text-slate-800">
                           Inactief
                         </span>
                       )}

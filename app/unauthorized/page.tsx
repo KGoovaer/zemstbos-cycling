@@ -2,16 +2,16 @@ import Link from 'next/link'
 
 export default function UnauthorizedPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50">
       <div className="max-w-md w-full text-center space-y-4 p-8">
         <h1 className="text-4xl font-bold text-gray-900">403</h1>
-        <h2 className="text-2xl font-semibold text-gray-700">
+        <h2 className="text-2xl font-semibold text-slate-800">
           Geen toegang
         </h2>
-        <p className="text-lg text-gray-600">
+        <p className="text-lg text-slate-800">
           Je hebt geen toestemming om deze pagina te bekijken.
         </p>
-        <p className="text-base text-gray-500">
+        <p className="text-base text-slate-700">
           Deze pagina is alleen toegankelijk voor beheerders.
         </p>
         <Link

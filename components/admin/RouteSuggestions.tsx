@@ -167,7 +167,7 @@ export function RouteSuggestions({
         <h3 className="text-xl font-bold text-gray-900 mb-4">
           🤖 Route Suggesties
         </h3>
-        <p className="text-gray-600">Suggesties worden geladen...</p>
+        <p className="text-slate-800">Suggesties worden geladen...</p>
       </div>
     )
   }
@@ -178,7 +178,7 @@ export function RouteSuggestions({
         <h3 className="text-xl font-bold text-gray-900 mb-4">
           🤖 Route Suggesties
         </h3>
-        <p className="text-gray-600">
+        <p className="text-slate-800">
           Geen suggesties beschikbaar. Alle routes zijn al gepland of er zijn geen
           routes beschikbaar.
         </p>
@@ -191,7 +191,7 @@ export function RouteSuggestions({
       <h3 className="text-xl font-bold text-gray-900 mb-4">
         🤖 Route Suggesties voor Team {team}
       </h3>
-      <p className="text-gray-600 mb-4">
+      <p className="text-slate-800 mb-4">
         Op basis van historische data en team voorkeuren:
       </p>
 
@@ -213,7 +213,7 @@ export function RouteSuggestions({
                   </h4>
                 </div>
 
-                <div className="flex flex-wrap gap-3 mb-2 text-gray-700">
+                <div className="flex flex-wrap gap-3 mb-2 text-slate-800">
                   <span className="font-medium">📏 {route.distanceKm} km</span>
                   {route.elevationM && (
                     <span className="font-medium">⛰️ {route.elevationM}m</span>
@@ -226,7 +226,7 @@ export function RouteSuggestions({
                   </span>
                 </div>
 
-                <p className="text-sm text-gray-600 italic">{route.reason}</p>
+                <p className="text-sm text-slate-800 italic">{route.reason}</p>
               </div>
 
               <div className="ml-4">

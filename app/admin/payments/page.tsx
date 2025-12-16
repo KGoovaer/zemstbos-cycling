@@ -264,23 +264,23 @@ export default function PaymentTrackingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+      <div className="min-h-screen bg-slate-50 p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
-          <p className="text-xl text-gray-600">Laden...</p>
+          <p className="text-xl text-slate-800">Laden...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-slate-50 p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
               Betaalstatus Beheer
             </h1>
-            <p className="text-xl text-gray-600">
+            <p className="text-xl text-slate-800">
               Volg de betaalstatus van alle clubleden
             </p>
           </div>
@@ -306,7 +306,7 @@ export default function PaymentTrackingPage() {
         </div>
 
         {/* Season Selector */}
-        <div className="bg-white rounded-lg shadow border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-lg shadow border border-slate-200 p-6 mb-6">
           <label
             htmlFor="season"
             className="block text-lg font-semibold text-gray-900 mb-2"
@@ -317,7 +317,7 @@ export default function PaymentTrackingPage() {
             id="season"
             value={selectedSeason}
             onChange={(e) => setSelectedSeason(e.target.value)}
-            className="w-full md:w-auto px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full md:w-auto px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="">Selecteer seizoen</option>
             {seasons.map((season) => (
@@ -331,10 +331,10 @@ export default function PaymentTrackingPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+          <div className="bg-white rounded-lg shadow border border-slate-200 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-lg text-gray-600 mb-1">Totaal Actief</p>
+                <p className="text-lg text-slate-800 mb-1">Totaal Actief</p>
                 <p className="text-4xl font-bold text-gray-900">
                   {stats.total}
                 </p>
@@ -343,14 +343,14 @@ export default function PaymentTrackingPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+          <div className="bg-white rounded-lg shadow border border-slate-200 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-lg text-gray-600 mb-1">Betaald</p>
+                <p className="text-lg text-slate-800 mb-1">Betaald</p>
                 <p className="text-4xl font-bold text-green-600">
                   {stats.paid}
                 </p>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-slate-700 mt-1">
                   {stats.paidPercentage}%
                 </p>
               </div>
@@ -358,10 +358,10 @@ export default function PaymentTrackingPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+          <div className="bg-white rounded-lg shadow border border-slate-200 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-lg text-gray-600 mb-1">Onbetaald</p>
+                <p className="text-lg text-slate-800 mb-1">Onbetaald</p>
                 <p className="text-4xl font-bold text-red-600">
                   {stats.unpaid}
                 </p>
@@ -370,11 +370,11 @@ export default function PaymentTrackingPage() {
             </div>
           </div>
 
-          <div className="bg-white rounded-lg shadow border border-gray-200 p-6">
+          <div className="bg-white rounded-lg shadow border border-slate-200 p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-lg text-gray-600 mb-1">Vrijgesteld</p>
-                <p className="text-4xl font-bold text-gray-600">
+                <p className="text-lg text-slate-800 mb-1">Vrijgesteld</p>
+                <p className="text-4xl font-bold text-slate-800">
                   {stats.exempt}
                 </p>
               </div>
@@ -424,7 +424,7 @@ export default function PaymentTrackingPage() {
         )}
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow border border-gray-200 p-6 mb-6">
+        <div className="bg-white rounded-lg shadow border border-slate-200 p-6 mb-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label
@@ -439,7 +439,7 @@ export default function PaymentTrackingPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Naam of email..."
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
@@ -454,7 +454,7 @@ export default function PaymentTrackingPage() {
                 id="paymentFilter"
                 value={paymentFilter}
                 onChange={(e) => setPaymentFilter(e.target.value)}
-                className="w-full px-4 py-3 text-lg border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 text-lg border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="all">Alle</option>
                 <option value="paid">Betaald</option>
@@ -467,10 +467,10 @@ export default function PaymentTrackingPage() {
 
         {/* Payment Table */}
         {bulkSelecting ? (
-          <div className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden mb-6">
+          <div className="bg-white rounded-lg shadow border border-slate-200 overflow-hidden mb-6">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50 border-b border-gray-200">
+                <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
                     <th className="px-6 py-4 text-left">
                       <input
@@ -480,7 +480,7 @@ export default function PaymentTrackingPage() {
                           filteredMembers.length > 0
                         }
                         onChange={selectAll}
-                        className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        className="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
                       />
                     </th>
                     <th className="px-6 py-4 text-left text-base font-semibold text-gray-900">
@@ -501,7 +501,7 @@ export default function PaymentTrackingPage() {
                   {filteredMembers.map((member) => (
                     <tr
                       key={member.id}
-                      className={`hover:bg-gray-50 ${
+                      className={`hover:bg-slate-50 ${
                         selectedIds.has(member.id) ? 'bg-blue-50' : ''
                       }`}
                     >
@@ -510,7 +510,7 @@ export default function PaymentTrackingPage() {
                           type="checkbox"
                           checked={selectedIds.has(member.id)}
                           onChange={() => toggleSelection(member.id)}
-                          className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                          className="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
                         />
                       </td>
                       <td className="px-6 py-4">
@@ -519,7 +519,7 @@ export default function PaymentTrackingPage() {
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="text-base text-gray-700">
+                        <div className="text-base text-slate-800">
                           {member.email}
                         </div>
                       </td>
@@ -529,7 +529,7 @@ export default function PaymentTrackingPage() {
                             member.paymentStatus === 'paid'
                               ? 'bg-green-100 text-green-800'
                               : member.paymentStatus === 'exempt'
-                              ? 'bg-gray-100 text-gray-800'
+                              ? 'bg-slate-100 text-gray-800'
                               : 'bg-red-100 text-red-800'
                           }`}
                         >
@@ -540,7 +540,7 @@ export default function PaymentTrackingPage() {
                             : 'Onbetaald'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-center text-base text-gray-700">
+                      <td className="px-6 py-4 text-center text-base text-slate-800">
                         {member.paymentYear || '-'}
                       </td>
                     </tr>

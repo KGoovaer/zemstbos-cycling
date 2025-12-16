@@ -119,7 +119,7 @@ export function RouteMap({ routeId, routeName }: RouteMapProps) {
 
   if (error) {
     return (
-      <div className="mb-6 bg-gray-100 rounded-lg p-6">
+      <div className="mb-6 bg-slate-100 rounded-lg p-6">
         <h2 className="text-2xl font-bold mb-4">Routekaart</h2>
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
           <p className="text-xl text-red-600">{error}</p>
@@ -129,20 +129,20 @@ export function RouteMap({ routeId, routeName }: RouteMapProps) {
   }
 
   return (
-    <div className="mb-6 bg-gray-100 rounded-lg p-6">
+    <div className="mb-6 bg-slate-100 rounded-lg p-6">
       <h2 className="text-2xl font-bold mb-4">Routekaart</h2>
-      <div className="relative w-full h-[500px] rounded-lg overflow-hidden border-2 border-gray-300">
+      <div className="relative w-full h-[500px] rounded-lg overflow-hidden border-2 border-slate-300">
         {loading && (
-          <div className="absolute inset-0 bg-gray-200 flex items-center justify-center z-10">
+          <div className="absolute inset-0 bg-slate-200 flex items-center justify-center z-10">
             <div className="text-center">
               <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent mb-4"></div>
-              <p className="text-xl text-gray-600">Kaart laden...</p>
+              <p className="text-xl text-slate-800">Kaart laden...</p>
             </div>
           </div>
         )}
         <div ref={mapContainer} className="w-full h-full" />
       </div>
-      <p className="text-lg text-gray-600 mt-2">
+      <p className="text-lg text-slate-800 mt-2">
         Route: {routeName}
       </p>
     </div>
