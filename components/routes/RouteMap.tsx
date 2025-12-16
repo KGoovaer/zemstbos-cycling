@@ -28,7 +28,7 @@ export function RouteMap({ routeId, routeName }: RouteMapProps) {
         
         if (!response.ok) {
           if (response.status === 404) {
-            const errorData = await response.json()
+            await response.json() // Read error response
             if (mounted) {
               setError('Geen GPX data beschikbaar voor deze route')
               setLoading(false)

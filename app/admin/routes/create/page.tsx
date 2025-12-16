@@ -67,7 +67,7 @@ export default function CreateRoutePage() {
         throw new Error(errorData.error || 'Fout bij opslaan route')
       }
 
-      const route = await res.json()
+      await res.json() // Route created successfully
       router.push('/admin/routes')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Kon route niet opslaan')
