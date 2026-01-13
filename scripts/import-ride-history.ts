@@ -99,7 +99,6 @@ async function findOrCreateRoute(description: string, distanceKm: string): Promi
         distanceKm: distance,
         gpxData: '', // Empty GPX data - to be filled later
         startLocation: 'TBD',
-        timesRidden: 0
       }
     });
   }
@@ -171,18 +170,7 @@ async function importRideHistory(filePath: string, team: string, dryRun: boolean
             notes: `Team ${team} - ${row.time}`
           }
         });
-        
-        // Update route's lastRidden and timesRidden
-        await prisma.route.update({
-          where: { id: routeId },
-          data: {
-            timesRidden: {
-              increment: 1
-            },
-            lastRidden: date
-          }
-        });
-        
+
         console.log(`✅ Row ${row.nr}: Imported ${row.description} on ${row.date} (Week ${weekNumber})`);
         imported++;
       } catch (error) {

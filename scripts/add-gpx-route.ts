@@ -48,7 +48,6 @@ async function addRoute(data: RouteData) {
         startLocation: data.startLocation,
         region: data.region,
         gpxData: gpxData,
-        timesRidden: 0,
       },
     })
 

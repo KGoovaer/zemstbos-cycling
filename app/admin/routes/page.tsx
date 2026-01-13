@@ -13,8 +13,6 @@ interface Route {
   difficulty: string | null
   startLocation: string | null
   region: string | null
-  timesRidden: number
-  lastRidden: Date | null
   createdAt: Date
   _count: {
     scheduledRides: number

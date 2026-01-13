@@ -32,6 +32,12 @@ export default async function CalendarPage() {
     where: { isActive: true }
   })
 
+  // Get current user's preferred group
+  const currentUser = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { preferredGroup: true }
+  })
+
   // If no active season, show off-season rides only
   if (!activeSeason) {
     const now = new Date()
@@ -51,6 +57,14 @@ export default async function CalendarPage() {
             Geen actief seizoen - Wintertoer ritten worden getoond
           </p>
 
+          {currentUser?.preferredGroup && (
+            <div className="mb-6 inline-block">
+              <span className="text-lg font-semibold px-4 py-2 rounded-full bg-purple-100 text-purple-800 border-2 border-purple-300">
+                🚴 Jouw groep: {currentUser.preferredGroup}
+              </span>
+            </div>
+          )}
+
           <WinterRideCard 
             winterSundayCount={winterRides.length}
             seasonYear={currentYear}
@@ -59,6 +73,9 @@ export default async function CalendarPage() {
       </div>
     )
   }
+
+  // Determine if user is admin to show attendee names
+  const isAdmin = session.user.role === 'admin'
 
   // Get all scheduled rides for active season with attendee counts
   const ridesRaw = await prisma.scheduledRide.findMany({
@@ -76,12 +93,12 @@ export default async function CalendarPage() {
         select: {
           status: true,
           userId: true,
-          user: {
+          user: isAdmin ? {
             select: {
               firstName: true,
               lastName: true,
             },
-          },
+          } : false,
         },
       },
     },
@@ -90,33 +107,34 @@ export default async function CalendarPage() {
 
   // Calculate attendance breakdown for each ride
   const seasonRides = ridesRaw.map(ride => {
-    const attendingList = ride.attendees
-      .filter(a => a.status === 'attending')
-      .map(a => `${a.user.firstName} ${a.user.lastName}`);
-    
-    const maybeList = ride.attendees
-      .filter(a => a.status === 'maybe')
-      .map(a => `${a.user.firstName} ${a.user.lastName}`);
-    
-    const declinedList = ride.attendees
-      .filter(a => a.status === 'declined')
-      .map(a => `${a.user.firstName} ${a.user.lastName}`);
-    
+    const attendingCount = ride.attendees.filter(a => a.status === 'attending').length
+    const maybeCount = ride.attendees.filter(a => a.status === 'maybe').length
+    const declinedCount = ride.attendees.filter(a => a.status === 'declined').length
+
+    // Only include names for admins
+    const attendeeNames = isAdmin ? {
+      attending: ride.attendees
+        .filter(a => a.status === 'attending')
+        .map(a => `${a.user.firstName} ${a.user.lastName}`),
+      maybe: ride.attendees
+        .filter(a => a.status === 'maybe')
+        .map(a => `${a.user.firstName} ${a.user.lastName}`),
+      declined: ride.attendees
+        .filter(a => a.status === 'declined')
+        .map(a => `${a.user.firstName} ${a.user.lastName}`)
+    } : undefined
+
     return {
       ...ride,
       _count: {
         attendees: ride.attendees.length,
       },
       attendeeCounts: {
-        attending: attendingList.length,
-        maybe: maybeList.length,
-        declined: declinedList.length,
+        attending: attendingCount,
+        maybe: maybeCount,
+        declined: declinedCount,
       },
-      attendeeNames: {
-        attending: attendingList,
-        maybe: maybeList,
-        declined: declinedList,
-      },
+      attendeeNames,
       attendees: ride.attendees.filter(a => a.userId === session.user.id)
     };
   })
@@ -153,6 +171,14 @@ export default async function CalendarPage() {
         <p className="text-xl text-slate-800 mb-8">
           {seasonRides.length} seizoensritten gepland
         </p>
+
+        {currentUser?.preferredGroup && (
+          <div className="mb-6 inline-block">
+            <span className="text-lg font-semibold px-4 py-2 rounded-full bg-purple-100 text-purple-800 border-2 border-purple-300">
+              🚴 Jouw groep: {currentUser.preferredGroup}
+            </span>
+          </div>
+        )}
 
         {winterCount > 0 && (
           <div className="mb-8">

@@ -52,10 +52,6 @@ export async function GET(request: Request) {
       orderBy.name = sortOrder
     } else if (sortBy === 'distance') {
       orderBy.distanceKm = sortOrder
-    } else if (sortBy === 'lastRidden') {
-      orderBy.lastRidden = sortOrder === 'asc' ? 'asc' : 'desc'
-    } else if (sortBy === 'timesRidden') {
-      orderBy.timesRidden = sortOrder === 'asc' ? 'asc' : 'desc'
     }
 
     const routes = await prisma.route.findMany({
@@ -70,8 +66,6 @@ export async function GET(request: Request) {
         difficulty: true,
         startLocation: true,
         region: true,
-        timesRidden: true,
-        lastRidden: true,
         createdAt: true,
         _count: {
           select: {

@@ -26,6 +26,7 @@ export async function GET() {
         lastName: true,
         phone: true,
         address: true,
+        preferredGroup: true,
         birthDate: true,
         role: true,
         paymentStatus: true,
@@ -64,14 +65,28 @@ export async function PUT(request: Request) {
     }
 
     const body = await request.json()
-    const { phone, address } = body
+    const { phone, address, preferredGroup } = body
 
-    // Only allow updating phone number and address
+    // Validate preferredGroup if provided
+    if (
+      preferredGroup !== undefined &&
+      preferredGroup !== null &&
+      preferredGroup !== '' &&
+      !['A', 'B', 'C'].includes(preferredGroup)
+    ) {
+      return NextResponse.json(
+        { error: 'Ongeldige groep selectie. Kies A, B of C.' },
+        { status: 400 }
+      )
+    }
+
+    // Only allow updating phone number, address, and preferred group
     const updatedUser = await prisma.user.update({
       where: { id: session.user.id },
       data: {
         phone: phone || null,
         address: address || null,
+        preferredGroup: preferredGroup === '' ? null : preferredGroup,
       },
       select: {
         id: true,
@@ -80,6 +95,7 @@ export async function PUT(request: Request) {
         lastName: true,
         phone: true,
         address: true,
+        preferredGroup: true,
         birthDate: true,
         role: true,
         paymentStatus: true,

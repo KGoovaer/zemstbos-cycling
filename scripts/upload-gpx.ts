@@ -115,7 +115,6 @@ async function main() {
         startLocation: startLocation.trim() || null,
         region: region.trim() || null,
         gpxData: gpxData,
-        timesRidden: 0,
       },
     })
 

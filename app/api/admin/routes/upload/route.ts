@@ -52,7 +52,6 @@ export async function POST(request: Request) {
         startLocation: startLocation || null,
         region: region || null,
         gpxData: gpxPath,
-        timesRidden: 0,
       },
     })
 

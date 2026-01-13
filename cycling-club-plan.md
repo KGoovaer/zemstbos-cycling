@@ -37,7 +37,8 @@ A self-hosted web application for managing a cycling club with seasonal rides (M
 - See detailed route info (map, km, elevation)
 - Download GPX files
 - View their own profile & payment status
-- RSVP to events (optional future feature)
+- RSVP to rides and events
+- **Privacy**: Can only see participant **counts** (e.g., "12 attending"), not individual names
 
 ### 3. Admin
 - Everything member can do, plus:
@@ -48,6 +49,7 @@ A self-hosted web application for managing a cycling club with seasonal rides (M
 - Create/manage events
 - Upload new GPX files
 - View route suggestions based on history
+- **Privacy**: Can view full list of ride/event attendees with names
 
 ---
 
@@ -142,8 +144,6 @@ CREATE TABLE routes (
     gpx_data        TEXT NOT NULL, -- the actual GPX XML
     start_location  VARCHAR(255), -- e.g., "Clubhouse parking"
     region          VARCHAR(100), -- for grouping/filtering
-    times_ridden    INTEGER DEFAULT 0, -- historical count
-    last_ridden     DATE,
     created_at      TIMESTAMP DEFAULT NOW()
 );
 
@@ -202,6 +202,53 @@ CREATE INDEX idx_users_active ON users(is_active) WHERE is_active = true;
 
 ---
 
+## Privacy & Access Control
+
+### Attendee Visibility Rules
+
+To protect member privacy, the system implements role-based visibility for ride and event attendees:
+
+**For Members (Regular Cyclists):**
+- Can see the **total count** of participants for each status (e.g., "12 attending", "3 maybe", "2 declined")
+- **Cannot** see individual names or identities of other participants
+- This encourages participation without social pressure or privacy concerns
+
+**For Admins:**
+- Can see **full attendee lists** with names and contact information
+- Access via dedicated admin endpoints: `/api/admin/rides/[id]/attendees` and `/api/admin/events/[id]/attendees`
+- Necessary for logistics planning (e.g., arranging café stops, managing group sizes)
+
+### Implementation Details
+
+The calendar page conditionally fetches attendee details based on user role:
+
+```javascript
+// Only fetch user details if admin
+const isAdmin = session.user.role === 'admin'
+
+const ridesRaw = await prisma.scheduledRide.findMany({
+  include: {
+    attendees: {
+      select: {
+        status: true,
+        userId: true,
+        user: isAdmin ? {
+          select: { firstName: true, lastName: true }
+        } : false
+      }
+    }
+  }
+})
+```
+
+The UI (RideCard component) conditionally displays:
+- **Members**: Count badges only (e.g., "✓ 12")
+- **Admins**: Count badges with hover tooltips showing names
+
+This approach balances transparency (members can see participation levels) with privacy (members' identities remain private to peers).
+
+---
+
 ## Route Suggestion Algorithm
 
 Based on your requirement to suggest routes from previous years:
@@ -241,16 +288,23 @@ function suggestRoutes(targetDate, seasonId) {
   const routeScores = {};
   for (const record of history) {
     if (scheduledIds.includes(record.route_id)) continue;
-    
+
     if (!routeScores[record.route_id]) {
       routeScores[record.route_id] = {
         route: record.route,
         weekFrequency: 0,
-        lastRidden: record.route.last_ridden,
-        totalRides: record.route.times_ridden
+        lastRidden: null,
+        totalRides: 0
       };
     }
     routeScores[record.route_id].weekFrequency++;
+
+    // Track most recent ride date and total ride count
+    if (!routeScores[record.route_id].lastRidden ||
+        record.ride_date > routeScores[record.route_id].lastRidden) {
+      routeScores[record.route_id].lastRidden = record.ride_date;
+    }
+    routeScores[record.route_id].totalRides++;
   }
   
   // Sort by frequency (tradition), then by staleness (variety)

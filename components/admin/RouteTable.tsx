@@ -12,8 +12,6 @@ interface Route {
   difficulty: string | null
   startLocation: string | null
   region: string | null
-  timesRidden: number
-  lastRidden: Date | null
   createdAt: Date
   _count: {
     scheduledRides: number
@@ -26,7 +24,7 @@ interface RouteTableProps {
 }
 
 export function RouteTable({ routes, onDelete }: RouteTableProps) {
-  const [sortBy, setSortBy] = useState<'name' | 'distance' | 'lastRidden' | 'timesRidden'>('name')
+  const [sortBy, setSortBy] = useState<'name' | 'distance'>('name')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
 
   const handleSort = (column: typeof sortBy) => {
@@ -50,14 +48,6 @@ export function RouteTable({ routes, onDelete }: RouteTableProps) {
       case 'distance':
         aVal = Number(a.distanceKm)
         bVal = Number(b.distanceKm)
-        break
-      case 'lastRidden':
-        aVal = a.lastRidden ? new Date(a.lastRidden).getTime() : 0
-        bVal = b.lastRidden ? new Date(b.lastRidden).getTime() : 0
-        break
-      case 'timesRidden':
-        aVal = a.timesRidden
-        bVal = b.timesRidden
         break
     }
 
@@ -99,18 +89,6 @@ export function RouteTable({ routes, onDelete }: RouteTableProps) {
             </th>
             <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900">
               Moeilijkheid
-            </th>
-            <th
-              className="px-6 py-4 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-slate-100"
-              onClick={() => handleSort('timesRidden')}
-            >
-              Keren Gereden <SortIcon column="timesRidden" />
-            </th>
-            <th
-              className="px-6 py-4 text-left text-sm font-semibold text-gray-900 cursor-pointer hover:bg-slate-100"
-              onClick={() => handleSort('lastRidden')}
-            >
-              Laatst Gereden <SortIcon column="lastRidden" />
             </th>
             <th className="px-6 py-4 text-right text-sm font-semibold text-gray-900">
               Acties
@@ -161,18 +139,6 @@ export function RouteTable({ routes, onDelete }: RouteTableProps) {
                 ) : (
                   <span className="text-slate-600">-</span>
                 )}
-              </td>
-              <td className="px-6 py-4 text-base text-gray-900 text-center">
-                {route.timesRidden}
-              </td>
-              <td className="px-6 py-4 text-base text-gray-900">
-                {route.lastRidden
-                  ? new Date(route.lastRidden).toLocaleDateString('nl-BE', {
-                      day: 'numeric',
-                      month: 'short',
-                      year: 'numeric',
-                    })
-                  : 'Nooit'}
               </td>
               <td className="px-6 py-4 text-right space-x-3">
                 <Link

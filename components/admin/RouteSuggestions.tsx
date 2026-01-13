@@ -8,8 +8,6 @@ interface Route {
   distanceKm: number
   elevationM?: number
   difficulty?: string
-  timesRidden: number
-  lastRidden?: string
 }
 
 interface SuggestedRoute extends Route {
@@ -96,35 +94,9 @@ export function RouteSuggestions({
           )
         }
 
-        // Popularity score
-        if (route.timesRidden > 5) {
-          score += 15
-          reasons.push('Populaire route')
-        } else if (route.timesRidden < 2) {
-          score += 10
-          reasons.push('Weinig gereden, tijd voor variatie')
-        }
-
-        // Last ridden bonus (variety)
-        if (route.lastRidden) {
-          const daysSinceRidden = Math.floor(
-            (date.getTime() - new Date(route.lastRidden).getTime()) /
-              (1000 * 60 * 60 * 24)
-          )
-          if (daysSinceRidden > 365) {
-            score += 20
-            reasons.push('Meer dan een jaar geleden')
-          } else if (daysSinceRidden > 180) {
-            score += 10
-            reasons.push('Lang geleden gereden')
-          } else if (daysSinceRidden < 30) {
-            score -= 15
-            reasons.push('Recent gereden')
-          }
-        } else {
-          score += 15
-          reasons.push('Nog nooit gereden')
-        }
+        // Note: Historical ride data (times ridden, last ridden) is now tracked
+        // in the ride_history table. Future enhancement: fetch and use that data
+        // to improve scoring with popularity and variety factors.
 
         // Difficulty matching (early season = easier, mid-season = harder)
         if (route.difficulty && weekNumber) {
@@ -221,9 +193,6 @@ export function RouteSuggestions({
                   {route.difficulty && (
                     <span className="font-medium">💪 {route.difficulty}</span>
                   )}
-                  <span className="font-medium">
-                    🔄 {route.timesRidden}x gereden
-                  </span>
                 </div>
 
                 <p className="text-sm text-slate-800 italic">{route.reason}</p>

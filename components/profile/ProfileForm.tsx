@@ -10,6 +10,7 @@ interface User {
   lastName: string
   phone: string | null
   address: string | null
+  preferredGroup: string | null
   birthDate: Date | null
   role: string
   paymentStatus: string
@@ -22,6 +23,7 @@ export function ProfileForm({ user }: { user: User }) {
   const [formData, setFormData] = useState({
     phone: user.phone || '',
     address: user.address || '',
+    preferredGroup: user.preferredGroup || '',
   })
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
@@ -97,6 +99,26 @@ export function ProfileForm({ user }: { user: User }) {
             onChange={(e) => setFormData({ ...formData, address: e.target.value })}
             className="w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-lg focus:border-blue-600"
           />
+        </div>
+
+        <div>
+          <label htmlFor="preferredGroup" className="block text-xl font-semibold mb-2">
+            Voorkeur Groep
+          </label>
+          <select
+            id="preferredGroup"
+            value={formData.preferredGroup}
+            onChange={(e) => setFormData({ ...formData, preferredGroup: e.target.value })}
+            className="w-full px-4 py-3 text-lg border-2 border-slate-300 rounded-lg focus:border-blue-600"
+          >
+            <option value="">Geen voorkeur</option>
+            <option value="A">Groep A</option>
+            <option value="B">Groep B</option>
+            <option value="C">Groep C</option>
+          </select>
+          <p className="text-base text-slate-700 mt-1">
+            Selecteer de groep waarin je meestal rijdt
+          </p>
         </div>
 
         <div>

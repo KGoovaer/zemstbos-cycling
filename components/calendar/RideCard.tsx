@@ -152,9 +152,9 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
               </div>
               <div className="flex gap-2 text-sm">
                 {ride.attendeeCounts.attending > 0 && (
-                  <div 
-                    className="flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 rounded-full cursor-help relative group"
-                    title={ride.attendeeNames?.attending.join(', ')}
+                  <div
+                    className={`flex items-center gap-1 px-3 py-1 bg-green-100 text-green-800 rounded-full relative group ${ride.attendeeNames ? 'cursor-help' : ''}`}
+                    {...(ride.attendeeNames?.attending && { title: ride.attendeeNames.attending.join(', ') })}
                   >
                     <span>✓</span>
                     <span className="font-semibold">{ride.attendeeCounts.attending}</span>
@@ -167,9 +167,9 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
                   </div>
                 )}
                 {ride.attendeeCounts.maybe > 0 && (
-                  <div 
-                    className="flex items-center gap-1 px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full cursor-help relative group"
-                    title={ride.attendeeNames?.maybe.join(', ')}
+                  <div
+                    className={`flex items-center gap-1 px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full relative group ${ride.attendeeNames ? 'cursor-help' : ''}`}
+                    {...(ride.attendeeNames?.maybe && { title: ride.attendeeNames.maybe.join(', ') })}
                   >
                     <span>?</span>
                     <span className="font-semibold">{ride.attendeeCounts.maybe}</span>
@@ -182,9 +182,9 @@ export function RideCard({ ride: initialRide }: { ride: Ride }) {
                   </div>
                 )}
                 {ride.attendeeCounts.declined > 0 && (
-                  <div 
-                    className="flex items-center gap-1 px-3 py-1 bg-red-100 text-red-800 rounded-full cursor-help relative group"
-                    title={ride.attendeeNames?.declined.join(', ')}
+                  <div
+                    className={`flex items-center gap-1 px-3 py-1 bg-red-100 text-red-800 rounded-full relative group ${ride.attendeeNames ? 'cursor-help' : ''}`}
+                    {...(ride.attendeeNames?.declined && { title: ride.attendeeNames.declined.join(', ') })}
                   >
                     <span>✗</span>
                     <span className="font-semibold">{ride.attendeeCounts.declined}</span>

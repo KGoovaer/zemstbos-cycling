@@ -14,8 +14,6 @@ interface RouteData {
   difficulty: string | null
   startLocation: string | null
   region: string | null
-  timesRidden: number
-  lastRidden: Date | null
 }
 
 export default function EditRoutePage() {

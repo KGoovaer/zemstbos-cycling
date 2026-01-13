@@ -20,6 +20,9 @@ export async function GET() {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
+    // Determine if user is admin to show attendee names
+    const isAdmin = session.user.role === 'admin'
+
     const eventsRaw = await prisma.event.findMany({
       where: {
         eventDate: {
@@ -32,12 +35,12 @@ export async function GET() {
           select: {
             status: true,
             userId: true,
-            user: {
+            user: isAdmin ? {
               select: {
                 firstName: true,
                 lastName: true,
               },
-            },
+            } : false,
           },
         },
       },
@@ -45,33 +48,34 @@ export async function GET() {
 
     // Calculate attendance breakdown for each event
     const events = eventsRaw.map(event => {
-      const attendingList = event.attendees
-        .filter(a => a.status === 'attending')
-        .map(a => `${a.user.firstName} ${a.user.lastName}`);
-      
-      const maybeList = event.attendees
-        .filter(a => a.status === 'maybe')
-        .map(a => `${a.user.firstName} ${a.user.lastName}`);
-      
-      const declinedList = event.attendees
-        .filter(a => a.status === 'declined')
-        .map(a => `${a.user.firstName} ${a.user.lastName}`);
-      
+      const attendingCount = event.attendees.filter(a => a.status === 'attending').length
+      const maybeCount = event.attendees.filter(a => a.status === 'maybe').length
+      const declinedCount = event.attendees.filter(a => a.status === 'declined').length
+
+      // Only include names for admins
+      const attendeeNames = isAdmin ? {
+        attending: event.attendees
+          .filter(a => a.status === 'attending')
+          .map(a => `${a.user.firstName} ${a.user.lastName}`),
+        maybe: event.attendees
+          .filter(a => a.status === 'maybe')
+          .map(a => `${a.user.firstName} ${a.user.lastName}`),
+        declined: event.attendees
+          .filter(a => a.status === 'declined')
+          .map(a => `${a.user.firstName} ${a.user.lastName}`)
+      } : undefined
+
       return {
         ...event,
         _count: {
           attendees: event.attendees.length,
         },
         attendeeCounts: {
-          attending: attendingList.length,
-          maybe: maybeList.length,
-          declined: declinedList.length,
+          attending: attendingCount,
+          maybe: maybeCount,
+          declined: declinedCount,
         },
-        attendeeNames: {
-          attending: attendingList,
-          maybe: maybeList,
-          declined: declinedList,
-        },
+        attendeeNames,
         attendees: event.attendees.filter(a => a.userId === session.user.id)
       };
     })

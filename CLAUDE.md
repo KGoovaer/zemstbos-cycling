@@ -272,6 +272,18 @@ When implementing:
 - SQL injection protection via Prisma's parameterized queries
 - CSRF protection built into Next.js forms
 
+### Privacy Requirements
+
+**Attendee Visibility:**
+- **Members** can only see participant **counts** (e.g., "12 attending") - NOT individual names
+- **Admins** can see full attendee lists with names via dedicated admin endpoints
+- This protects member privacy and reduces social pressure around participation
+
+Implementation:
+- API endpoints conditionally fetch user details based on role (`isAdmin`)
+- UI components conditionally display names only when `attendeeNames` is present
+- Admin-only endpoints: `/api/admin/rides/[id]/attendees` and `/api/admin/events/[id]/attendees`
+
 ### Accessibility Requirements
 
 Critical for the target user base:

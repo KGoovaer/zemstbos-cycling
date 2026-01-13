@@ -42,12 +42,11 @@ Nr;Datum;Uur;Omschrijving;Aantal KM;GPX
 
 1. **Parses CSV**: Reads the CSV file and extracts ride data
 2. **Date Parsing**: Converts DD-MM-YYYY format to proper dates
-3. **Route Matching**: 
+3. **Route Matching**:
    - Searches for existing routes by name
    - Creates new routes if not found (with placeholder GPX data)
 4. **Week Calculation**: Calculates week number within the season (starting from March 1st)
 5. **Ride History**: Creates entries in the `ride_history` table
-6. **Updates Routes**: Increments `timesRidden` and updates `lastRidden` for each route
 
 #### Special Handling
 
